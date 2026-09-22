@@ -1,0 +1,42 @@
+{
+  "name": "company-os",
+  "version": 1,
+  "principles": [
+    "Scope bots like job descriptions",
+    "Hand tools, access, and context — then trust them to run",
+    "Improve with feedback; reuse templates",
+    "Secrets stay in vault — never in chat"
+  ],
+  "orchestrator": {
+    "name": "Project Manager",
+    "title": "Orchestrator",
+    "profile_ref": "SPAWN.md#step-2--orchestrator-profile"
+  },
+  "specialists": [
+    { "name": "Market Research", "profile_ref": "SPAWN.md#market-research" },
+    { "name": "Product Manager", "profile_ref": "SPAWN.md#product-manager" },
+    { "name": "People Ops", "profile_ref": "SPAWN.md#people-ops" },
+    { "name": "Performance Marketer", "profile_ref": "SPAWN.md#performance-marketer" }
+  ],
+  "optional_reuse": [
+    "marketing",
+    "dev",
+    "Overheard",
+    "Projects Manager"
+  ],
+  "channel": {
+    "name": "Active Bots",
+    "members": [
+      "Project Manager",
+      "Market Research",
+      "Product Manager",
+      "People Ops",
+      "Performance Marketer"
+    ]
+  },
+  "docs": {
+    "org_chart": "ORG_CHART.md",
+    "spawn": "SPAWN.md",
+    "skill": ".cursor/skills/spawn-company-os/SKILL.md"
+  }
+}
