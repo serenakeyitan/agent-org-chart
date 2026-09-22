@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/serenakeyitan/agent-org-chart/schemas/org-chart.schema.json",
+  "title": "Agent Org Chart Package",
+  "description": "Platform-agnostic machine-readable org chart that any agent with a spawn CLI can import.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "title",
+    "summary",
+    "version",
+    "tags",
+    "principles",
+    "roles",
+    "channels",
+    "handoffs",
+    "spawn"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Chart package schema version. Currently always 1."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Kebab-case chart identifier (folder name under charts/)."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable chart title."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One-paragraph description of what this org does."
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Semver or simple version string for this chart package."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Searchable labels for the catalog index."
+    },
+    "principles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Operating principles every spawned agent should follow."
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/role" },
+      "description": "All roles in the org, including optional peers."
+    },
+    "channels": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/channel" },
+      "description": "Team channels and which role ids sit in them."
+    },
+    "handoffs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/handoff" },
+      "description": "Typical work handoffs between roles."
+    },
+    "spawn": {
+      "$ref": "#/$defs/spawn",
+      "description": "Import/spawn policy for the reading agent."
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "reports_to",
+        "summary",
+        "persona",
+        "in_scope",
+        "out_of_scope",
+        "required"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Kebab-case role id used in channels, handoffs, and spawn."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Display name for the agent on the target platform."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["orchestrator", "specialist", "optional_peer"],
+          "description": "Role category. optional_peer is reused if present, not required to create."
+        },
+        "title": {
+          "type": "string",
+          "description": "Optional job title (e.g. Orchestrator)."
+        },
+        "reports_to": {
+          "type": ["string", "null"],
+          "description": "Role id of the manager, or null for the orchestrator."
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "One-line job description."
+        },
+        "persona": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Full system/profile text. Platform-agnostic; refer to 'the user', not a specific person."
+        },
+        "in_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Work this role owns."
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Work this role must hand off."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "If true, spawn must create or reuse this role. False for optional peers."
+        }
+      }
+    },
+    "channel": {
+      "type": "object",
+      "required": ["id", "name", "member_role_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "member_role_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["from_role_id", "to_role_id", "when"],
+      "additionalProperties": false,
+      "properties": {
+        "from_role_id": { "type": "string" },
+        "to_role_id": { "type": "string" },
+        "when": { "type": "string", "minLength": 1 }
+      }
+    },
+    "spawn": {
+      "type": "object",
+      "required": [
+        "prefer_current_agent_as",
+        "reuse_matching_by_name",
+        "do_not_fanout_until_first_goal",
+        "secrets"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "prefer_current_agent_as": {
+          "type": ["string", "null"],
+          "description": "Role id to apply to the current agent (usually the orchestrator), or null to always create a new one."
+        },
+        "reuse_matching_by_name": {
+          "type": "boolean",
+          "description": "If true, reuse existing agents whose name/job already matches a role."
+        },
+        "do_not_fanout_until_first_goal": {
+          "type": "boolean",
+          "description": "If true, create agents but do not wake every specialist until the user gives a first goal."
+        },
+        "secrets": {
+          "type": "string",
+          "const": "vault_only",
+          "description": "Secrets policy. Always vault_only — never paste keys into chat."
+        }
+      }
+    }
+  }
+}

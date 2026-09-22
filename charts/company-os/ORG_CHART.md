@@ -1,4 +1,4 @@
-# Organization chart
+# Organization chart — Company OS
 
 ```mermaid
 flowchart TB
@@ -19,7 +19,7 @@ flowchart TB
     Mkt["marketing"]
     Dev["dev / engineering"]
     OH["Overheard<br/>(mention monitor)"]
-    NPM["Projects Manager<br/>(Notion projects)"]
+    NPM["Projects Manager<br/>(project board)"]
   end
 
   Channel[["Team channel: Active Bots"]]
@@ -57,7 +57,7 @@ Optional peers (coordinate via Project Manager; do not recreate if they already 
 | marketing | Brand / campaigns / positioning |
 | dev | Engineering, PRs, shipping code |
 | Overheard | Third-party mentions of brand/name/URLs |
-| Projects Manager | Notion row-per-project + specialist task claim |
+| Projects Manager | Project board (row-per-project) + specialist task claim |
 
 ## Handoffs
 
@@ -69,3 +69,5 @@ Optional peers (coordinate via Project Manager; do not recreate if they already 
 | People Ops | Project Manager | Pipeline status / hiring blockers |
 | Performance Marketer | Market Research | Need deeper audience or competitor data |
 | Any specialist | Project Manager | Blocked, needs tools/access, or done with a report |
+
+Machine-readable source of truth: [`chart.json`](./chart.json).

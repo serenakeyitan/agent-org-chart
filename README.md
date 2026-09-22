@@ -1,22 +1,47 @@
-# Company OS — Bot Organization
+# Agent org chart catalog
 
-Portable org chart and spawn playbook for a Grok Bot / multi-agent **company operating system**.
+A **platform-agnostic catalog** of portable agent organization charts.
 
-Any agent that can read this repo should be able to recreate the same organization: one orchestrator plus narrowly scoped specialists and a team channel.
+People pick which org chart to import. Platforms expose an agent-spawn CLI or command; an agent that can read a chart package can stand that org up on **whatever platform it’s on**. This repo is **not** tied to one product (not Grok Bot–only, not Cursor-only, not a single workflow host).
 
-## Quick start (for agents)
+## What’s here
 
-1. Read [`ORG_CHART.md`](./ORG_CHART.md) for roles and reporting lines.
-2. Follow [`SPAWN.md`](./SPAWN.md) to create missing agents, set profiles, and open the team channel.
-3. Optionally install the repo skill at [`.cursor/skills/spawn-company-os/SKILL.md`](./.cursor/skills/spawn-company-os/SKILL.md).
+| Path | Purpose |
+| --- | --- |
+| [`PROTOCOL.md`](./PROTOCOL.md) | Steps any agent follows to import a chart |
+| [`SCHEMA.md`](./SCHEMA.md) | Human explanation of `chart.json` fields |
+| [`schemas/org-chart.schema.json`](./schemas/org-chart.schema.json) | Machine schema for chart packages |
+| [`charts/INDEX.md`](./charts/INDEX.md) | Table of available charts |
+| [`charts/<id>/`](./charts/) | One folder per chart (`chart.json` + docs) |
 
-## Design principles
+## How a human picks a chart
 
-- **Scope like a job description** — one bot, one lane; clear in-scope / out-of-scope.
-- **Trust after tools + context** — hand access, then let specialists run.
-- **Invest and copy** — improve with feedback; reuse templates rather than bloating one chat.
-- **Secrets stay in vault** — never paste API keys into chat history.
+1. Open [`charts/INDEX.md`](./charts/INDEX.md).
+2. Choose a chart by `id` (e.g. `company-os`).
+3. Point your agent at this repo (or that folder) and say which `id` to import — or “spawn Company OS.”
 
-## Related
+## How an agent / platform imports
 
-- Chat skill (shared across assistants): `sand-workflow:recreate-bot-setup-from-video` — watch a livestream/video and derive a bot team from it.
+1. Follow [`PROTOCOL.md`](./PROTOCOL.md).
+2. Load `charts/<id>/chart.json` (see also that folder’s `SPAWN.md` thin wrapper and `ORG_CHART.md`).
+3. Use **your platform’s** create-agent / spawn / update-profile / create-channel commands — do not assume tool names from another product.
+4. Report created vs reused; ask the user for a first goal. Keep secrets in vault only.
+
+## How to add a new chart
+
+1. Copy `charts/company-os/` to `charts/<new-id>/`.
+2. Set `id`, `title`, `summary`, roles, channels, handoffs, and `spawn` in `chart.json` (`schema_version: 1`).
+3. Refresh that folder’s `README.md`, `ORG_CHART.md`, and thin `SPAWN.md`.
+4. Add a row to [`charts/INDEX.md`](./charts/INDEX.md).
+5. Keep personas platform-agnostic (“the user,” not a named person from your own workspace).
+
+## Design principles (shared)
+
+- Scope agents like job descriptions — one lane, clear out-of-scope.
+- Hand tools and context, then trust specialists to run.
+- Reuse matching agents by name/job; don’t duplicate.
+- Secrets stay in vault — never in chat.
+
+## License / ownership
+
+Published as a catalog under [serenakeyitan/agent-org-chart](https://github.com/serenakeyitan/agent-org-chart). Charts are data packages any spawn-capable agent can consume.
