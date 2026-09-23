@@ -1,6 +1,0 @@
-                  ┌─ Mimi
-                  ├─ Sherlock
-                  ├─ Serena Williams
-Sales Eng Lead ────┼─ Battlecard Blair
-                  ├─ Demo Drake
-                  └─ AI Radar

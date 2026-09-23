@@ -91,7 +91,7 @@
         "type": "string",
         "format": "uri"
       },
-      "description": "URLs of session notes, guides, or posts used to build this chart."
+      "description": "URLs of official sources used to build this chart. Prefer official livestream or broadcast URLs; avoid third-party note threads with personal attribution."
     }
   },
   "$defs": {

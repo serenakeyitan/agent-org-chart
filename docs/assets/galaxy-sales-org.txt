@@ -1,4 +1,0 @@
-         ┌─ PG
-         ├─ Echo
-Olive ────┼─ Customer Expert
-         └─ Engineer
