@@ -15,6 +15,8 @@ Portable org charts you can import on any agent platform with a spawn CLI. **Pic
 - [Founders](#founders) — Founders team
 - [Game Studio](#game-studio) — Game development studio
 - [Marketing](#marketing) — Marketing team
+- [MarOps](#marops) — Marketing operations team
+- [Post-Sales](#post-sales) — Post-sales team
 - [Product](#product) — Product team
 - [SDR](#sdr) — SDR prospecting team
 - [For agents](#for-agents)
@@ -120,6 +122,43 @@ Game Designer
 **Import:** `Import marketing from https://github.com/serenakeyitan/agent-org-chart`
 
 [`charts/marketing/`](./charts/marketing/)
+
+---
+
+## MarOps
+
+```
+Chief of Staff
+Data Scientist
+GTM
+Founding Engineer
+Game Designer
+```
+
+**MarOps** from Day 3: orchestrator + four specialists.
+
+**Import:** `Import marops from https://github.com/serenakeyitan/agent-org-chart`
+
+[`charts/marops/`](./charts/marops/)
+
+---
+
+## Post-Sales
+
+```
+Chief of Staff
+Follow Ups
+Your voice
+Source of truth
+Internal radar
+One per account
+```
+
+**Post-Sales** from Day 3: orchestrator + five specialists; includes routines.
+
+**Import:** `Import post-sales from https://github.com/serenakeyitan/agent-org-chart`
+
+[`charts/post-sales/`](./charts/post-sales/)
 
 ---
 

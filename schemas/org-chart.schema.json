@@ -92,6 +92,13 @@
         "format": "uri"
       },
       "description": "URLs of official sources used to build this chart. Only official livestream or broadcast URLs are allowed. Third-party note threads, personal insights, and social media citations (e.g., x.com posts) are banned. Omit sources entirely rather than cite unofficial content."
+    },
+    "routines": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/routine"
+      },
+      "description": "Optional scheduled recurring tasks for the team."
     }
   },
   "$defs": {
@@ -246,6 +253,30 @@
           "type": "string",
           "const": "vault_only",
           "description": "Secrets policy. Always vault_only \u2014 never paste keys into chat."
+        }
+      }
+    },
+    "routine": {
+      "type": "object",
+      "required": [
+        "name",
+        "schedule"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Name of the routine."
+        },
+        "schedule": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable schedule for the routine."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional additional notes about the routine."
         }
       }
     }

@@ -23,6 +23,15 @@ Each chart lives at `charts/<id>/` with:
 | `handoffs` | Typical from → to handoffs with a `when` clause. |
 | `spawn` | Import policy for the reading agent. |
 | `sources` | Optional string array of source URLs. **Only official livestream or broadcast URLs are allowed.** Third-party note threads, personal insights, and social media citations (e.g., x.com posts) are banned — omit `sources` entirely rather than cite unofficial content. |
+| `routines` | Optional array of routine objects — scheduled recurring tasks for the team. |
+
+## Routine object
+
+| Field | Meaning |
+| --- | --- |
+| `name` | Name of the routine (e.g. `Daily brief`). |
+| `schedule` | Human-readable schedule (e.g. `Weekdays at 8:30 AM`). |
+| `notes` | Optional additional notes about the routine. |
 
 ## Role object
 
