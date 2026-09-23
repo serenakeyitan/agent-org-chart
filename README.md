@@ -1,20 +1,13 @@
 # Awesome Agent Org Charts
 
-> check out my recent work at https://opentag.build 🥇
+> check out my recent work at https://opentag.build
 
-Portable org charts you can import on any agent platform with a spawn CLI.
-
-```
-                    ┌─ Market Research
-                    ├─ Product Manager
-Project Manager ────┼─ People Ops
-                    └─ Performance Marketer
-```
+Portable org charts you can import on any agent platform with a spawn CLI. **Pick one focused org** that matches your use case — each chart is a small, importable team pattern.
 
 ![Awesome](https://awesome.re/badge.svg)
 ![Public](https://img.shields.io/badge/catalog-public-lightgrey.svg)
 
-Agent Org Charts⚡️
+Agent Org Charts
 
 > A curated catalog of **portable agent organization charts** — pick one, point your agent at the repo, spawn the team. Platform-agnostic. Humans read the chart README; agents follow [`PROTOCOL.md`](./PROTOCOL.md) + `chart.json`.
 
@@ -24,7 +17,9 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 
 ## Table of Contents
 
-- [Company OS](#company-os)
+- [Company OS](#company-os) — General company operating system
+- [Sales](#sales) — Sales department team
+- [Game Studio](#game-studio) — Game development studio
 - [For agents](#for-agents)
 - [Add a chart](#add-a-chart)
 
@@ -49,6 +44,48 @@ Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specia
 
 **Human deep dive:** [`charts/company-os/README.md`](./charts/company-os/README.md)  
 **Agent package:** [`charts/company-os/chart.json`](./charts/company-os/chart.json)
+
+---
+
+## Sales
+
+```
+                  ┌─ Sales Manager
+Chief of Staff ────┼─ Sales Outbound
+                  └─ Coding
+```
+
+**Sales department** pattern from the Day 2 livestream sidebar: one orchestrator (Chief of Staff), three specialists for pipeline management, outbound prospecting, and engineering support, plus a **Sales Team** channel.
+
+**Roles:** Chief of Staff (orchestrator) · Sales Manager · Sales Outbound · Coding · Sales Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **sales** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/sales/README.md`](./charts/sales/README.md)  
+**Agent package:** [`charts/sales/chart.json`](./charts/sales/chart.json)
+
+---
+
+## Game Studio
+
+```
+               ┌─ Developer
+Studio Lead ────┼─ Character Specialist
+               └─ Trend Research
+```
+
+**Game studio** pattern from the Day 2 livestream on-screen diagram: one orchestrator (Studio Lead), three specialists for development, character/influencer content, and market research, plus a **Studio** channel.
+
+**Roles:** Studio Lead (orchestrator) · Developer · Character Specialist · Trend Research · Studio (team channel)
+
+**Import:** tell your agent —
+
+> Import **game-studio** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/game-studio/README.md`](./charts/game-studio/README.md)  
+**Agent package:** [`charts/game-studio/chart.json`](./charts/game-studio/chart.json)
 
 ---
 
