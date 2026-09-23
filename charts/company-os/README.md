@@ -5,12 +5,10 @@ Portable **company operating system** matching the livestream Company OS pattern
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
 ```
-Project Manager (orchestrator)
-       |
-       +-- Market Research
-       +-- Product Manager
-       +-- People Ops
-       +-- Performance Marketer
+Project Manager (orchestrator) --+-- Market Research
+                                 +-- Product Manager
+                                 +-- People Ops
+                                 +-- Performance Marketer
 ```
 
 ---
@@ -35,7 +33,7 @@ Orchestrator + four specialists + Active Bots only — no optional peers.
 <summary>Mermaid source (optional)</summary>
 
 ```mermaid
-flowchart TB
+flowchart LR
   PM["Project Manager (orchestrator)"]
   MR[Market Research]
   Prod[Product Manager]

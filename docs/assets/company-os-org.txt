@@ -1,6 +1,4 @@
-Project Manager (orchestrator)
-       |
-       +-- Market Research
-       +-- Product Manager
-       +-- People Ops
-       +-- Performance Marketer
+Project Manager (orchestrator) --+-- Market Research
+                                 +-- Product Manager
+                                 +-- People Ops
+                                 +-- Performance Marketer
