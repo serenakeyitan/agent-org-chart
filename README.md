@@ -72,6 +72,7 @@ Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./
 4. Add a TOC row here and a row in [`charts/INDEX.md`](./charts/INDEX.md).
 5. Keep personas platform-agnostic ("the user," not a named person from your workspace).
 6. Do **not** add `SPAWN.md` or `ORG_CHART.md` — README + `chart.json` only.
+7. **Only livestream-demonstrated content belongs.** Third-party note threads, personal insights, and social media citations are banned. Omit `sources` rather than cite unofficial content.
 
 ---
 
