@@ -20,6 +20,7 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 - [101](#101) — Grok Bot 101 team
 - [Company OS](#company-os) — General company operating system
 - [Customer Support](#customer-support) — Customer support team
+- [Engineering](#engineering) — Engineering team
 - [Founders](#founders) — Founders team
 - [Game Studio](#game-studio) — Game development studio
 - [GTM](#gtm) — Go-to-market team
@@ -94,6 +95,26 @@ Support Lead ────┼─ Alert
 
 **Human deep dive:** [`charts/customer-support/README.md`](./charts/customer-support/README.md)  
 **Agent package:** [`charts/customer-support/chart.json`](./charts/customer-support/chart.json)
+
+---
+
+## Engineering
+
+```
+                       ┌─ Engineer
+Engineering Manager ────┘
+```
+
+**Engineering** pattern from the Day 1 Galaxy broadcast "Meet the team" slide: one orchestrator (Engineering Manager), a scalable Engineer specialist role, and an **Engineering Team** channel. The livestream showed five Engineer bots under the manager; this chart models the pattern as a single Engineer role that can be scaled by spawning additional instances.
+
+**Roles:** Engineering Manager (orchestrator) · Engineer · Engineering Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **engineering** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/engineering/README.md`](./charts/engineering/README.md)  
+**Agent package:** [`charts/engineering/chart.json`](./charts/engineering/chart.json)
 
 ---
 
