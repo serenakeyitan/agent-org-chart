@@ -18,8 +18,11 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 ## Table of Contents
 
 - [Company OS](#company-os) — General company operating system
-- [Sales](#sales) — Sales department team
+- [Customer Support](#customer-support) — Customer support team
 - [Game Studio](#game-studio) — Game development studio
+- [Marketing](#marketing) — Marketing team
+- [Sales](#sales) — Sales department team
+- [SDR](#sdr) — SDR prospecting team
 - [For agents](#for-agents)
 - [Add a chart](#add-a-chart)
 
@@ -47,6 +50,73 @@ Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specia
 
 ---
 
+## Customer Support
+
+```
+                ┌─ Build
+                ├─ Reply
+Support Lead ────┼─ Alert
+                └─ Tune
+```
+
+**Customer support** pattern from the Day 2 livestream "Meet the team" slide: one orchestrator (Support Lead), four specialists for setup, answers, monitoring, and improvement, plus a **Support Team** channel.
+
+**Roles:** Support Lead (orchestrator) · Build · Reply · Alert · Tune · Support Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **customer-support** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/customer-support/README.md`](./charts/customer-support/README.md)  
+**Agent package:** [`charts/customer-support/chart.json`](./charts/customer-support/chart.json)
+
+---
+
+## Game Studio
+
+```
+               ┌─ Founding Engineer
+               ├─ 3D Prototyping
+Studio Lead ────┼─ Game Designer
+               ├─ Designer
+               └─ Audio Engineer
+```
+
+**Game studio** pattern from the Day 2 livestream host studio sidebar: one orchestrator (Studio Lead), five specialists for coding, 3D assets, game design, visual design, and audio, plus a **Studio** channel.
+
+**Roles:** Studio Lead (orchestrator) · Founding Engineer · 3D Prototyping · Game Designer · Designer · Audio Engineer · Studio (team channel)
+
+**Import:** tell your agent —
+
+> Import **game-studio** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/game-studio/README.md`](./charts/game-studio/README.md)  
+**Agent package:** [`charts/game-studio/chart.json`](./charts/game-studio/chart.json)
+
+---
+
+## Marketing
+
+```
+                    ┌─ CMO
+                    ├─ Data Scientist
+Chief of Staff ─────┼─ Founding Engineer
+                    └─ Game Designer
+```
+
+**Marketing** pattern from the Day 3 livestream standup UI: one orchestrator (Chief of Staff), four specialists for strategy, analytics, engineering, and creative, plus a **Marketing Team** channel.
+
+**Roles:** Chief of Staff (orchestrator) · CMO · Data Scientist · Founding Engineer · Game Designer · Marketing Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **marketing** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/marketing/README.md`](./charts/marketing/README.md)  
+**Agent package:** [`charts/marketing/chart.json`](./charts/marketing/chart.json)
+
+---
+
 ## Sales
 
 ```
@@ -68,24 +138,28 @@ Chief of Staff ────┼─ Sales Outbound
 
 ---
 
-## Game Studio
+## SDR
 
 ```
-               ┌─ Developer
-Studio Lead ────┼─ Character Specialist
-               └─ Trend Research
+                    ┌─ Email Outbound
+                    ├─ Enrichment
+                    ├─ Company Research
+Chief of Staff ─────┼─ Web Search
+                    ├─ Voice of Customer
+                    ├─ Usage Analyst
+                    └─ Pipeline Research
 ```
 
-**Game studio** pattern from the Day 2 livestream on-screen diagram: one orchestrator (Studio Lead), three specialists for development, character/influencer content, and market research, plus a **Studio** channel.
+**SDR prospecting** pattern from the Day 2 livestream bot sidebar: one orchestrator (Chief of Staff), seven specialists for outbound, enrichment, research, and analysis, plus an **SDR Team** channel.
 
-**Roles:** Studio Lead (orchestrator) · Developer · Character Specialist · Trend Research · Studio (team channel)
+**Roles:** Chief of Staff (orchestrator) · Email Outbound · Enrichment · Company Research · Web Search · Voice of Customer · Usage Analyst · Pipeline Research · SDR Team (team channel)
 
 **Import:** tell your agent —
 
-> Import **game-studio** from https://github.com/serenakeyitan/agent-org-chart
+> Import **sdr** from https://github.com/serenakeyitan/agent-org-chart
 
-**Human deep dive:** [`charts/game-studio/README.md`](./charts/game-studio/README.md)  
-**Agent package:** [`charts/game-studio/chart.json`](./charts/game-studio/chart.json)
+**Human deep dive:** [`charts/sdr/README.md`](./charts/sdr/README.md)  
+**Agent package:** [`charts/sdr/chart.json`](./charts/sdr/chart.json)
 
 ---
 

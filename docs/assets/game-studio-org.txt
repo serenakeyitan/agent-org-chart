@@ -1,3 +1,5 @@
-               ┌─ Developer
-Studio Lead ────┼─ Character Specialist
-               └─ Trend Research
+               ┌─ Founding Engineer
+               ├─ 3D Prototyping
+Studio Lead ────┼─ Game Designer
+               ├─ Designer
+               └─ Audio Engineer
