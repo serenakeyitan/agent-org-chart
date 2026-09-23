@@ -34,7 +34,7 @@ Each chart lives at `charts/<id>/` with:
 | `title` | Optional job title (e.g. `Orchestrator`). |
 | `reports_to` | Role id of the manager, or `null` for the orchestrator. |
 | `summary` | One-line job description. |
-| `persona` | Full system/profile text (rich, multi-paragraph). Platform-agnostic; say “the user,” not a specific person. |
+| `persona` | Full system/profile text (rich, multi-paragraph). Platform-agnostic; say "the user," not a specific person. |
 | `in_scope` | String list of work this role owns. |
 | `out_of_scope` | String list of work to hand off. |
 | `required` | `true` for roles that must exist after import; `false` for optional peers. |
@@ -61,12 +61,12 @@ Each chart lives at `charts/<id>/` with:
 | --- | --- |
 | `prefer_current_agent_as` | Role id to apply to the current agent (usually orchestrator), or `null`. |
 | `reuse_matching_by_name` | Reuse existing agents whose name/job matches. |
-| `do_not_fanout_until_first_goal` | Create agents but don’t wake everyone until the user gives a goal. |
+| `do_not_fanout_until_first_goal` | Create agents but don't wake everyone until the user gives a goal. |
 | `secrets` | Always `vault_only` — never paste secrets into chat. |
 
 ## Adding a chart
 
-1. Copy `charts/engineering/` to `charts/<new-id>/`.
-2. Rewrite that folder’s **`README.md`** (detailed human doc) and **`chart.json`** only — no SPAWN.md or ORG_CHART.md.
+1. Copy an existing chart folder (e.g. `charts/engineering/`) to `charts/<new-id>/`.
+2. Rewrite that folder's **`README.md`** (detailed human doc) and **`chart.json`** only — no SPAWN.md or ORG_CHART.md.
 3. Validate `chart.json` against the JSON schema.
 4. Add a row to [`charts/INDEX.md`](./charts/INDEX.md).
