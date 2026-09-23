@@ -17,16 +17,39 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 
 ## Table of Contents
 
+- [101](#101) — Grok Bot 101 team
 - [Company OS](#company-os) — General company operating system
 - [Customer Support](#customer-support) — Customer support team
+- [Founders](#founders) — Founders team
 - [Game Studio](#game-studio) — Game development studio
 - [GTM](#gtm) — Go-to-market team
 - [Marketing](#marketing) — Marketing team
 - [Post-Sales](#post-sales) — Post-sales / customer success team
+- [Product](#product) — Product team
 - [Sales](#sales) — Sales department team
 - [SDR](#sdr) — SDR prospecting team
 - [For agents](#for-agents)
 - [Add a chart](#add-a-chart)
+
+---
+
+## 101
+
+```
+Comma Drafter
+Slide Maker
+```
+
+**Grok Bot 101** pattern from the Day 1 livestream sidebar: two specialists (Comma Drafter, Slide Maker) and a **Grok Bot 101** channel. No orchestrator demonstrated — both roles are peers.
+
+**Roles:** Comma Drafter · Slide Maker · Grok Bot 101 (team channel)
+
+**Import:** tell your agent —
+
+> Import **101** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/101/README.md`](./charts/101/README.md)  
+**Agent package:** [`charts/101/chart.json`](./charts/101/chart.json)
 
 ---
 
@@ -71,6 +94,28 @@ Support Lead ────┼─ Alert
 
 **Human deep dive:** [`charts/customer-support/README.md`](./charts/customer-support/README.md)  
 **Agent package:** [`charts/customer-support/chart.json`](./charts/customer-support/chart.json)
+
+---
+
+## Founders
+
+```
+Product
+Design
+Comms
+Random
+```
+
+**Founders** pattern from the Day 1 livestream grid: four specialists (Product, Design, Comms, Random) and a **Founders Team** channel. No orchestrator demonstrated — all roles are peers. Two additional roles visible on-stream had truncated labels and are omitted.
+
+**Roles:** Product · Design · Comms · Random · Founders Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **founders** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/founders/README.md`](./charts/founders/README.md)  
+**Agent package:** [`charts/founders/chart.json`](./charts/founders/chart.json)
 
 ---
 
@@ -164,6 +209,30 @@ Chief of Staff ─────┼─ Source of truth
 
 **Human deep dive:** [`charts/post-sales/README.md`](./charts/post-sales/README.md)  
 **Agent package:** [`charts/post-sales/chart.json`](./charts/post-sales/chart.json)
+
+---
+
+## Product
+
+```
+                  ┌─ Product
+                  ├─ Data
+                  ├─ Design
+Chief of Staff ────┼─ PM
+                  ├─ Talent
+                  └─ Eng
+```
+
+**Product** team pattern from the Day 1 livestream sidebar: one orchestrator (Chief of Staff), six specialists for product strategy, data, design, product management, talent, and engineering, plus a **Product Team** channel.
+
+**Roles:** Chief of Staff (orchestrator) · Product · Data · Design · PM · Talent · Eng · Product Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **product** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/product/README.md`](./charts/product/README.md)  
+**Agent package:** [`charts/product/chart.json`](./charts/product/chart.json)
 
 ---
 
