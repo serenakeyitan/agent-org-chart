@@ -1,16 +1,32 @@
 # SDR
 
-Job titles from Galaxy Day 2 livestream sidebar (strict badge evidence only).
+Job titles from Galaxy Day 2 livestream Meet the team slide.
 
 ```
 Chief of Staff
-Enrichment
+Email
+Web Research
+Gong Connector
+Agent Army
 ```
 
 | Role | Kind |
 | --- | --- |
 | Chief of Staff | Orchestrator |
-| Enrichment | Specialist |
+| Email | Specialist |
+| Web Research | Specialist |
+| Gong Connector | Specialist |
+| Agent Army | Specialist |
+
+## Routines
+
+| Routine | Schedule |
+| --- | --- |
+| 50 Daily Prospects | every day 8:00 AM |
+| Inbox Manager | weekdays 8:00 AM |
+| Accounts Signal Scan | weekdays 8:00 AM |
+| Sequencer Daily | weekdays 8:00 AM |
+| Sequencer SF Triggers | when a webhook fires |
 
 ## Import
 

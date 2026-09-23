@@ -13,7 +13,8 @@ Available org charts in this catalog. See [`../PROTOCOL.md`](../PROTOCOL.md).
 | [`marops`](./marops/) | MarOps | Chief of Staff + Data Scientist + GTM + Founding Engineer + Game Designer |
 | [`post-sales`](./post-sales/) | Post-Sales | Chief of Staff + Follow Ups + Your voice + Source of truth + Internal radar + One per account |
 | [`product`](./product/) | Product | Chief of Staff + Product + Data / Analyst + Designer + Recruiter |
-| [`sdr`](./sdr/) | SDR | Chief of Staff + Enrichment |
+| [`sales-engineering`](./sales-engineering/) | Sales Engineering | Technical Resource + Customer Expert + Echo + Competitive Intel |
+| [`sdr`](./sdr/) | SDR | Chief of Staff + Email + Web Research + Gong Connector + Agent Army |
 
 ---
 
