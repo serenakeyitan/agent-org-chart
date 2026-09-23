@@ -5,21 +5,18 @@ Portable **company operating system** matching the livestream Company OS pattern
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
 ```
-                 [ User / founder ]
-                         |
-                         v
-              [ Project Manager ]
-                 (orchestrator)
-           __________|__________
-          /      |       |      \
-         v       v       v       v
-   [Market    [Product [People [Performance
-   Research]  Manager]   Ops]   Marketer]
-         \       |       |       /
-          \______|_______|______/
-                         |
-                         v
-            [ Active Bots channel ]
+User / founder
+       |
+       v
+Project Manager (orchestrator)
+       |
+       +-- Market Research
+       +-- Product Manager
+       +-- People Ops
+       +-- Performance Marketer
+       |
+       v
+Active Bots (team channel)
 ```
 
 ---
