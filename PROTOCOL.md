@@ -5,7 +5,7 @@ Any agent that can create teammates and channels on **its** platform should foll
 ## 1. Pick a chart
 
 1. Open [`charts/INDEX.md`](./charts/INDEX.md).
-2. If the user named a chart `id` (e.g. `company-os`), use that.
+2. If the user named a chart `id` (e.g. `engineering`), use that.
 3. If ambiguous or they only said “spawn an org,” list available charts (id + title + one-liner) and ask which `id` to import.
 4. Proceed only after you have a concrete `id`.
 

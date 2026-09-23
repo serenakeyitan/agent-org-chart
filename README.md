@@ -18,7 +18,6 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 ## Table of Contents
 
 - [101](#101) — Grok Bot 101 team
-- [Company OS](#company-os) — General company operating system
 - [Customer Support](#customer-support) — Customer support team
 - [Engineering](#engineering) — Engineering team
 - [Founders](#founders) — Founders team
@@ -51,28 +50,6 @@ Slide Maker
 
 **Human deep dive:** [`charts/101/README.md`](./charts/101/README.md)  
 **Agent package:** [`charts/101/chart.json`](./charts/101/chart.json)
-
----
-
-## Company OS
-
-```
-                    ┌─ Market Research
-                    ├─ Product Manager
-Project Manager ────┼─ People Ops
-                    └─ Performance Marketer
-```
-
-Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specialists, and an **Active Bots** channel for multi-bot coordination. Import it, give a first goal, run the company.
-
-**Roles:** Project Manager (orchestrator) · Market Research · Product Manager · People Ops · Performance Marketer · Active Bots (team channel)
-
-**Import:** tell your agent —
-
-> Import **company-os** from https://github.com/serenakeyitan/agent-org-chart
-
-**Human deep dive:** [`charts/company-os/README.md`](./charts/company-os/README.md)  
-**Agent package:** [`charts/company-os/chart.json`](./charts/company-os/chart.json)
 
 ---
 
@@ -317,7 +294,7 @@ Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./
 
 ## Add a chart
 
-1. Copy `charts/company-os/` → `charts/<new-id>/`.
+1. Copy `charts/engineering/` → `charts/<new-id>/`.
 2. Write a detailed human `README.md` (lead with a minimal ASCII org chart) + a complete `chart.json`.
 3. Save the ASCII chart under [`docs/assets/`](./docs/assets/) (e.g. `docs/assets/<id>-org.txt`) and embed it in a fenced code block in the root README + chart README.
 4. Add a TOC row here and a row in [`charts/INDEX.md`](./charts/INDEX.md).

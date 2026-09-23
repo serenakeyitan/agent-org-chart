@@ -1,4 +1,0 @@
-                    ┌─ Market Research
-                    ├─ Product Manager
-Project Manager ────┼─ People Ops
-                    └─ Performance Marketer

@@ -66,7 +66,7 @@ Each chart lives at `charts/<id>/` with:
 
 ## Adding a chart
 
-1. Copy `charts/company-os/` to `charts/<new-id>/`.
+1. Copy `charts/engineering/` to `charts/<new-id>/`.
 2. Rewrite that folder’s **`README.md`** (detailed human doc) and **`chart.json`** only — no SPAWN.md or ORG_CHART.md.
 3. Validate `chart.json` against the JSON schema.
 4. Add a row to [`charts/INDEX.md`](./charts/INDEX.md).

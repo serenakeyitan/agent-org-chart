@@ -5,7 +5,6 @@ Available org charts in this catalog. Agents: if the user did not name an `id`, 
 | id | title | one-liner |
 | --- | --- | --- |
 | [`101`](./101/) | Grok Bot 101 | Grok Bot 101: Comma Drafter + Slide Maker (specialists only) |
-| [`company-os`](./company-os/) | Company OS | Company OS livestream pattern: Project Manager + four specialists + Active Bots |
 | [`customer-support`](./customer-support/) | Customer Support | Customer support: Support Lead + Build + Reply + Alert + Tune |
 | [`engineering`](./engineering/) | Engineering | Engineering: Engineering Manager + Engineer (scalable) |
 | [`founders`](./founders/) | Founders | Founders: Product + Design + Comms + Random (specialists only) |
