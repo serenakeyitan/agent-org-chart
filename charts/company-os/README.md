@@ -5,10 +5,10 @@ Portable **company operating system** matching the livestream Company OS pattern
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
 ```
-                              ┌─ Market Research — competitive intel, audience, trends
-                              ├─ Product Manager — roadmap, specs, shipping decisions
-Project Manager ──────────────┼─ People Ops — hiring, roles, onboarding
-briefs · assigns · unblocks   └─ Performance Marketer — paid growth, experiments, conversion
+                    ┌─ Market Research
+                    ├─ Product Manager
+Project Manager ────┼─ People Ops
+                    └─ Performance Marketer
 ```
 
 ---
