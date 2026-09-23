@@ -1,0 +1,7 @@
+                    ┌─ Email Outbound
+                    ├─ Enrichment
+                    ├─ Company Research
+Chief of Staff ─────┼─ Web Search
+                    ├─ Voice of Customer
+                    ├─ Usage Analyst
+                    └─ Pipeline Research

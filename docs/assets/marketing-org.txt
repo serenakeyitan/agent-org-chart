@@ -1,0 +1,4 @@
+                    ┌─ CMO
+                    ├─ Data Scientist
+Chief of Staff ─────┼─ Founding Engineer
+                    └─ Game Designer
