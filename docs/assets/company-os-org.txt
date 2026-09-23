@@ -1,12 +1,6 @@
-User / founder
-       |
-       v
 Project Manager (orchestrator)
        |
        +-- Market Research
        +-- Product Manager
        +-- People Ops
        +-- Performance Marketer
-       |
-       v
-Active Bots (team channel)

@@ -5,18 +5,12 @@ Portable **company operating system** matching the livestream Company OS pattern
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
 ```
-User / founder
-       |
-       v
 Project Manager (orchestrator)
        |
        +-- Market Research
        +-- Product Manager
        +-- People Ops
        +-- Performance Marketer
-       |
-       v
-Active Bots (team channel)
 ```
 
 ---
@@ -42,31 +36,15 @@ Orchestrator + four specialists + Active Bots only — no optional peers.
 
 ```mermaid
 flowchart TB
-  User([User / founder])
-
-  subgraph Orchestration
-    PM["Project Manager<br/>(orchestrator)"]
-  end
-
-  subgraph Specialists["Active specialists"]
-    MR["Market Research"]
-    Prod["Product Manager"]
-    PO["People Ops"]
-    Perf["Performance Marketer"]
-  end
-
-  Channel[["Team channel: Active Bots"]]
-
-  User --> PM
+  PM["Project Manager (orchestrator)"]
+  MR[Market Research]
+  Prod[Product Manager]
+  PO[People Ops]
+  Perf[Performance Marketer]
   PM --> MR
   PM --> Prod
   PM --> PO
   PM --> Perf
-  PM --- Channel
-  MR --- Channel
-  Prod --- Channel
-  PO --- Channel
-  Perf --- Channel
 ```
 
 </details>
