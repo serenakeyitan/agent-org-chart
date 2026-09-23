@@ -8,7 +8,7 @@ Portable **company operating system** matching the livestream Company OS pattern
                               ┌─ Market Research — competitive intel, audience, trends
                               ├─ Product Manager — roadmap, specs, shipping decisions
 Project Manager ──────────────┼─ People Ops — hiring, roles, onboarding
-(orchestrator)                └─ Performance Marketer — paid growth, experiments, conversion
+briefs · assigns · unblocks   └─ Performance Marketer — paid growth, experiments, conversion
 ```
 
 ---
