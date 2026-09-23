@@ -1,6 +1,6 @@
 # Awesome Agent Org Charts
 
-> check out my recent work at https://github.com/agent-team-foundation/first-tree 🥇
+> check out my recent work at https://opentag.build 🥇
 
 Portable org charts you can import on any agent platform with a spawn CLI.
 
