@@ -22,6 +22,7 @@ Each chart lives at `charts/<id>/` with:
 | `channels` | Team channels and which role ids sit in them. |
 | `handoffs` | Typical from → to handoffs with a `when` clause. |
 | `spawn` | Import policy for the reading agent. |
+| `sources` | Optional string array of source URLs (session notes, guides, posts). |
 
 ## Role object
 

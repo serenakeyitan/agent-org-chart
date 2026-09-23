@@ -46,34 +46,52 @@
     },
     "tags": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Searchable labels for the catalog index."
     },
     "principles": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "minItems": 1,
       "description": "Operating principles every spawned agent should follow."
     },
     "roles": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/role" },
+      "items": {
+        "$ref": "#/$defs/role"
+      },
       "description": "All roles in the org, including optional peers."
     },
     "channels": {
       "type": "array",
-      "items": { "$ref": "#/$defs/channel" },
+      "items": {
+        "$ref": "#/$defs/channel"
+      },
       "description": "Team channels and which role ids sit in them."
     },
     "handoffs": {
       "type": "array",
-      "items": { "$ref": "#/$defs/handoff" },
+      "items": {
+        "$ref": "#/$defs/handoff"
+      },
       "description": "Typical work handoffs between roles."
     },
     "spawn": {
       "$ref": "#/$defs/spawn",
       "description": "Import/spawn policy for the reading agent."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "URLs of session notes, guides, or posts used to build this chart."
     }
   },
   "$defs": {
@@ -104,7 +122,11 @@
         },
         "kind": {
           "type": "string",
-          "enum": ["orchestrator", "specialist", "optional_peer"],
+          "enum": [
+            "orchestrator",
+            "specialist",
+            "optional_peer"
+          ],
           "description": "Role category. optional_peer is reused if present, not required to create."
         },
         "title": {
@@ -112,7 +134,10 @@
           "description": "Optional job title (e.g. Orchestrator)."
         },
         "reports_to": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Role id of the manager, or null for the orchestrator."
         },
         "summary": {
@@ -127,12 +152,16 @@
         },
         "in_scope": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Work this role owns."
         },
         "out_of_scope": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Work this role must hand off."
         },
         "required": {
@@ -143,7 +172,11 @@
     },
     "channel": {
       "type": "object",
-      "required": ["id", "name", "member_role_ids"],
+      "required": [
+        "id",
+        "name",
+        "member_role_ids"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -156,19 +189,32 @@
         },
         "member_role_ids": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "minItems": 1
         }
       }
     },
     "handoff": {
       "type": "object",
-      "required": ["from_role_id", "to_role_id", "when"],
+      "required": [
+        "from_role_id",
+        "to_role_id",
+        "when"
+      ],
       "additionalProperties": false,
       "properties": {
-        "from_role_id": { "type": "string" },
-        "to_role_id": { "type": "string" },
-        "when": { "type": "string", "minLength": 1 }
+        "from_role_id": {
+          "type": "string"
+        },
+        "to_role_id": {
+          "type": "string"
+        },
+        "when": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "spawn": {
@@ -182,7 +228,10 @@
       "additionalProperties": false,
       "properties": {
         "prefer_current_agent_as": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Role id to apply to the current agent (usually the orchestrator), or null to always create a new one."
         },
         "reuse_matching_by_name": {
@@ -196,7 +245,7 @@
         "secrets": {
           "type": "string",
           "const": "vault_only",
-          "description": "Secrets policy. Always vault_only — never paste keys into chat."
+          "description": "Secrets policy. Always vault_only \u2014 never paste keys into chat."
         }
       }
     }
