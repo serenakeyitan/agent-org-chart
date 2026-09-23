@@ -11,9 +11,9 @@ Any agent that can create teammates and channels on **its** platform should foll
 
 ## 2. Load the package
 
-1. Read `charts/<id>/chart.json`.
+1. Read `charts/<id>/chart.json` — **this is the source of truth for spawn** (roles, personas, channels, handoffs, spawn policy). Do not invent roles or scope from prose beyond what’s in `chart.json`.
 2. Mentally validate against [`schemas/org-chart.schema.json`](./schemas/org-chart.schema.json) (required fields, role kinds, spawn policy). See [`SCHEMA.md`](./SCHEMA.md) for a human explanation.
-3. Optionally skim `charts/<id>/ORG_CHART.md` for the visual reporting model.
+3. Optionally skim `charts/<id>/README.md` for human context (narrative, mermaid, deeper role stories). Useful for nuance; **not** a substitute for `chart.json` when creating agents.
 
 ## 3. Inventory this platform
 
@@ -27,7 +27,7 @@ Any agent that can create teammates and channels on **its** platform should foll
 1. For each role with `required: true`:
    - If a match exists → reuse it; update profile/title from `persona` / `title` if your platform allows.
    - If missing → create via your platform’s **create-agent / spawn** command (or API). Set name, title, and persona from the chart.
-2. For `kind: optional_peer` (`required: false`):
+2. For `kind: optional_peer` (`required: false`) — if a future chart includes them:
    - Reuse if present; **do not** create unless the user explicitly asks.
 3. If `spawn.prefer_current_agent_as` is a role id, prefer renaming/reprofiling **the current agent** as that role (usually the orchestrator) instead of spawning a second orchestrator — unless the user wants a separate one.
 
@@ -57,7 +57,3 @@ For each entry in `channels`:
 
 - Never paste API keys, tokens, or other secrets into chat.
 - Use your platform’s vault / secure secret flows when specialists need credentials.
-
-## Thin wrappers
-
-Chart folders may include `SPAWN.md` that simply says: follow this protocol using that folder’s `chart.json`. Prefer the protocol + JSON over any outdated narrative playbook.
