@@ -1,6 +1,6 @@
 # Company OS
 
-Portable company operating system: one **Project Manager** (orchestrator), four required specialists, optional peers to reuse, and an **Active Bots** team channel.
+Portable company operating system matching the livestream pattern: one **Project Manager** (orchestrator), four specialists, and an **Active Bots** team channel.
 
 | File | Purpose |
 | --- | --- |
