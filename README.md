@@ -20,7 +20,9 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 - [Company OS](#company-os) — General company operating system
 - [Customer Support](#customer-support) — Customer support team
 - [Game Studio](#game-studio) — Game development studio
+- [GTM](#gtm) — Go-to-market team
 - [Marketing](#marketing) — Marketing team
+- [Post-Sales](#post-sales) — Post-sales / customer success team
 - [Sales](#sales) — Sales department team
 - [SDR](#sdr) — SDR prospecting team
 - [For agents](#for-agents)
@@ -95,10 +97,35 @@ Studio Lead ────┼─ Game Designer
 
 ---
 
+## GTM
+
+```
+                    ┌─ Content
+                    ├─ Engineer
+                    ├─ Prospecting
+Chief of Staff ─────┼─ Forecast
+                    ├─ Customer Expert
+                    ├─ Travel & Expense
+                    └─ Onboarding
+```
+
+**Go-to-market** pattern from the Day 2 livestream GTM Team sidebar: one orchestrator (Chief of Staff), seven specialists for content, engineering, prospecting, forecasting, customer expertise, travel/expense, and onboarding, plus a **GTM Team** channel.
+
+**Roles:** Chief of Staff (orchestrator) · Content · Engineer · Prospecting · Forecast · Customer Expert · Travel & Expense · Onboarding · GTM Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **gtm** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/gtm/README.md`](./charts/gtm/README.md)  
+**Agent package:** [`charts/gtm/chart.json`](./charts/gtm/chart.json)
+
+---
+
 ## Marketing
 
 ```
-                    ┌─ CMO
+                    ┌─ CTO
                     ├─ Data Scientist
 Chief of Staff ─────┼─ Founding Engineer
                     └─ Game Designer
@@ -106,7 +133,7 @@ Chief of Staff ─────┼─ Founding Engineer
 
 **Marketing** pattern from the Day 3 livestream standup UI: one orchestrator (Chief of Staff), four specialists for strategy, analytics, engineering, and creative, plus a **Marketing Team** channel.
 
-**Roles:** Chief of Staff (orchestrator) · CMO · Data Scientist · Founding Engineer · Game Designer · Marketing Team (team channel)
+**Roles:** Chief of Staff (orchestrator) · CTO · Data Scientist · Founding Engineer · Game Designer · Marketing Team (team channel)
 
 **Import:** tell your agent —
 
@@ -114,6 +141,29 @@ Chief of Staff ─────┼─ Founding Engineer
 
 **Human deep dive:** [`charts/marketing/README.md`](./charts/marketing/README.md)  
 **Agent package:** [`charts/marketing/chart.json`](./charts/marketing/chart.json)
+
+---
+
+## Post-Sales
+
+```
+                    ┌─ Follow Ups
+                    ├─ Your voice
+Chief of Staff ─────┼─ Source of truth
+                    ├─ Internal radar
+                    └─ One per account
+```
+
+**Post-sales / customer success** pattern from the Day 3 livestream "Meet the team" slide: one orchestrator (Chief of Staff), five specialists for follow-ups, customer voice, documentation, internal monitoring, and dedicated account ownership, plus a **Post-Sales Team** channel.
+
+**Roles:** Chief of Staff (orchestrator) · Follow Ups · Your voice · Source of truth · Internal radar · One per account · Post-Sales Team (team channel)
+
+**Import:** tell your agent —
+
+> Import **post-sales** from https://github.com/serenakeyitan/agent-org-chart
+
+**Human deep dive:** [`charts/post-sales/README.md`](./charts/post-sales/README.md)  
+**Agent package:** [`charts/post-sales/chart.json`](./charts/post-sales/chart.json)
 
 ---
 
