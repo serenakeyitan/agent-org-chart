@@ -5,10 +5,7 @@
 Portable org charts you can import on any agent platform with a spawn CLI.
 
 ```
-Project Manager (orchestrator) --+-- Market Research
-                                 +-- Product Manager
-                                 +-- People Ops
-                                 +-- Performance Marketer
+Project Manager (orchestrator) → Market Research · Product Manager · People Ops · Performance Marketer
 ```
 
 ![Awesome](https://awesome.re/badge.svg)
@@ -33,10 +30,7 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 ## Company OS
 
 ```
-Project Manager (orchestrator) --+-- Market Research
-                                 +-- Product Manager
-                                 +-- People Ops
-                                 +-- Performance Marketer
+Project Manager (orchestrator) → Market Research · Product Manager · People Ops · Performance Marketer
 ```
 
 Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specialists, and an **Active Bots** channel for multi-bot coordination. Import it, give a first goal, run the company.
