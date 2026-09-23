@@ -66,6 +66,28 @@
   ],
   "channels": [],
   "handoffs": [],
+  "routines": [
+    {
+      "name": "50 Daily Prospects",
+      "schedule": "Every day at 8:00 AM"
+    },
+    {
+      "name": "Inbox Manager",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Accounts Signal Scan",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Sequencer Daily",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Sequencer SF Triggers",
+      "schedule": "When a webhook fires"
+    }
+  ],
   "spawn": {
     "prefer_current_agent_as": "chief-of-staff",
     "reuse_matching_by_name": true,

@@ -22,11 +22,11 @@ Agent Army
 
 | Routine | Schedule |
 | --- | --- |
-| 50 Daily Prospects | every day 8:00 AM |
-| Inbox Manager | weekdays 8:00 AM |
-| Accounts Signal Scan | weekdays 8:00 AM |
-| Sequencer Daily | weekdays 8:00 AM |
-| Sequencer SF Triggers | when a webhook fires |
+| 50 Daily Prospects | Every day at 8:00 AM |
+| Inbox Manager | Weekdays at 8:00 AM |
+| Accounts Signal Scan | Weekdays at 8:00 AM |
+| Sequencer Daily | Weekdays at 8:00 AM |
+| Sequencer SF Triggers | When a webhook fires |
 
 ## Import
 
