@@ -91,7 +91,7 @@
         "type": "string",
         "format": "uri"
       },
-      "description": "URLs of session notes, guides, or posts used to build this chart."
+      "description": "URLs of official sources used to build this chart. Only official livestream or broadcast URLs are allowed. Third-party note threads, personal insights, and social media citations (e.g., x.com posts) are banned. Omit sources entirely rather than cite unofficial content."
     }
   },
   "$defs": {

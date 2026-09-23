@@ -1,5 +1,0 @@
-         ┌─ GROCPOT
-         ├─ Tater
-Steve ────┼─ Hash Brown
-         ├─ Marky McMarkface
-         └─ Dr. Eggbot
