@@ -1,73 +1,68 @@
-# Agent org chart catalog
+# Awesome Agent Org Charts
 
-A **platform-agnostic catalog** of portable agent organization charts.
+> check out my recent work at https://github.com/agent-team-foundation/first-tree 🥇
 
-People pick which org chart to import. Platforms expose an agent-spawn CLI or command; an agent that can read a chart package can stand that org up on **whatever platform it’s on**. This repo is **not** tied to one product (not Grok Bot–only, not Cursor-only, not a single workflow host).
+Portable org charts you can import on any agent platform with a spawn CLI.
 
-> **Agents:** read [`PROTOCOL.md`](./PROTOCOL.md), pick an `id` from [`charts/INDEX.md`](./charts/INDEX.md), load `charts/<id>/chart.json`. Use your platform’s spawn CLI. Do not assume Grok Bot / Cursor tool names.
+![Company OS org chart](docs/assets/company-os-org.svg)
 
-## What this repo is
+![Awesome](https://awesome.re/badge.svg)
+![Public](https://img.shields.io/badge/catalog-public-lightgrey.svg)
 
-- A **multi-chart** library: each folder under `charts/` is one importable org.
-- **Humans** read markdown (this README, each chart’s detailed README).
-- **Agents** follow `PROTOCOL.md` and load `charts/<id>/chart.json` — same facts, structured. Do not invent roles from prose beyond what’s in `chart.json`.
+Agent Org Charts⚡️
 
-## How to pick a chart
+> A curated catalog of **portable agent organization charts** — pick one, point your agent at the repo, spawn the team. Platform-agnostic. Humans read the chart README; agents follow [`PROTOCOL.md`](./PROTOCOL.md) + `chart.json`.
 
-1. Open [`charts/INDEX.md`](./charts/INDEX.md).
-2. Choose a chart by `id` (e.g. `company-os`).
-3. Tell your agent something like: **“Import company-os from this repo”** (or “spawn Company OS”).
+These charts are field-tested patterns for people who ship with agents: **founders, operators, livestream builders**. Scope bots like job descriptions, put an orchestrator in front, keep specialists in lane.
 
-## What’s in a chart folder
+If you want your agent to stand up a real team instead of one overloaded chat, **this is the repo!**
 
-| File | Audience | Purpose |
-| --- | --- | --- |
-| `README.md` | Humans | Detailed prose: org story, mermaid, roles in depth, handoffs, how to import |
-| `chart.json` | Agents | Source of truth for spawn: roles, personas, channels, handoffs, spawn policy |
+## Table of Contents
 
-No separate SPAWN or ORG_CHART files — that content lives in the chart README (humans) and `chart.json` (agents).
+- [Company OS](#company-os)
+- [For agents](#for-agents)
+- [Add a chart](#add-a-chart)
 
-## Catalog layout
+---
 
-| Path | Purpose |
-| --- | --- |
-| [`PROTOCOL.md`](./PROTOCOL.md) | Steps any agent follows to import a chart |
-| [`SCHEMA.md`](./SCHEMA.md) | Human explanation of `chart.json` fields |
-| [`schemas/org-chart.schema.json`](./schemas/org-chart.schema.json) | Machine schema for chart packages |
-| [`charts/INDEX.md`](./charts/INDEX.md) | Table of available charts |
-| [`charts/<id>/`](./charts/) | One folder per chart (`README.md` + `chart.json`) |
+## Company OS
 
-## How an agent / platform imports
+![Company OS org chart](docs/assets/company-os-org.svg)
 
-1. Follow [`PROTOCOL.md`](./PROTOCOL.md).
-2. Load `charts/<id>/chart.json` (optionally skim that folder’s `README.md` for human context).
-3. Use **your platform’s** create-agent / spawn / update-profile / create-channel commands — do not assume tool names from another product.
-4. Report created vs reused; ask the user for a first goal. Keep secrets in vault only.
+Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specialists, and an **Active Bots** channel for multi-bot coordination. Import it, give a first goal, run the company.
 
-## How to ask your agent to import
+**Roles:** Project Manager (orchestrator) · Market Research · Product Manager · People Ops · Performance Marketer · Active Bots (team channel)
 
-Examples (any platform):
+**Import:** tell your agent —
 
-- “Import **company-os** from [this repo](https://github.com/serenakeyitan/agent-org-chart).”
-- “Follow PROTOCOL.md and spawn the Company OS chart.”
-- “Stand up chart id `company-os` using my platform’s spawn CLI.”
+> Import **company-os** from https://github.com/serenakeyitan/agent-org-chart
 
-## How to add a new chart
+**Human deep dive:** [`charts/company-os/README.md`](./charts/company-os/README.md)  
+**Agent package:** [`charts/company-os/chart.json`](./charts/company-os/chart.json)
 
-1. Copy `charts/company-os/` to `charts/<new-id>/`.
-2. Write a **detailed** `README.md` for humans (mermaid, roles in depth, handoffs, import notes).
-3. Set `id`, `title`, `summary`, roles, channels, handoffs, and `spawn` in `chart.json` (`schema_version: 1`). Deepen each `persona` so agents get the same richness as the README.
-4. Add a row to [`charts/INDEX.md`](./charts/INDEX.md).
-5. Keep personas platform-agnostic (“the user,” not a named person from your own workspace).
-6. Do **not** add SPAWN.md or ORG_CHART.md — README + chart.json only.
+---
 
-## Design principles (shared)
+## For agents
 
-- Scope agents like job descriptions — one lane, clear out-of-scope.
-- Hand tools and context, then trust specialists to run.
-- Reuse matching agents by name/job; don’t duplicate.
-- Secrets stay in vault — never in chat.
+1. Read [`PROTOCOL.md`](./PROTOCOL.md).
+2. Pick an `id` from [`charts/INDEX.md`](./charts/INDEX.md) (or the one the user named).
+3. Load `charts/<id>/chart.json` — **source of truth for spawn**. Do not invent roles from prose.
+4. Use **your platform’s** create-agent / spawn / channel CLI. Do not assume Grok Bot / Cursor tool names.
+5. Report created vs reused; ask for a first goal. Secrets stay in vault only.
 
-## License / ownership
+Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./schemas/org-chart.schema.json)
+
+---
+
+## Add a chart
+
+1. Copy `charts/company-os/` → `charts/<new-id>/`.
+2. Write a detailed human `README.md` (lead with an org-chart SVG) + a complete `chart.json`.
+3. Drop the org-chart SVG under [`docs/assets/`](./docs/assets/) and reference it from the root README + chart README.
+4. Add a TOC row here and a row in [`charts/INDEX.md`](./charts/INDEX.md).
+5. Keep personas platform-agnostic (“the user,” not a named person from your workspace).
+6. Do **not** add `SPAWN.md` or `ORG_CHART.md` — README + `chart.json` only.
+
+---
 
 Published as a catalog under [serenakeyitan/agent-org-chart](https://github.com/serenakeyitan/agent-org-chart). Charts are data packages any spawn-capable agent can consume.

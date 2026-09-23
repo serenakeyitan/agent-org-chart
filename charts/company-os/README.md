@@ -4,6 +4,8 @@ Portable **company operating system** matching the livestream Company OS pattern
 
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
+![Company OS org chart](../../docs/assets/company-os-org.svg)
+
 ---
 
 ## 1. What Company OS is
@@ -16,9 +18,14 @@ This chart package is **platform-agnostic**. It describes *who* should exist and
 
 ---
 
-## 2. Org chart (Mermaid)
+## 2. Org chart
 
 Orchestrator + four specialists + Active Bots only — no optional peers.
+
+![Company OS org chart](../../docs/assets/company-os-org.svg)
+
+<details>
+<summary>Mermaid source (optional)</summary>
 
 ```mermaid
 flowchart TB
@@ -48,6 +55,8 @@ flowchart TB
   PO --- Channel
   Perf --- Channel
 ```
+
+</details>
 
 | Role | Kind | Reports to | Job (one line) |
 | --- | --- | --- | --- |
