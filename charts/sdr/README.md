@@ -1,28 +1,16 @@
 # SDR
 
-Job titles from Galaxy Day 2 livestream bot sidebar.
+Job titles from Galaxy Day 2 livestream sidebar (strict badge evidence only).
 
 ```
 Chief of Staff
-Email Outbound
 Enrichment
-Company Research
-Web Search
-Voice of Customer
-Usage Analyst
-Pipeline Research
 ```
 
 | Role | Kind |
 | --- | --- |
 | Chief of Staff | Orchestrator |
-| Email Outbound | Specialist |
 | Enrichment | Specialist |
-| Company Research | Specialist |
-| Web Search | Specialist |
-| Voice of Customer | Specialist |
-| Usage Analyst | Specialist |
-| Pipeline Research | Specialist |
 
 ## Import
 
