@@ -3,7 +3,7 @@
   "id": "sdr",
   "title": "SDR",
   "summary": "SDR team from Galaxy Day 2 livestream.",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "tags": ["sdr"],
   "sources": ["https://x.com/i/broadcasts/1PKqrNyvmYwGb"],
   "principles": [],
@@ -20,11 +20,44 @@
       "required": true
     },
     {
-      "id": "enrichment",
-      "name": "Enrichment",
+      "id": "email",
+      "name": "Email",
       "kind": "specialist",
       "reports_to": "chief-of-staff",
-      "summary": "Data enrichment.",
+      "summary": "Handles email outreach.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "web-research",
+      "name": "Web Research",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Performs web research.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "gong-connector",
+      "name": "Gong Connector",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Connects to Gong data.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "agent-army",
+      "name": "Agent Army",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Manages scalable agent fleet.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
@@ -33,6 +66,28 @@
   ],
   "channels": [],
   "handoffs": [],
+  "routines": [
+    {
+      "name": "50 Daily Prospects",
+      "schedule": "Every day at 8:00 AM"
+    },
+    {
+      "name": "Inbox Manager",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Accounts Signal Scan",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Sequencer Daily",
+      "schedule": "Weekdays at 8:00 AM"
+    },
+    {
+      "name": "Sequencer SF Triggers",
+      "schedule": "When a webhook fires"
+    }
+  ],
   "spawn": {
     "prefer_current_agent_as": "chief-of-staff",
     "reuse_matching_by_name": true,

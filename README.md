@@ -18,6 +18,7 @@ Portable org charts you can import on any agent platform with a spawn CLI. **Pic
 - [MarOps](#marops) — Marketing operations team
 - [Post-Sales](#post-sales) — Post-sales team
 - [Product](#product) — Product team
+- [Sales Engineering](#sales-engineering) — Sales Engineering team
 - [SDR](#sdr) — SDR prospecting team
 - [For agents](#for-agents)
 - [Add a chart](#add-a-chart)
@@ -180,14 +181,34 @@ Recruiter
 
 ---
 
+## Sales Engineering
+
+```
+Technical Resource
+Customer Expert
+Echo
+Competitive Intel
+```
+
+**Sales Engineering** from Day 2: four specialists (peers).
+
+**Import:** `Import sales-engineering from https://github.com/serenakeyitan/agent-org-chart`
+
+[`charts/sales-engineering/`](./charts/sales-engineering/)
+
+---
+
 ## SDR
 
 ```
 Chief of Staff
-Enrichment
+Email
+Web Research
+Gong Connector
+Agent Army
 ```
 
-**SDR** from Day 2: orchestrator + specialist (strict badge evidence only).
+**SDR** from Day 2: orchestrator + four specialists.
 
 **Import:** `Import sdr from https://github.com/serenakeyitan/agent-org-chart`
 

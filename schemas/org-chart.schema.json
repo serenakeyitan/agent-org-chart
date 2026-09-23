@@ -252,7 +252,7 @@
         "secrets": {
           "type": "string",
           "const": "vault_only",
-          "description": "Secrets policy. Always vault_only \u2014 never paste keys into chat."
+          "description": "Secrets policy. Always vault_only — never paste keys into chat."
         }
       }
     },

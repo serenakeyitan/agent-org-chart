@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "sales-engineering",
+  "title": "Sales Engineering",
+  "summary": "Sales Engineering team from Galaxy Day 2 livestream.",
+  "version": "1.0.0",
+  "tags": ["sales-engineering"],
+  "sources": ["https://x.com/i/broadcasts/1PKqrNyvmYwGb"],
+  "principles": [],
+  "roles": [
+    {
+      "id": "technical-resource",
+      "name": "Technical Resource",
+      "kind": "specialist",
+      "reports_to": null,
+      "summary": "Turns technical questions into clear customer-facing content.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "customer-expert",
+      "name": "Customer Expert",
+      "kind": "specialist",
+      "reports_to": null,
+      "summary": "Checks customer usage and updates account plans.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "echo",
+      "name": "Echo",
+      "kind": "specialist",
+      "reports_to": null,
+      "summary": "Turns customer transcripts into slides and next steps.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "competitive-intel",
+      "name": "Competitive Intel",
+      "kind": "specialist",
+      "reports_to": null,
+      "summary": "Tracks competitor releases and keeps battlecards up to date.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    }
+  ],
+  "channels": [],
+  "handoffs": [],
+  "spawn": {
+    "prefer_current_agent_as": null,
+    "reuse_matching_by_name": true,
+    "do_not_fanout_until_first_goal": true,
+    "secrets": "vault_only"
+  }
+}
