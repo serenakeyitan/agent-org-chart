@@ -4,7 +4,23 @@
 
 Portable org charts you can import on any agent platform with a spawn CLI.
 
-![Company OS org chart](docs/assets/company-os-org.svg)
+```
+                 [ User / founder ]
+                         |
+                         v
+              [ Project Manager ]
+                 (orchestrator)
+           __________|__________
+          /      |       |      \
+         v       v       v       v
+   [Market    [Product [People [Performance
+   Research]  Manager]   Ops]   Marketer]
+         \       |       |       /
+          \______|_______|______/
+                         |
+                         v
+            [ Active Bots channel ]
+```
 
 ![Awesome](https://awesome.re/badge.svg)
 ![Public](https://img.shields.io/badge/catalog-public-lightgrey.svg)
@@ -27,7 +43,23 @@ If you want your agent to stand up a real team instead of one overloaded chat, *
 
 ## Company OS
 
-![Company OS org chart](docs/assets/company-os-org.svg)
+```
+                 [ User / founder ]
+                         |
+                         v
+              [ Project Manager ]
+                 (orchestrator)
+           __________|__________
+          /      |       |      \
+         v       v       v       v
+   [Market    [Product [People [Performance
+   Research]  Manager]   Ops]   Marketer]
+         \       |       |       /
+          \______|_______|______/
+                         |
+                         v
+            [ Active Bots channel ]
+```
 
 Livestream **Company OS** pattern: one orchestrator, four narrowly scoped specialists, and an **Active Bots** channel for multi-bot coordination. Import it, give a first goal, run the company.
 
@@ -57,8 +89,8 @@ Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./
 ## Add a chart
 
 1. Copy `charts/company-os/` → `charts/<new-id>/`.
-2. Write a detailed human `README.md` (lead with an org-chart SVG) + a complete `chart.json`.
-3. Drop the org-chart SVG under [`docs/assets/`](./docs/assets/) and reference it from the root README + chart README.
+2. Write a detailed human `README.md` (lead with a minimal ASCII org chart) + a complete `chart.json`.
+3. Save the ASCII chart under [`docs/assets/`](./docs/assets/) (e.g. `docs/assets/<id>-org.txt`) and embed it in a fenced code block in the root README + chart README.
 4. Add a TOC row here and a row in [`charts/INDEX.md`](./charts/INDEX.md).
 5. Keep personas platform-agnostic (“the user,” not a named person from your workspace).
 6. Do **not** add `SPAWN.md` or `ORG_CHART.md` — README + `chart.json` only.

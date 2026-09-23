@@ -1,0 +1,15 @@
+                 [ User / founder ]
+                         |
+                         v
+              [ Project Manager ]
+                 (orchestrator)
+           __________|__________
+          /      |       |      \
+         v       v       v       v
+   [Market    [Product [People [Performance
+   Research]  Manager]   Ops]   Marketer]
+         \       |       |       /
+          \______|_______|______/
+                         |
+                         v
+            [ Active Bots channel ]

@@ -4,7 +4,23 @@ Portable **company operating system** matching the livestream Company OS pattern
 
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder’s [`chart.json`](./chart.json) — do not invent roles from this prose beyond what’s in `chart.json`.
 
-![Company OS org chart](../../docs/assets/company-os-org.svg)
+```
+                 [ User / founder ]
+                         |
+                         v
+              [ Project Manager ]
+                 (orchestrator)
+           __________|__________
+          /      |       |      \
+         v       v       v       v
+   [Market    [Product [People [Performance
+   Research]  Manager]   Ops]   Marketer]
+         \       |       |       /
+          \______|_______|______/
+                         |
+                         v
+            [ Active Bots channel ]
+```
 
 ---
 
