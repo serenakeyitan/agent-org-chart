@@ -5,7 +5,7 @@ Portable **marketing** org chart from the Day 3 livestream standup UI: one orche
 > **Agents:** follow [`../../PROTOCOL.md`](../../PROTOCOL.md) and use this folder's [`chart.json`](./chart.json) — do not invent roles from this prose beyond what's in `chart.json`.
 
 ```
-                    ┌─ CMO
+                    ┌─ CTO
                     ├─ Data Scientist
 Chief of Staff ─────┼─ Founding Engineer
                     └─ Game Designer
@@ -17,11 +17,11 @@ Chief of Staff ─────┼─ Founding Engineer
 
 A focused marketing pattern from the livestream standup UI panel: treat each agent like a **job description** (one lane), put a **Chief of Staff** orchestrator in front to intake goals and assign work, and keep specialists focused so chats don't turn into a single overloaded assistant.
 
-The specialists map to the roles visible in the UI: **CMO** (marketing strategy), **Data Scientist** (analytics), **Founding Engineer** (technical implementation), **Game Designer** (creative and gamification).
+The specialists map to the roles visible in the UI: **CTO** (marketing strategy), **Data Scientist** (analytics), **Founding Engineer** (technical implementation), **Game Designer** (creative and gamification).
 
 This chart package is **platform-agnostic**. It describes *who* should exist and *how* they hand off — not which product's CLI to call. Your agent reads `chart.json` and uses **your** platform's spawn / create-agent / channel tools.
 
-**In this chart:** Chief of Staff (orchestrator) + CMO + Data Scientist + Founding Engineer + Game Designer, seated together in **Marketing Team**.
+**In this chart:** Chief of Staff (orchestrator) + CTO + Data Scientist + Founding Engineer + Game Designer, seated together in **Marketing Team**.
 
 ---
 
@@ -32,7 +32,7 @@ Orchestrator + four specialists + Marketing Team channel.
 | Role | Kind | Reports to | Job (one line) |
 | --- | --- | --- | --- |
 | **Chief of Staff** | Orchestrator | User | Coordinate the marketing team; route goals to specialists; synthesize marketing status |
-| **CMO** | Specialist | Chief of Staff | Owns marketing strategy, campaigns, and brand direction |
+| **CTO** | Specialist | Chief of Staff | Owns marketing strategy, campaigns, and brand direction |
 | **Data Scientist** | Specialist | Chief of Staff | Analyzes marketing data and provides actionable insights |
 | **Founding Engineer** | Specialist | Chief of Staff | Builds marketing technology and implements technical solutions |
 | **Game Designer** | Specialist | Chief of Staff | Creates engaging creative and gamified marketing experiences |
@@ -61,7 +61,7 @@ Someone has to turn vague marketing goals into assignable work, keep specialists
 **Day-to-day responsibilities**  
 - Intake marketing goals from the user; clarify success criteria before assigning.  
 - Write briefs for specialists: goal, context, success criteria, what to report back, and what *not* to do.  
-- Assign the right specialist (CMO vs Data Scientist vs Founding Engineer vs Game Designer).  
+- Assign the right specialist (CTO vs Data Scientist vs Founding Engineer vs Game Designer).  
 - Track parallel work; unblock with tools, access, or missing context.  
 - Synthesize specialist outputs into status updates the user can act on.  
 - Keep lanes clean — push deep work back to specialists rather than doing it yourself.  
@@ -83,12 +83,12 @@ Every specialist for deep work; receives reports and blockers back from all four
 
 ---
 
-### CMO (specialist)
+### CTO (specialist)
 
 **Kind:** specialist · **Reports to:** Chief of Staff
 
 **Why they exist**  
-Marketing needs strategy. CMO owns marketing direction: defining campaigns, setting brand direction, and driving go-to-market initiatives.
+Marketing needs strategy. CTO owns marketing direction: defining campaigns, setting brand direction, and driving go-to-market initiatives.
 
 **Day-to-day responsibilities**  
 - Define marketing strategy and campaigns.  
@@ -136,10 +136,10 @@ Decisions need data. Data Scientist owns marketing analytics: analyzing data, bu
 Data analysis; marketing analytics; attribution modeling; forecasting; metric tracking; insight generation; analysis briefs.
 
 **Out of scope**  
-Marketing strategy (CMO); engineering implementation (Founding Engineer); creative design (Game Designer); acting as orchestrator; pasting secrets.
+Marketing strategy (CTO); engineering implementation (Founding Engineer); creative design (Game Designer); acting as orchestrator; pasting secrets.
 
 **Hands off to**  
-CMO (insights for strategy); Chief of Staff (done / blocked).
+CTO (insights for strategy); Chief of Staff (done / blocked).
 
 ---
 
@@ -166,10 +166,10 @@ Marketing needs technology. Founding Engineer owns marketing tech: building tool
 Marketing technology; tool development; integrations; automations; landing pages; infrastructure; technical documentation.
 
 **Out of scope**  
-Marketing strategy (CMO); data analysis (Data Scientist); creative design (Game Designer); acting as orchestrator; pasting secrets.
+Marketing strategy (CTO); data analysis (Data Scientist); creative design (Game Designer); acting as orchestrator; pasting secrets.
 
 **Hands off to**  
-CMO (implementation ready); Chief of Staff (done / blocked).
+CTO (implementation ready); Chief of Staff (done / blocked).
 
 ---
 
@@ -196,7 +196,7 @@ Engagement needs creativity. Game Designer owns creative and gamified experience
 Creative design; gamification; interactive experiences; engagement mechanics; reward design; creative assets; design documentation.
 
 **Out of scope**  
-Marketing strategy (CMO); data analysis (Data Scientist); engineering implementation (Founding Engineer); acting as orchestrator; pasting secrets.
+Marketing strategy (CTO); data analysis (Data Scientist); engineering implementation (Founding Engineer); acting as orchestrator; pasting secrets.
 
 **Hands off to**  
 Founding Engineer (design ready for implementation); Chief of Staff (done / blocked).
@@ -207,10 +207,10 @@ Founding Engineer (design ready for implementation); Chief of Staff (done / bloc
 
 | From | Hands off to | When |
 | --- | --- | --- |
-| Data Scientist | CMO | Analysis and insights ready for strategy decisions |
-| CMO | Data Scientist | Need data analysis for campaign decisions |
-| CMO | Founding Engineer | Need technical implementation for campaigns |
-| CMO | Game Designer | Need creative or gamified experiences |
+| Data Scientist | CTO | Analysis and insights ready for strategy decisions |
+| CTO | Data Scientist | Need data analysis for campaign decisions |
+| CTO | Founding Engineer | Need technical implementation for campaigns |
+| CTO | Game Designer | Need creative or gamified experiences |
 | Game Designer | Founding Engineer | Design ready for technical implementation |
 | All specialists | Chief of Staff | Blocked, needs tools/access, or done |
 
@@ -220,7 +220,7 @@ Machine-readable handoffs live in [`chart.json`](./chart.json).
 
 ## 6. Team channel: Marketing Team
 
-**Who sits there:** Chief of Staff, CMO, Data Scientist, Founding Engineer, Game Designer.
+**Who sits there:** Chief of Staff, CTO, Data Scientist, Founding Engineer, Game Designer.
 
 **How coordination works**  
 - Default: Chief of Staff briefs specialists in 1:1 (or platform equivalent) and synthesizes for the user.  
