@@ -1,0 +1,3 @@
+                  ┌─ Sales Manager
+Chief of Staff ────┼─ Sales Outbound
+                  └─ Coding
