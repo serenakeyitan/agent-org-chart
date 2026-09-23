@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "id": "post-sales",
+  "title": "Post-Sales",
+  "summary": "Post-sales team from Galaxy Day 3 livestream Meet the team slide.",
+  "version": "1.0.0",
+  "tags": ["post-sales", "customer-success"],
+  "sources": ["https://x.com/i/broadcasts/1YGNrbXEeazGw"],
+  "principles": [],
+  "roles": [
+    {
+      "id": "chief-of-staff",
+      "name": "Chief of Staff",
+      "kind": "orchestrator",
+      "reports_to": null,
+      "summary": "Coordinates the post-sales team.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "follow-ups",
+      "name": "Follow Ups",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Manages follow-ups.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "your-voice",
+      "name": "Your voice",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Voice and communications.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "source-of-truth",
+      "name": "Source of truth",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Knowledge and truth source.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "internal-radar",
+      "name": "Internal radar",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Internal monitoring and radar.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "one-per-account",
+      "name": "One per account",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Per-account management.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    }
+  ],
+  "channels": [],
+  "handoffs": [],
+  "routines": [
+    {
+      "name": "Daily brief",
+      "schedule": "Weekdays at 8:30 AM"
+    },
+    {
+      "name": "Call prep",
+      "schedule": "Every 15 minutes on weekdays"
+    },
+    {
+      "name": "Unfinished promises",
+      "schedule": "Weekdays at 9:00 AM, 1:00 PM"
+    }
+  ],
+  "spawn": {
+    "prefer_current_agent_as": "chief-of-staff",
+    "reuse_matching_by_name": true,
+    "do_not_fanout_until_first_goal": true,
+    "secrets": "vault_only"
+  }
+}

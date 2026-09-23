@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "id": "marops",
+  "title": "MarOps",
+  "summary": "Marketing operations team from Galaxy Day 3 livestream sidebar.",
+  "version": "1.0.0",
+  "tags": ["marketing", "operations"],
+  "sources": ["https://x.com/i/broadcasts/1YGNrbXEeazGw"],
+  "principles": [],
+  "roles": [
+    {
+      "id": "chief-of-staff",
+      "name": "Chief of Staff",
+      "kind": "orchestrator",
+      "reports_to": null,
+      "summary": "Coordinates the marketing operations team.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "data-scientist",
+      "name": "Data Scientist",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Data science and analytics.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "gtm",
+      "name": "GTM",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Go-to-market strategy.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "founding-engineer",
+      "name": "Founding Engineer",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Technical founding work.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "game-designer",
+      "name": "Game Designer",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Game design and mechanics.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    }
+  ],
+  "channels": [],
+  "handoffs": [],
+  "spawn": {
+    "prefer_current_agent_as": "chief-of-staff",
+    "reuse_matching_by_name": true,
+    "do_not_fanout_until_first_goal": true,
+    "secrets": "vault_only"
+  }
+}
