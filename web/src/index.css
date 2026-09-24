@@ -533,7 +533,6 @@ code {
   justify-content: space-between;
   gap: 28px 40px;
   padding: clamp(24px, 4vw, 48px) 0 clamp(28px, 3.5vw, 44px);
-  animation: rise 0.9s var(--ease) both;
 }
 
 .study__title {
@@ -597,7 +596,6 @@ code {
   border-radius: 6px;
   background: var(--paper-raised);
   box-shadow: var(--shadow-rest);
-  animation: rise 1s var(--ease) 0.08s both;
 }
 
 .artboard::before {
@@ -661,7 +659,7 @@ code {
   stroke-width: 1;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: draw 1.8s var(--ease) 0.15s forwards;
+  animation: draw 1.6s var(--ease) forwards;
 }
 
 .ring--peers {
@@ -675,7 +673,7 @@ code {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: draw 1s var(--ease) forwards;
-  animation-delay: calc(var(--i, 0) * 45ms + 0.3s);
+  animation-delay: calc(var(--i, 0) * 45ms + 0.15s);
   transition: stroke 0.6s var(--ease), stroke-opacity 0.6s var(--ease);
 }
 
@@ -756,7 +754,7 @@ code {
   top: 50%;
   margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
   animation: pop 0.8s var(--ease) both;
-  animation-delay: calc(var(--i, 0) * 55ms + 0.2s);
+  animation-delay: calc(var(--i, 0) * 50ms + 0.05s);
 }
 
 .node .node__dot::after {
@@ -810,7 +808,7 @@ code {
   width: max-content;
   max-width: 136px;
   animation: fade-in 0.9s var(--ease) both;
-  animation-delay: calc(var(--i, 0) * 55ms + 0.35s);
+  animation-delay: calc(var(--i, 0) * 50ms + 0.15s);
 }
 
 .node__name {
