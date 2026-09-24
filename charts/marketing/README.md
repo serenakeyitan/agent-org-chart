@@ -1,22 +1,24 @@
 # Marketing
 
-Job titles from Galaxy Day 3 livestream sidebar.
+Job titles from Josh Kim session, Galaxy Day 3 livestream.
 
 ```
-Chief of Staff
-Data Scientist
-GTM
-Founding Engineer
-Game Designer
+Project Manager
+├── Market Researcher
+├── Product Marketer
+├── Website Ops
+├── Performance Marketer
+└── Marketing Analyst
 ```
 
 | Role | Kind |
 | --- | --- |
-| Chief of Staff | Orchestrator |
-| Data Scientist | Specialist |
-| GTM | Specialist |
-| Founding Engineer | Specialist |
-| Game Designer | Specialist |
+| Project Manager | Orchestrator |
+| Market Researcher | Specialist |
+| Product Marketer | Specialist |
+| Website Ops | Specialist |
+| Performance Marketer | Specialist |
+| Marketing Analyst | Specialist |
 
 ## Import
 
@@ -30,4 +32,4 @@ Import marketing from https://github.com/serenakeyitan/agent-org-chart
 
 ---
 
-Job titles as shown on Galaxy livestream; personas/channels stripped for fidelity.
+Job titles as shown on Josh Kim Marketing session, Galaxy Day 3 livestream; personas/channels stripped for fidelity.

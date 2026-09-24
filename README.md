@@ -116,14 +116,15 @@ Ops
 ## Marketing
 
 ```
-Chief of Staff
-Data Scientist
-GTM
-Founding Engineer
-Game Designer
+Project Manager
+├── Market Researcher
+├── Product Marketer
+├── Website Ops
+├── Performance Marketer
+└── Marketing Analyst
 ```
 
-**Marketing** from Day 3: orchestrator + four specialists.
+**Marketing** from Josh Kim session, Galaxy Day 3: orchestrator + five specialists.
 
 **Import:** `Import marketing from https://github.com/serenakeyitan/agent-org-chart`
 
