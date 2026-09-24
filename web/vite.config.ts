@@ -22,7 +22,14 @@ function copyChartsPlugin() {
         .filter(d => d.isDirectory())
         .map(d => d.name)
       
-      const index: Array<{id: string; title: string; summary: string; roleCount: number; attribution?: string}> = []
+      const index: Array<{
+        id: string
+        title: string
+        summary: string
+        roleCount: number
+        attribution?: string
+        shape: Array<{ id: string; kind: string; reports_to: string | null }>
+      }> = []
       
       for (const folder of chartFolders) {
         const chartPath = resolve(chartsDir, folder, 'chart.json')
@@ -40,7 +47,12 @@ function copyChartsPlugin() {
             title: chart.title,
             summary: chart.summary,
             roleCount: chart.roles?.length || 0,
-            ...(attribution && { attribution })
+            ...(attribution && { attribution }),
+            shape: (chart.roles || []).map((r: { id: string; kind: string; reports_to: string | null }) => ({
+              id: r.id,
+              kind: r.kind,
+              reports_to: r.reports_to
+            }))
           })
         }
       }

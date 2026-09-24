@@ -52,10 +52,13 @@ export interface Chart {
   spawn: Spawn
 }
 
+export type RoleShape = Pick<Role, 'id' | 'kind' | 'reports_to'>
+
 export interface ChartIndex {
   id: string
   title: string
   summary: string
   roleCount: number
   attribution?: string
+  shape: RoleShape[]
 }

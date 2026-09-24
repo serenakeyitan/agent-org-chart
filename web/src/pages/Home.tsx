@@ -1,97 +1,107 @@
 import type { ChartIndex } from '../types'
-import { getCreditInfo } from '../credits'
+import { armyOwner, plateLabel, toPlates, type Plate } from '../lib/catalog'
+import Constellation from '../components/Constellation'
+import SiteHeader from '../components/SiteHeader'
 
-interface HomeProps {
-  charts: ChartIndex[]
-  onSelectChart: (id: string) => void
-}
+export default function Home({ charts }: { charts: ChartIndex[] }) {
+  const plates = toPlates(charts)
+  const rooms = groupByDay(plates)
 
-export default function Home({ charts, onSelectChart }: HomeProps) {
   return (
-    <div className="min-h-screen p-6 md:p-12">
-      <header className="max-w-4xl mx-auto mb-12 text-center">
-        <h1 className="text-3xl md:text-4xl font-medium text-[var(--text-primary)] mb-2">
-          Agent Army 图鉴
+    <div className="page">
+      <SiteHeader />
+
+      <section className="intro">
+        <p className="eyebrow">An illustrated catalog · 图鉴</p>
+        <h1 className="intro__title">
+          A field guide to <em>agent armies.</em>
         </h1>
-        <p className="text-[var(--text-secondary)] text-lg mb-1">
-          Replicate notable agent teams
+        <p className="intro__lede">
+          <span className="cjk">复刻</span> notable agent teams, one plate at a time. Starting with the Grok Bot
+          workflows shown at the Galaxy livestream — study the shape, then copy a single bot or the whole army.
         </p>
-        <p className="text-[var(--text-muted)] text-sm">
-          复刻 agent army · Starting with Grok Bot demos from Galaxy livestream
-        </p>
-      </header>
+      </section>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {charts.map(chart => {
-          const credit = getCreditInfo(chart.id)
-          const armyLabel = getArmyLabel(credit)
-          return (
-            <button
-              key={chart.id}
-              onClick={() => onSelectChart(chart.id)}
-              className="group text-left bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5 
-                         hover:border-[var(--accent)] hover:shadow-sm transition-all duration-200
-                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2
-                         focus:ring-offset-[var(--bg-primary)]"
-            >
-              <div className="flex items-start justify-between gap-3 mb-2">
-                <h2 className="text-lg font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
-                  {chart.title}
-                </h2>
-                <span className="shrink-0 text-sm text-[var(--text-muted)] bg-[var(--bg-panel)] px-2.5 py-1 rounded-full">
-                  {chart.roleCount} bots
-                </span>
-              </div>
+      {rooms.map(room => (
+        <section key={room.day ?? 'other'} className="room" aria-labelledby={`room-${room.day ?? 'other'}`}>
+          <header className="room__header">
+            <h2 id={`room-${room.day ?? 'other'}`} className="room__title">
+              {room.day ? `Day ${room.day}` : 'Other armies'}
+            </h2>
+            <p className="room__meta">
+              {room.day ? 'Galaxy livestream · ' : ''}
+              {room.plates.length} {room.plates.length === 1 ? 'plate' : 'plates'}
+            </p>
+          </header>
+          <ul className="plates">
+            {room.plates.map(p => (
+              <li key={p.chart.id} style={{ '--i': p.number } as React.CSSProperties}>
+                <PlateCard plate={p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
 
-              {/* Army credit line */}
-              <p className="text-sm text-[var(--text-secondary)] mb-3">
-                Replicate{' '}
-                {credit.url ? (
-                  <a
-                    href={credit.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-[var(--accent)] hover:underline"
-                  >
-                    {armyLabel}
-                  </a>
-                ) : (
-                  <span className="text-[var(--text-primary)]">{armyLabel}</span>
-                )}
-              </p>
-              
-              <p className="text-xs text-[var(--text-muted)]">
-                {credit.day && `Galaxy Day ${credit.day}`}
-              </p>
-            </button>
-          )
-        })}
-      </div>
-
-      <footer className="max-w-4xl mx-auto mt-16 pt-8 border-t border-[var(--border)] text-center">
-        <p className="text-sm text-[var(--text-muted)]">
-          Charts from{' '}
-          <a 
-            href="https://github.com/serenakeyitan/agent-org-chart" 
-            target="_blank" 
+      <footer className="colophon">
+        <p>
+          Every plate is drawn from <code>charts/*/chart.json</code> in{' '}
+          <a
+            className="text-link"
+            href="https://github.com/serenakeyitan/agent-org-chart"
+            target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--accent)] hover:underline"
           >
             serenakeyitan/agent-org-chart
           </a>
+          .
         </p>
       </footer>
     </div>
   )
 }
 
-function getArmyLabel(credit: ReturnType<typeof getCreditInfo>): string {
-  if (credit.url && credit.text.startsWith('@')) {
-    return `${credit.text}'s army`
+function PlateCard({ plate }: { plate: Plate }) {
+  const { chart, number } = plate
+  const owner = armyOwner(chart.id)
+
+  return (
+    <article className="plate">
+      <div className="plate__art">
+        <Constellation shape={chart.shape} />
+      </div>
+      <div className="plate__caption">
+        <p className="plate__number">{plateLabel(number)}</p>
+        <h3 className="plate__title">
+          <a href={`#/${chart.id}`} className="plate__link">
+            {chart.title}
+          </a>
+        </h3>
+        <p className="plate__credit">
+          Replicate{' '}
+          {owner.url ? (
+            <a href={owner.url} target="_blank" rel="noopener noreferrer" className="plate__handle">
+              {owner.label}
+            </a>
+          ) : (
+            <span className="plate__owner">{owner.label}</span>
+          )}
+          ’s army
+        </p>
+        <p className="plate__meta">
+          {chart.roleCount} {chart.roleCount === 1 ? 'bot' : 'bots'}
+        </p>
+      </div>
+    </article>
+  )
+}
+
+function groupByDay(plates: Plate[]) {
+  const rooms: { day: number | null; plates: Plate[] }[] = []
+  for (const p of plates) {
+    const last = rooms[rooms.length - 1]
+    if (last && last.day === p.day) last.plates.push(p)
+    else rooms.push({ day: p.day, plates: [p] })
   }
-  if (credit.org) {
-    return `${credit.org}'s army`
-  }
-  return 'this army'
+  return rooms
 }
