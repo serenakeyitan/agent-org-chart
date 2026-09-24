@@ -11,8 +11,13 @@ interface DetailProps {
 
 function CreditLine({ chartId, roleCount }: { chartId: string; roleCount: number }) {
   const credit = getCreditInfo(chartId)
+  const armyOwner = credit.url && credit.text.startsWith('@') 
+    ? credit.text 
+    : credit.org || 'this team'
+  
   return (
     <p className="text-sm text-[var(--text-muted)]">
+      <span>Replicate </span>
       {credit.url ? (
         <a
           href={credit.url}
@@ -20,13 +25,13 @@ function CreditLine({ chartId, roleCount }: { chartId: string; roleCount: number
           rel="noopener noreferrer"
           className="text-[var(--accent)] hover:underline"
         >
-          {credit.text}
+          {armyOwner}'s
         </a>
       ) : (
-        <span>{credit.text}</span>
+        <span className="text-[var(--text-primary)]">{armyOwner}'s</span>
       )}
+      <span> army · {roleCount} bots</span>
       {credit.day && <span> · Day {credit.day}</span>}
-      <span> · {roleCount} roles</span>
     </p>
   )
 }
@@ -74,12 +79,16 @@ export default function Detail({ chart, onBack }: DetailProps) {
 
   const generateRoleInstruction = (role: Role): string => {
     const credit = getCreditInfo(chart.id)
+    const armyOwner = credit.url && credit.text.startsWith('@') 
+      ? credit.text 
+      : credit.org || 'Grok Bot'
     const creditLine = credit.url 
       ? `Credit: ${credit.text} (${credit.url})`
       : `Credit: ${credit.text}`
 
     const lines: string[] = [
       `# ${role.name}`,
+      `> 复刻 ${armyOwner}'s ${chart.title} agent army`,
       '',
       `**Role:** ${role.name}`,
       `**Kind:** ${role.kind}`,
@@ -118,16 +127,20 @@ export default function Detail({ chart, onBack }: DetailProps) {
 
   const generateTeamInstruction = (): string => {
     const credit = getCreditInfo(chart.id)
+    const armyOwner = credit.url && credit.text.startsWith('@') 
+      ? credit.text 
+      : credit.org || 'Grok Bot'
     const creditLine = credit.url 
       ? `Credit: ${credit.text} (${credit.url})`
       : `Credit: ${credit.text}`
 
     const lines: string[] = [
       `# ${chart.title}`,
+      `> 复刻 ${armyOwner}'s agent army`,
       '',
       `**Summary:** ${chart.summary}`,
       '',
-      `## Team Structure`,
+      `## Army Structure (${chart.roles.length} bots)`,
       ''
     ]
 
@@ -188,7 +201,7 @@ export default function Detail({ chart, onBack }: DetailProps) {
   }
 
   const handleCopyTeam = () => {
-    handleCopy(generateTeamInstruction(), 'Copied team')
+    handleCopy(generateTeamInstruction(), 'Copied army')
   }
 
   return (
@@ -216,7 +229,7 @@ export default function Detail({ chart, onBack }: DetailProps) {
                      px-4 py-2 rounded-lg border border-[var(--border)] hover:border-[var(--accent)]
                      transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
         >
-          Copy whole team
+          Copy this army
         </button>
       </header>
 
