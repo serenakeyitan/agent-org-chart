@@ -1,4 +1,5 @@
-                    ┌─ Data Scientist
-                    ├─ GTM
-Chief of Staff ─────┼─ Founding Engineer
-                    └─ Game Designer
+                    ┌─ Market Researcher
+                    ├─ Product Marketer
+Project Manager ────┼─ Website Ops
+                    ├─ Performance Marketer
+                    └─ Marketing Analyst

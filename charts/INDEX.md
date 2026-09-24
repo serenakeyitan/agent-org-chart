@@ -9,7 +9,7 @@ Available org charts in this catalog. See [`../PROTOCOL.md`](../PROTOCOL.md).
 | [`engineering`](./engineering/) | Engineering | Engineering Manager + Engineer |
 | [`founders`](./founders/) | Founders | Product + Design + Comms + Random (peers) |
 | [`game-studio`](./game-studio/) | Game Studio | Chief of Staff + Creative Director + Founding Engineer + Growth Engineer + 3D Prototyping + Image Gen + Game Designer + Designer + Audio Engineer + Intern + Ops |
-| [`marketing`](./marketing/) | Marketing | Chief of Staff + Data Scientist + GTM + Founding Engineer + Game Designer |
+| [`marketing`](./marketing/) | Marketing | Project Manager + Market Researcher + Product Marketer + Website Ops + Performance Marketer + Marketing Analyst |
 | [`marops`](./marops/) | MarOps | Chief of Staff + Data Scientist + GTM + Founding Engineer + Game Designer |
 | [`post-sales`](./post-sales/) | Post-Sales | Chief of Staff + Follow Ups + Your voice + Source of truth + Internal radar + One per account |
 | [`product`](./product/) | Product | Chief of Staff + Product + Data / Analyst + Designer + Recruiter |
