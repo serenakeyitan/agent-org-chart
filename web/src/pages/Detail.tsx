@@ -2,10 +2,33 @@ import { useState, useRef } from 'react'
 import type { Chart, Role } from '../types'
 import OrgChart from '../components/OrgChart'
 import RolePanel from '../components/RolePanel'
+import { getCreditInfo } from '../credits'
 
 interface DetailProps {
   chart: Chart
   onBack: () => void
+}
+
+function CreditLine({ chartId, roleCount }: { chartId: string; roleCount: number }) {
+  const credit = getCreditInfo(chartId)
+  return (
+    <p className="text-sm text-[var(--text-muted)]">
+      {credit.url ? (
+        <a
+          href={credit.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--accent)] hover:underline"
+        >
+          {credit.text}
+        </a>
+      ) : (
+        <span>{credit.text}</span>
+      )}
+      {credit.day && <span> · Day {credit.day}</span>}
+      <span> · {roleCount} roles</span>
+    </p>
+  )
 }
 
 export default function Detail({ chart, onBack }: DetailProps) {
@@ -50,6 +73,11 @@ export default function Detail({ chart, onBack }: DetailProps) {
   }
 
   const generateRoleInstruction = (role: Role): string => {
+    const credit = getCreditInfo(chart.id)
+    const creditLine = credit.url 
+      ? `Credit: ${credit.text} (${credit.url})`
+      : `Credit: ${credit.text}`
+
     const lines: string[] = [
       `# ${role.name}`,
       '',
@@ -75,6 +103,7 @@ export default function Detail({ chart, onBack }: DetailProps) {
     lines.push(
       '',
       '---',
+      creditLine,
       `Source: charts/${chart.id}/chart.json`,
       `Repository: https://github.com/serenakeyitan/agent-org-chart`
     )
@@ -88,6 +117,11 @@ export default function Detail({ chart, onBack }: DetailProps) {
   }
 
   const generateTeamInstruction = (): string => {
+    const credit = getCreditInfo(chart.id)
+    const creditLine = credit.url 
+      ? `Credit: ${credit.text} (${credit.url})`
+      : `Credit: ${credit.text}`
+
     const lines: string[] = [
       `# ${chart.title}`,
       '',
@@ -134,6 +168,7 @@ export default function Detail({ chart, onBack }: DetailProps) {
 
     lines.push(
       '---',
+      creditLine,
       `Source: charts/${chart.id}/chart.json`,
       `Repository: https://github.com/serenakeyitan/agent-org-chart`
     )
@@ -173,7 +208,7 @@ export default function Detail({ chart, onBack }: DetailProps) {
         </button>
         <div className="flex-1">
           <h1 className="text-lg font-medium text-[var(--text-primary)]">{chart.title}</h1>
-          <p className="text-sm text-[var(--text-muted)]">{chart.roles.length} roles</p>
+          <CreditLine chartId={chart.id} roleCount={chart.roles.length} />
         </div>
         <button
           onClick={handleCopyTeam}
