@@ -20,22 +20,22 @@
       "required": true
     },
     {
-      "id": "cto",
-      "name": "CTO",
+      "id": "data-scientist",
+      "name": "Data Scientist",
       "kind": "specialist",
       "reports_to": "chief-of-staff",
-      "summary": "Marketing strategy and campaigns.",
+      "summary": "Marketing analytics.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
       "required": true
     },
     {
-      "id": "data-scientist",
-      "name": "Data Scientist",
+      "id": "gtm",
+      "name": "GTM",
       "kind": "specialist",
       "reports_to": "chief-of-staff",
-      "summary": "Marketing analytics.",
+      "summary": "Go-to-market strategy.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],

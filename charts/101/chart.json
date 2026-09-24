@@ -9,8 +9,8 @@
   "principles": [],
   "roles": [
     {
-      "id": "comma-drafter",
-      "name": "Comma Drafter",
+      "id": "comms-drafter",
+      "name": "Comms Drafter",
       "kind": "specialist",
       "reports_to": null,
       "summary": "Drafts written content.",
@@ -33,6 +33,12 @@
   ],
   "channels": [],
   "handoffs": [],
+  "routines": [
+    {
+      "name": "Deck change summary",
+      "schedule": "Weekdays at 9:00 AM"
+    }
+  ],
   "spawn": {
     "prefer_current_agent_as": null,
     "reuse_matching_by_name": true,

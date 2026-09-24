@@ -1,4 +1,4 @@
-                    ┌─ CTO
-                    ├─ Data Scientist
+                    ┌─ Data Scientist
+                    ├─ GTM
 Chief of Staff ─────┼─ Founding Engineer
                     └─ Game Designer

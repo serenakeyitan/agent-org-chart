@@ -1,5 +1,10 @@
-               ┌─ Founding Engineer
-               ├─ 3D Prototyping
-Studio Lead ────┼─ Game Designer
-               ├─ Designer
-               └─ Audio Engineer
+                    ┌─ Creative Director
+                    ├─ Founding Engineer
+                    ├─ Growth Engineer
+                    ├─ 3D Prototyping
+                    ├─ Image Gen
+Chief of Staff ─────┼─ Game Designer
+                    ├─ Designer
+                    ├─ Audio Engineer
+                    ├─ Intern
+                    └─ Ops

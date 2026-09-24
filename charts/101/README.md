@@ -3,7 +3,7 @@
 Job titles from Galaxy Day 1 livestream sidebar.
 
 ```
-Comma Drafter
+Comms Drafter
 Slide Maker
 ```
 
@@ -11,8 +11,14 @@ All roles are peers — no orchestrator demonstrated on-stream.
 
 | Role | Kind |
 | --- | --- |
-| Comma Drafter | Specialist |
+| Comms Drafter | Specialist |
 | Slide Maker | Specialist |
+
+## Routines
+
+| Name | Schedule |
+| --- | --- |
+| Deck change summary | Weekdays at 9:00 AM |
 
 ## Import
 

@@ -20,6 +20,17 @@
       "required": true
     },
     {
+      "id": "creative-director",
+      "name": "Creative Director",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Creative direction and vision.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
       "id": "founding-engineer",
       "name": "Founding Engineer",
       "kind": "specialist",
@@ -31,11 +42,33 @@
       "required": true
     },
     {
+      "id": "growth-engineer",
+      "name": "Growth Engineer",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Growth and outreach engineering.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
       "id": "3d-prototyping",
       "name": "3D Prototyping",
       "kind": "specialist",
       "reports_to": "chief-of-staff",
       "summary": "3D modeling and asset creation.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "image-gen",
+      "name": "Image Gen",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Image generation.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
@@ -69,6 +102,28 @@
       "kind": "specialist",
       "reports_to": "chief-of-staff",
       "summary": "Audio, music, and sound effects.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "intern",
+      "name": "Intern",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Team support.",
+      "persona": "",
+      "in_scope": [],
+      "out_of_scope": [],
+      "required": true
+    },
+    {
+      "id": "ops",
+      "name": "Ops",
+      "kind": "specialist",
+      "reports_to": "chief-of-staff",
+      "summary": "Operations.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],

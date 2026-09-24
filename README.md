@@ -28,7 +28,7 @@ Portable org charts you can import on any agent platform with a spawn CLI. **Pic
 ## 101
 
 ```
-Comma Drafter
+Comms Drafter
 Slide Maker
 ```
 
@@ -93,14 +93,19 @@ Random
 
 ```
 Chief of Staff
+Creative Director
 Founding Engineer
+Growth Engineer
 3D Prototyping
+Image Gen
 Game Designer
 Designer
 Audio Engineer
+Intern
+Ops
 ```
 
-**Game studio** from Day 2: orchestrator + five specialists.
+**Game studio** from Day 2: orchestrator + ten specialists.
 
 **Import:** `Import game-studio from https://github.com/serenakeyitan/agent-org-chart`
 
@@ -112,8 +117,8 @@ Audio Engineer
 
 ```
 Chief of Staff
-CTO
 Data Scientist
+GTM
 Founding Engineer
 Game Designer
 ```
