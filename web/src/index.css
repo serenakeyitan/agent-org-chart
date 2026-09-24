@@ -1407,7 +1407,12 @@ code {
   align-items: center;
   justify-content: center;
   gap: 9px;
-  transition: opacity 0.35s var(--ease), transform 0.45s var(--ease);
+  transition: opacity 0.16s ease-out, transform 0.3s var(--ease);
+}
+
+.copy-btn.is-done .copy-btn__face--done,
+.copy-btn:not(.is-done) .copy-btn__face:not(.copy-btn__face--done) {
+  transition-delay: 0.14s;
 }
 
 .copy-btn__face--done {
