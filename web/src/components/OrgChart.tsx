@@ -7,10 +7,12 @@ interface OrgChartProps {
   roles: Role[]
   selectedRoleId: string | null
   onSelectRole: (role: Role | null) => void
+  /** When true the parent gives the chart a definite height and the drawing scales to fill it. */
+  fill?: boolean
 }
 
-const LABEL_W = 136
-const LABEL_GAP = 20
+const LABEL_W = 124
+const LABEL_GAP = 18
 const PAD_Y = 72
 const MIN_RADIAL = 112
 
@@ -24,22 +26,27 @@ function labelSide(node: LayoutNode, centerLabelAbove: boolean): Side {
   return c > 0 ? 'right' : 'left'
 }
 
-export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgChartProps) {
+export default function OrgChart({ roles, selectedRoleId, onSelectRole, fill = false }: OrgChartProps) {
   const stageRef = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState(0)
+  const [size, setSize] = useState({ width: 0, height: 0 })
+  const width = size.width
   const layout = useMemo(() => layoutChart(roles), [roles])
 
   useLayoutEffect(() => {
     const el = stageRef.current
     if (!el) return
-    setWidth(el.clientWidth)
-    const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width))
+    setSize({ width: el.clientWidth, height: el.clientHeight })
+    const ro = new ResizeObserver(([entry]) =>
+      setSize({ width: entry.contentRect.width, height: entry.contentRect.height })
+    )
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
 
-  const fit = (width - 2 * (LABEL_W + LABEL_GAP)) / 2
-  const radius = Math.min(fit, 236, 120 + 14 * roles.length)
+  const fillHeight = fill && size.height > 0 ? size.height : 0
+  const widthFit = (width - 2 * (LABEL_W + LABEL_GAP)) / 2
+  const heightFit = fillHeight ? (fillHeight - 2 * PAD_Y) / 2 : 250
+  const radius = Math.min(widthFit, heightFit, 290)
 
   // Put the lead's label on whichever side (above or below) its reporting lines leave more room.
   const centerLabelAbove = useMemo(() => {
@@ -70,7 +77,7 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
   }
 
   return (
-    <div ref={stageRef} className="chart-measure">
+    <div ref={stageRef} className={`chart-measure ${fill ? 'chart-measure--fill' : ''}`}>
       {radial ? renderRadial() : renderList()}
     </div>
   )
@@ -104,9 +111,18 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
   }
 
   function renderRadial() {
-    const height = Math.max(radius, 0) * 2 + PAD_Y * 2
+    const height = fillHeight || Math.max(radius, 0) * 2 + PAD_Y * 2
     const cx = width / 2
     const cy = height / 2
+    const outer = radius * layout.rings[layout.rings.length - 1]
+    let ticks = ''
+    for (let k = 0; k < 72; k++) {
+      const a = (k / 72) * Math.PI * 2
+      const len = k % 6 === 0 ? 9 : 4
+      const c = Math.cos(a)
+      const sn = Math.sin(a)
+      ticks += `M${cx + c * (outer - len / 2)} ${cy + sn * (outer - len / 2)}L${cx + c * (outer + len / 2)} ${cy + sn * (outer + len / 2)}`
+    }
     const pos = new Map(layout.nodes.map(n => [n.role.id, { x: cx + n.x * radius, y: cy + n.y * radius }]))
 
     return (
@@ -118,6 +134,26 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
         {width > 0 && (
           <>
             <svg className="chart-lines" width={width} height={height} aria-hidden="true">
+              <path d={ticks} className="bezel" />
+              <circle cx={cx} cy={cy} r={outer * 0.5} className="guide" />
+              {layout.hub === 'peers' &&
+                layout.nodes.flatMap((a, i) =>
+                  layout.nodes.slice(i + 1).map(b => {
+                    const pa = pos.get(a.role.id)!
+                    const pb = pos.get(b.role.id)!
+                    const lit = selectedRoleId === a.role.id || selectedRoleId === b.role.id
+                    return (
+                      <line
+                        key={`${a.role.id}~${b.role.id}`}
+                        x1={pa.x}
+                        y1={pa.y}
+                        x2={pb.x}
+                        y2={pb.y}
+                        className={`chord ${selectedRoleId ? (lit ? 'is-active' : 'is-faded') : ''}`}
+                      />
+                    )
+                  })
+                )}
               {layout.rings.map((r, i) => (
                 <circle
                   key={r}

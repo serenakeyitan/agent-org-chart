@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ChartIndex } from '../types'
-import { armyOwner, plateLabel, toPlates, type Plate } from '../lib/catalog'
+import { armyOwner, composition, plateLabel, toPlates, type Plate } from '../lib/catalog'
 import Constellation from '../components/Constellation'
 import SiteHeader from '../components/SiteHeader'
 
@@ -18,20 +18,64 @@ export default function Home({ charts, onPrefetch }: HomeProps) {
   }, [])
   const plates = toPlates(charts)
   const rooms = groupByDay(plates)
+  const totalBots = charts.reduce((sum, c) => sum + c.roleCount, 0)
+  const days = rooms.filter(r => r.day !== null).length
+  const featured = plates.reduce<Plate | null>(
+    (best, p) => (!best || p.chart.roleCount > best.chart.roleCount ? p : best),
+    null
+  )
 
   return (
     <div className={`page ${returning ? 'is-returning' : ''}`}>
       <SiteHeader />
 
       <section className="intro">
-        <p className="eyebrow">An illustrated catalog · 图鉴</p>
-        <h1 className="intro__title">
-          A field guide to <em>agent armies.</em>
-        </h1>
-        <p className="intro__lede">
-          <span className="cjk">复刻</span> notable agent teams, one plate at a time. Starting with the Grok Bot
-          workflows shown at the Galaxy livestream — study the shape, then copy a single bot or the whole army.
-        </p>
+        <div className="intro__text">
+          <p className="eyebrow">An illustrated catalog · 图鉴</p>
+          <h1 className="intro__title">
+            A field guide to <em>agent armies.</em>
+          </h1>
+          <p className="intro__lede">
+            <span className="cjk">复刻</span> notable agent teams, one plate at a time. Starting with the Grok Bot
+            workflows shown at the Galaxy livestream — study the shape, then copy a single bot or the whole army.
+          </p>
+          <dl className="stats">
+            <div>
+              <dt>Armies</dt>
+              <dd>{charts.length}</dd>
+            </div>
+            <div>
+              <dt>Bots</dt>
+              <dd>{totalBots}</dd>
+            </div>
+            {days > 0 && (
+              <div>
+                <dt>Livestream days</dt>
+                <dd>{days}</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        {featured && (
+          <a
+            href={`#/${featured.chart.id}`}
+            className="frontispiece"
+            onPointerEnter={() => onPrefetch(featured.chart.id)}
+            onFocus={() => onPrefetch(featured.chart.id)}
+          >
+            <span className="frontispiece__art">
+              <Constellation shape={featured.chart.shape} />
+            </span>
+            <span className="frontispiece__caption">
+              <span className="frontispiece__label">Frontispiece · {plateLabel(featured.number)}</span>
+              <span className="frontispiece__title">{featured.chart.title}</span>
+              <span className="frontispiece__meta">
+                The largest army in the catalog — {composition(featured.chart.shape)}
+              </span>
+            </span>
+          </a>
+        )}
       </section>
 
       {rooms.map(room => (
@@ -103,6 +147,7 @@ function PlateCard({ plate, onPrefetch }: { plate: Plate; onPrefetch: (id: strin
         <p className="plate__meta">
           {chart.roleCount} {chart.roleCount === 1 ? 'bot' : 'bots'}
         </p>
+        <p className="plate__composition">{composition(chart.shape)}</p>
       </div>
     </article>
   )
