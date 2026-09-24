@@ -1,284 +1,119 @@
-import { useState, useRef } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import type { Chart, Role } from '../types'
 import OrgChart from '../components/OrgChart'
 import RolePanel from '../components/RolePanel'
+import CopyButton from '../components/CopyButton'
+import SiteHeader from '../components/SiteHeader'
+import { armyOwner, composition, plateLabel } from '../lib/catalog'
+import { armyInstruction } from '../lib/instructions'
 import { getCreditInfo } from '../credits'
 
 interface DetailProps {
   chart: Chart
-  onBack: () => void
+  plateNumber: number | null
+  selectedRoleId: string | null
+  onSelectRole: (role: Role | null) => void
 }
 
-function CreditLine({ chartId, roleCount }: { chartId: string; roleCount: number }) {
-  const credit = getCreditInfo(chartId)
-  const armyOwner = credit.url && credit.text.startsWith('@') 
-    ? credit.text 
-    : credit.org || 'this team'
-  
-  return (
-    <p className="text-sm text-[var(--text-muted)]">
-      <span>Replicate </span>
-      {credit.url ? (
-        <a
-          href={credit.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[var(--accent)] hover:underline"
-        >
-          {armyOwner}'s
-        </a>
-      ) : (
-        <span className="text-[var(--text-primary)]">{armyOwner}'s</span>
-      )}
-      <span> army · {roleCount} bots</span>
-      {credit.day && <span> · Day {credit.day}</span>}
-    </p>
+const WIDE_QUERY = '(min-width: 1021px)'
+
+function useWideLayout(): boolean {
+  return useSyncExternalStore(
+    onChange => {
+      const mql = window.matchMedia(WIDE_QUERY)
+      mql.addEventListener('change', onChange)
+      return () => mql.removeEventListener('change', onChange)
+    },
+    () => window.matchMedia(WIDE_QUERY).matches
   )
 }
 
-export default function Detail({ chart, onBack }: DetailProps) {
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null)
-  const toastRef = useRef<HTMLDivElement>(null)
+export default function Detail({ chart, plateNumber, selectedRoleId, onSelectRole }: DetailProps) {
+  const selectedRole = chart.roles.find(r => r.id === selectedRoleId) ?? null
+  const owner = armyOwner(chart.id)
+  const day = getCreditInfo(chart.id).day
+  const wide = useWideLayout()
+  const numeral = plateNumber !== null ? String(plateNumber).padStart(2, '0') : null
 
-  const showToast = (message: string) => {
-    if (toastRef.current) {
-      toastRef.current.textContent = `✓ ${message}`
-      toastRef.current.style.backgroundColor = '#059669'
-      toastRef.current.style.opacity = '1'
-      toastRef.current.style.transform = 'translateX(-50%) translateY(0)'
-      
-      setTimeout(() => {
-        if (toastRef.current) {
-          toastRef.current.style.opacity = '0'
-          toastRef.current.style.transform = 'translateX(-50%) translateY(1rem)'
-        }
-      }, 2000)
-    }
-  }
-
-  const handleCopy = (text: string, label: string) => {
-    showToast(label)
-    
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).catch(err => console.error('Clipboard error:', err))
-      } else {
-        const textArea = document.createElement('textarea')
-        textArea.value = text
-        textArea.style.position = 'fixed'
-        textArea.style.left = '-999999px'
-        document.body.appendChild(textArea)
-        textArea.select()
-        document.execCommand('copy')
-        document.body.removeChild(textArea)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.key === 'Escape' && selectedRoleId) {
+        onSelectRole(null)
+        return
       }
-    } catch (err) {
-      console.error('Failed to copy:', err)
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      const target = e.target as HTMLElement | null
+      if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
+      e.preventDefault()
+      const i = chart.roles.findIndex(r => r.id === selectedRoleId)
+      const step = e.key === 'ArrowRight' ? 1 : -1
+      const next =
+        i === -1 ? (step === 1 ? 0 : chart.roles.length - 1) : (i + step + chart.roles.length) % chart.roles.length
+      onSelectRole(chart.roles[next])
     }
-  }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [chart, selectedRoleId, onSelectRole])
 
-  const generateRoleInstruction = (role: Role): string => {
-    const credit = getCreditInfo(chart.id)
-    const armyOwner = credit.url && credit.text.startsWith('@') 
-      ? credit.text 
-      : credit.org || 'Grok Bot'
-    const creditLine = credit.url 
-      ? `Credit: ${credit.text} (${credit.url})`
-      : `Credit: ${credit.text}`
-
-    const lines: string[] = [
-      `# ${role.name}`,
-      `> 复刻 ${armyOwner}'s ${chart.title} agent army`,
-      '',
-      `**Role:** ${role.name}`,
-      `**Kind:** ${role.kind}`,
-      `**Summary:** ${role.summary}`,
-    ]
-
-    if (role.persona) {
-      lines.push('', `**Persona:**`, role.persona)
-    }
-
-    if (role.in_scope.length > 0) {
-      lines.push('', `**In Scope:**`)
-      role.in_scope.forEach(item => lines.push(`- ${item}`))
-    }
-
-    if (role.out_of_scope.length > 0) {
-      lines.push('', `**Out of Scope:**`)
-      role.out_of_scope.forEach(item => lines.push(`- ${item}`))
-    }
-
-    lines.push(
-      '',
-      '---',
-      creditLine,
-      `Source: charts/${chart.id}/chart.json`,
-      `Repository: https://github.com/serenakeyitan/agent-org-chart`
-    )
-
-    if (chart.sources && chart.sources.length > 0) {
-      lines.push('', 'Source URLs:')
-      chart.sources.forEach(url => lines.push(`- ${url}`))
-    }
-
-    return lines.join('\n')
-  }
-
-  const generateTeamInstruction = (): string => {
-    const credit = getCreditInfo(chart.id)
-    const armyOwner = credit.url && credit.text.startsWith('@') 
-      ? credit.text 
-      : credit.org || 'Grok Bot'
-    const creditLine = credit.url 
-      ? `Credit: ${credit.text} (${credit.url})`
-      : `Credit: ${credit.text}`
-
-    const lines: string[] = [
-      `# ${chart.title}`,
-      `> 复刻 ${armyOwner}'s agent army`,
-      '',
-      `**Summary:** ${chart.summary}`,
-      '',
-      `## Army Structure (${chart.roles.length} bots)`,
-      ''
-    ]
-
-    const orchestrator = chart.roles.find(r => r.kind === 'orchestrator')
-    const specialists = chart.roles.filter(r => r.kind !== 'orchestrator')
-
-    if (orchestrator) {
-      lines.push(`### ${orchestrator.name} (Orchestrator)`)
-      lines.push(orchestrator.summary)
-      lines.push('')
-    }
-
-    if (specialists.length > 0) {
-      lines.push('### Specialists')
-      specialists.forEach(role => {
-        lines.push(`- **${role.name}:** ${role.summary}`)
-      })
-      lines.push('')
-    }
-
-    if (chart.routines && chart.routines.length > 0) {
-      lines.push('## Routines')
-      chart.routines.forEach(routine => {
-        lines.push(`- **${routine.name}:** ${routine.schedule}`)
-      })
-      lines.push('')
-    }
-
-    if (chart.handoffs && chart.handoffs.length > 0) {
-      lines.push('## Handoffs')
-      chart.handoffs.forEach(handoff => {
-        const from = chart.roles.find(r => r.id === handoff.from_role_id)?.name || handoff.from_role_id
-        const to = chart.roles.find(r => r.id === handoff.to_role_id)?.name || handoff.to_role_id
-        lines.push(`- ${from} → ${to}: ${handoff.when}`)
-      })
-      lines.push('')
-    }
-
-    lines.push(
-      '---',
-      creditLine,
-      `Source: charts/${chart.id}/chart.json`,
-      `Repository: https://github.com/serenakeyitan/agent-org-chart`
-    )
-
-    if (chart.sources && chart.sources.length > 0) {
-      lines.push('', 'Source URLs:')
-      chart.sources.forEach(url => lines.push(`- ${url}`))
-    }
-
-    return lines.join('\n')
-  }
-
-  const handleCopyRole = () => {
-    if (selectedRole) {
-      handleCopy(generateRoleInstruction(selectedRole), 'Copied role')
-    }
-  }
-
-  const handleCopyTeam = () => {
-    handleCopy(generateTeamInstruction(), 'Copied army')
-  }
+  const ownerNode = owner.url ? (
+    <a href={owner.url} target="_blank" rel="noopener noreferrer" className="text-link">
+      {owner.label}
+    </a>
+  ) : (
+    <span className="study__owner">{owner.label}</span>
+  )
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-[var(--bg-card)] border-b border-[var(--border)] px-4 py-3 flex items-center gap-4">
-        <button
-          onClick={onBack}
-          className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors
-                     focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2
-                     focus:ring-offset-[var(--bg-card)] rounded p-1"
-          aria-label="Back to charts"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <div className="flex-1">
-          <h1 className="text-lg font-medium text-[var(--text-primary)]">{chart.title}</h1>
-          <CreditLine chartId={chart.id} roleCount={chart.roles.length} />
-        </div>
-        <button
-          onClick={handleCopyTeam}
-          className="text-sm bg-[var(--bg-panel)] hover:bg-[var(--highlight)] text-[var(--text-primary)]
-                     px-4 py-2 rounded-lg border border-[var(--border)] hover:border-[var(--accent)]
-                     transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-        >
-          Copy this army
-        </button>
-      </header>
+    <div className="page page--wide">
+      <SiteHeader back />
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col lg:flex-row">
-        {/* Org chart area */}
-        <div className="flex-1 p-4 md:p-8 overflow-auto">
-          <OrgChart 
+      <div className="study">
+        <figure className="artboard study__art">
+          {numeral && (
+            <span className="artboard__numeral" aria-hidden="true">
+              {numeral}
+            </span>
+          )}
+          <OrgChart
+            key={chart.id}
             roles={chart.roles}
-            selectedRoleId={selectedRole?.id || null}
-            onSelectRole={setSelectedRole}
+            selectedRoleId={selectedRoleId}
+            onSelectRole={onSelectRole}
+            fill={wide}
           />
-        </div>
+          <figcaption className="artboard__caption">
+            <span>
+              {numeral && <em>Plate {numeral}</em>} — {chart.title}, {composition(chart.roles)}
+            </span>
+            <span className="artboard__hint">
+              {selectedRole ? 'Esc to clear · ← → to browse' : 'Select a bot · ← → to browse'}
+            </span>
+          </figcaption>
+        </figure>
 
-        {/* Side panel */}
-        <aside className="lg:w-96 bg-[var(--bg-card)] border-t lg:border-t-0 lg:border-l border-[var(--border)]">
-          <RolePanel 
-            role={selectedRole}
-            chartId={chart.id}
-            onCopy={handleCopyRole}
-          />
+        <header className="study__heading">
+          <p className="eyebrow">
+            {plateNumber !== null && <span>{plateLabel(plateNumber)}</span>}
+            {plateNumber !== null && day && <span className="eyebrow__sep" aria-hidden="true" />}
+            {day && <span>Galaxy Day {day}</span>}
+          </p>
+          <h1 className="study__title">{chart.title}</h1>
+          <p className="study__credit">
+            <span className="cjk">复刻</span> {ownerNode} <span className="cjk">的</span> agent army
+          </p>
+          <p className="study__credit-en">
+            Replicate {owner.label}’s army · {chart.roles.length} {chart.roles.length === 1 ? 'bot' : 'bots'}
+          </p>
+          <div className="study__actions">
+            <CopyButton label="Copy this army" variant="quiet" getText={() => armyInstruction(chart)} />
+          </div>
+        </header>
+
+        <aside className="study__panel" aria-label="Role details">
+          <RolePanel chart={chart} role={selectedRole} onSelectRole={onSelectRole} />
         </aside>
       </div>
-
-      {/* Copy feedback toast */}
-      <div 
-        ref={toastRef}
-        style={{
-          position: 'fixed',
-          bottom: '80px',
-          left: '50%',
-          transform: 'translateX(-50%) translateY(1rem)',
-          opacity: 0,
-          zIndex: 99999,
-          padding: '16px 32px',
-          borderRadius: '8px',
-          backgroundColor: '#059669',
-          color: 'white',
-          minWidth: '200px',
-          textAlign: 'center' as const,
-          fontSize: '16px',
-          fontWeight: 600,
-          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-          transition: 'all 0.3s ease',
-          pointerEvents: 'none' as const
-        }}
-        role="alert"
-        aria-live="assertive"
-      />
     </div>
   )
 }

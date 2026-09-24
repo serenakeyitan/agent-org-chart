@@ -4,12 +4,13 @@ An interactive catalog for browsing the org charts in this repository.
 
 ## Features
 
-- **Home**: Card grid showing all available charts with title, role count, and source attribution
-- **Detail**: Interactive org chart visualization with click-to-select role nodes
-- **Side Panel**: View role details including name, kind, summary, persona, in_scope, and out_of_scope
+- **Home**: Plates grouped by Galaxy day, each with a miniature of the army's shape, role count, and credit
+- **Detail**: Radial org chart (lead at the center, reports on an orbit, peers sharing a ring); click a node to select it and dim the rest. `←`/`→` browse, `Esc` clears. Narrow screens get a vertical tree.
+- **Side Panel**: Army overview (summary, legend, routines, sources) or the selected role's brief: kind, summary, reporting lines, persona, in_scope, out_of_scope
 - **Copy Actions**:
   - "Copy this bot" — copies selected role instruction with grounded metadata
-  - "Copy whole team" — copies full team instruction including all roles, routines, and handoffs
+  - "Copy this army" — copies full army instruction including all roles, routines, and handoffs
+- **Links**: `#/<chart-id>` and `#/<chart-id>/<role-id>` are shareable
 
 ## Development
 

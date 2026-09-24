@@ -1,125 +1,191 @@
-import type { Role } from '../types'
+import type { Chart, Role } from '../types'
+import { kindLabel } from '../lib/catalog'
+import { roleInstruction } from '../lib/instructions'
+import CopyButton from './CopyButton'
 
 interface RolePanelProps {
+  chart: Chart
   role: Role | null
-  chartId: string
-  onCopy: () => void
+  onSelectRole: (role: Role | null) => void
 }
 
-export default function RolePanel({ role, chartId, onCopy }: RolePanelProps) {
-  if (!role) {
-    return (
-      <div className="p-6 flex items-center justify-center h-full min-h-[200px] lg:min-h-0">
-        <p className="text-[var(--text-muted)] text-center">
-          Select a role to view details
-        </p>
-      </div>
-    )
-  }
-
-  const kindLabel: Record<string, string> = {
-    orchestrator: 'Orchestrator',
-    specialist: 'Specialist',
-    optional_peer: 'Optional Peer'
-  }
-
-  const kindBadgeColor: Record<string, string> = {
-    orchestrator: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-    specialist: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
-    optional_peer: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300'
-  }
-
+export default function RolePanel({ chart, role, onSelectRole }: RolePanelProps) {
   return (
-    <div className="p-5 flex flex-col h-full">
-      {/* Header */}
-      <div className="mb-4 pb-4 border-b border-[var(--border)]">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <h2 className="text-xl font-medium text-[var(--text-primary)]">
-            {role.name}
-          </h2>
-          <span className={`shrink-0 text-xs font-medium px-2.5 py-1 rounded-full ${kindBadgeColor[role.kind]}`}>
-            {kindLabel[role.kind]}
-          </span>
-        </div>
-        {role.title && (
-          <p className="text-sm text-[var(--text-secondary)]">{role.title}</p>
-        )}
-      </div>
-
-      {/* Summary */}
-      <div className="mb-4">
-        <h3 className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mb-2">
-          Summary
-        </h3>
-        <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
-          {role.summary}
-        </p>
-      </div>
-
-      {/* Persona */}
-      {role.persona && (
-        <div className="mb-4">
-          <h3 className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mb-2">
-            Persona
-          </h3>
-          <p className="text-[var(--text-secondary)] text-sm leading-relaxed whitespace-pre-wrap">
-            {role.persona}
-          </p>
-        </div>
-      )}
-
-      {/* In Scope */}
-      {role.in_scope.length > 0 && (
-        <div className="mb-4">
-          <h3 className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mb-2">
-            In Scope
-          </h3>
-          <ul className="space-y-1.5">
-            {role.in_scope.map((item, i) => (
-              <li key={i} className="text-sm text-[var(--text-secondary)] flex items-start gap-2">
-                <span className="text-[var(--accent)] mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Out of Scope */}
-      {role.out_of_scope.length > 0 && (
-        <div className="mb-4">
-          <h3 className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mb-2">
-            Out of Scope
-          </h3>
-          <ul className="space-y-1.5">
-            {role.out_of_scope.map((item, i) => (
-              <li key={i} className="text-sm text-[var(--text-secondary)] flex items-start gap-2">
-                <span className="text-red-400 mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Spacer */}
-      <div className="flex-1" />
-
-      {/* Copy button */}
-      <div className="pt-4 border-t border-[var(--border)]">
-        <button
-          onClick={onCopy}
-          className="w-full bg-[var(--accent)] hover:bg-[var(--accent-light)] text-white
-                     px-4 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200
-                     focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2
-                     focus:ring-offset-[var(--bg-card)]"
-        >
-          Copy this bot
-        </button>
-        <p className="text-xs text-[var(--text-muted)] text-center mt-2">
-          charts/{chartId}/chart.json
-        </p>
+    <div className="panel">
+      <div key={role?.id ?? '__overview'} className="panel__body">
+        {role ? <RoleBrief chart={chart} role={role} onSelectRole={onSelectRole} /> : <Overview chart={chart} />}
       </div>
     </div>
   )
+}
+
+function Overview({ chart }: { chart: Chart }) {
+  const kinds = Array.from(new Set(chart.roles.map(r => r.kind)))
+  return (
+    <>
+      <p className="eyebrow">About this army</p>
+      <p className="panel__lead">{chart.summary}</p>
+
+      <p className="panel__hint">
+        <span className="panel__hint-dot" aria-hidden="true" />
+        Select a bot on the plate to read its brief.
+      </p>
+
+      <Section title="Legend">
+        <ul className="legend">
+          {kinds.map(k => (
+            <li key={k} className={`node--${k}`}>
+              <span className="node__dot" aria-hidden="true" />
+              {kindLabel[k]}
+              <span className="legend__count">{chart.roles.filter(r => r.kind === k).length}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {chart.routines && chart.routines.length > 0 && (
+        <Section title="Routines">
+          <dl className="routines">
+            {chart.routines.map(r => (
+              <div key={r.name}>
+                <dt>{r.name}</dt>
+                <dd>{r.schedule}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+      )}
+
+      {chart.sources && chart.sources.length > 0 && (
+        <Section title="Source">
+          <ul className="sources">
+            {chart.sources.map(url => (
+              <li key={url}>
+                <a href={url} target="_blank" rel="noopener noreferrer" className="text-link">
+                  {prettyUrl(url)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+    </>
+  )
+}
+
+function RoleBrief({ chart, role, onSelectRole }: { chart: Chart; role: Role; onSelectRole: (r: Role | null) => void }) {
+  const lead = role.reports_to ? chart.roles.find(r => r.id === role.reports_to) : undefined
+  const reports = chart.roles.filter(r => r.reports_to === role.id)
+  const peers = !lead && reports.length === 0 ? chart.roles.filter(r => r.id !== role.id && !r.reports_to) : []
+
+  return (
+    <>
+      <p className={`eyebrow eyebrow--kind node--${role.kind}`}>
+        <span className="node__dot" aria-hidden="true" />
+        {kindLabel[role.kind]}
+      </p>
+      <h2 className="panel__title">{role.name}</h2>
+      {role.title && <p className="panel__subtitle">{role.title}</p>}
+      <p className="panel__lead">{role.summary}</p>
+
+      {(lead || reports.length > 0 || peers.length > 0) && (
+        <dl className="relations">
+          {lead && (
+            <div>
+              <dt>Reports to</dt>
+              <dd>
+                <RoleLink role={lead} onSelectRole={onSelectRole} />
+              </dd>
+            </div>
+          )}
+          {reports.length > 0 && (
+            <div>
+              <dt>Leads</dt>
+              <dd>
+                {reports.map((r, i) => (
+                  <span key={r.id}>
+                    <RoleLink role={r} onSelectRole={onSelectRole} />
+                    {i < reports.length - 1 && <span className="relations__sep">, </span>}
+                  </span>
+                ))}
+              </dd>
+            </div>
+          )}
+          {peers.length > 0 && (
+            <div>
+              <dt>Alongside</dt>
+              <dd>
+                {peers.map((r, i) => (
+                  <span key={r.id}>
+                    <RoleLink role={r} onSelectRole={onSelectRole} />
+                    {i < peers.length - 1 && <span className="relations__sep">, </span>}
+                  </span>
+                ))}
+              </dd>
+            </div>
+          )}
+        </dl>
+      )}
+
+      {role.persona && (
+        <Section title="Persona">
+          <p className="panel__persona">{role.persona}</p>
+        </Section>
+      )}
+
+      {role.in_scope.length > 0 && (
+        <Section title="In scope">
+          <ul className="scope">
+            {role.in_scope.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {role.out_of_scope.length > 0 && (
+        <Section title="Out of scope">
+          <ul className="scope scope--out">
+            {role.out_of_scope.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      <div className="panel__actions">
+        <CopyButton label="Copy this bot" getText={() => roleInstruction(chart, role)} />
+        <p className="panel__note">
+          A Markdown brief from <code>charts/{chart.id}/chart.json</code>
+        </p>
+      </div>
+    </>
+  )
+}
+
+function RoleLink({ role, onSelectRole }: { role: Role; onSelectRole: (r: Role | null) => void }) {
+  return (
+    <button type="button" className="text-link" onClick={() => onSelectRole(role)}>
+      {role.name}
+    </button>
+  )
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="panel__section">
+      <h3 className="eyebrow">{title}</h3>
+      {children}
+    </section>
+  )
+}
+
+function prettyUrl(url: string): string {
+  try {
+    const u = new URL(url)
+    if (u.hostname === 'x.com' && u.pathname.includes('/broadcasts/')) return 'Livestream on X'
+    return u.hostname.replace(/^www\./, '') + (u.pathname === '/' ? '' : u.pathname)
+  } catch {
+    return url
+  }
 }
