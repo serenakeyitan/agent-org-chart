@@ -1,11 +1,11 @@
 # Marketing
 
-Job titles from Galaxy Day 3 livestream standup UI.
+Job titles from Galaxy Day 3 livestream sidebar.
 
 ```
 Chief of Staff
-CTO
 Data Scientist
+GTM
 Founding Engineer
 Game Designer
 ```
@@ -13,8 +13,8 @@ Game Designer
 | Role | Kind |
 | --- | --- |
 | Chief of Staff | Orchestrator |
-| CTO | Specialist |
 | Data Scientist | Specialist |
+| GTM | Specialist |
 | Founding Engineer | Specialist |
 | Game Designer | Specialist |
 

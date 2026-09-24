@@ -9,8 +9,8 @@
   "principles": [],
   "roles": [
     {
-      "id": "comma-drafter",
-      "name": "Comma Drafter",
+      "id": "comms-drafter",
+      "name": "Comms Drafter",
       "kind": "specialist",
       "reports_to": null,
       "summary": "Drafts written content.",
@@ -28,7 +28,13 @@
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
-      "required": true
+      "required": true,
+      "routines": [
+        {
+          "name": "Deck change summary",
+          "schedule": "Weekdays at 9:00 AM"
+        }
+      ]
     }
   ],
   "channels": [],
