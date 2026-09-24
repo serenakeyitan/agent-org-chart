@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import type { Chart, Role } from '../types'
 import OrgChart from '../components/OrgChart'
 import RolePanel from '../components/RolePanel'
@@ -10,17 +10,44 @@ interface DetailProps {
 
 export default function Detail({ chart, onBack }: DetailProps) {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
-  const [copyFeedback, setCopyFeedback] = useState<string | null>(null)
+  const toastRef = useRef<HTMLDivElement>(null)
 
-  const handleCopy = useCallback(async (text: string, label: string) => {
+  const showToast = (message: string) => {
+    if (toastRef.current) {
+      toastRef.current.textContent = `✓ ${message}`
+      toastRef.current.style.backgroundColor = '#059669'
+      toastRef.current.style.opacity = '1'
+      toastRef.current.style.transform = 'translateX(-50%) translateY(0)'
+      
+      setTimeout(() => {
+        if (toastRef.current) {
+          toastRef.current.style.opacity = '0'
+          toastRef.current.style.transform = 'translateX(-50%) translateY(1rem)'
+        }
+      }, 2000)
+    }
+  }
+
+  const handleCopy = (text: string, label: string) => {
+    showToast(label)
+    
     try {
-      await navigator.clipboard.writeText(text)
-      setCopyFeedback(label)
-      setTimeout(() => setCopyFeedback(null), 2000)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(err => console.error('Clipboard error:', err))
+      } else {
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+      }
     } catch (err) {
       console.error('Failed to copy:', err)
     }
-  }, [])
+  }
 
   const generateRoleInstruction = (role: Role): string => {
     const lines: string[] = [
@@ -180,12 +207,30 @@ export default function Detail({ chart, onBack }: DetailProps) {
       </div>
 
       {/* Copy feedback toast */}
-      {copyFeedback && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-[var(--text-primary)] text-[var(--bg-primary)]
-                        px-5 py-2.5 rounded-lg text-sm font-medium shadow-xl copy-feedback">
-          ✓ {copyFeedback}
-        </div>
-      )}
+      <div 
+        ref={toastRef}
+        style={{
+          position: 'fixed',
+          bottom: '80px',
+          left: '50%',
+          transform: 'translateX(-50%) translateY(1rem)',
+          opacity: 0,
+          zIndex: 99999,
+          padding: '16px 32px',
+          borderRadius: '8px',
+          backgroundColor: '#059669',
+          color: 'white',
+          minWidth: '200px',
+          textAlign: 'center' as const,
+          fontSize: '16px',
+          fontWeight: 600,
+          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          pointerEvents: 'none' as const
+        }}
+        role="alert"
+        aria-live="assertive"
+      />
     </div>
   )
 }
