@@ -9,10 +9,16 @@ Slide Maker
 
 All roles are peers — no orchestrator demonstrated on-stream.
 
-| Role | Kind | Routines |
-| --- | --- | --- |
-| Comms Drafter | Specialist | |
-| Slide Maker | Specialist | Deck change summary (Weekdays at 9:00 AM) |
+| Role | Kind |
+| --- | --- |
+| Comms Drafter | Specialist |
+| Slide Maker | Specialist |
+
+## Routines
+
+| Name | Schedule |
+| --- | --- |
+| Deck change summary | Weekdays at 9:00 AM |
 
 ## Import
 

@@ -28,17 +28,17 @@
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
-      "required": true,
-      "routines": [
-        {
-          "name": "Deck change summary",
-          "schedule": "Weekdays at 9:00 AM"
-        }
-      ]
+      "required": true
     }
   ],
   "channels": [],
   "handoffs": [],
+  "routines": [
+    {
+      "name": "Deck change summary",
+      "schedule": "Weekdays at 9:00 AM"
+    }
+  ],
   "spawn": {
     "prefer_current_agent_as": null,
     "reuse_matching_by_name": true,
