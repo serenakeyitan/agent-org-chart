@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --bg-primary: #fafafa;
+  --bg-card: #ffffff;
+  --bg-panel: #f5f5f5;
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-muted: #a3a3a3;
+  --border: #e5e5e5;
+  --highlight: rgba(99, 102, 241, 0.12);
+  --dim: 0.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #818cf8;
+    --accent-light: #a5b4fc;
+    --bg-primary: #0a0a0a;
+    --bg-card: #171717;
+    --bg-panel: #1c1c1c;
+    --text-primary: #fafafa;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --border: #2d2d2d;
+    --highlight: rgba(129, 140, 248, 0.15);
+  }
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.role-node {
+  transition: all 0.25s ease;
+}
+
+.role-node.dimmed {
+  opacity: var(--dim);
+}
+
+.role-node.selected {
+  transform: scale(1.02);
+}
+
+.copy-feedback {
+  animation: fadeInOut 2s ease-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+}
