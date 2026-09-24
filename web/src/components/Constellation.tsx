@@ -9,7 +9,7 @@ export default function Constellation({ shape }: { shape: RoleShape[] }) {
   const pos = new Map(layout.nodes.map(n => [n.role.id, n]))
 
   return (
-    <svg className="constellation" viewBox="-1.6 -1.2 3.2 2.4" role="img" aria-hidden="true">
+    <svg className="constellation" viewBox="-1.5 -1.125 3 2.25" role="img" aria-hidden="true">
       <g className="constellation__rotor">
         {layout.rings.map(r => (
           <circle

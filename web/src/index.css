@@ -283,8 +283,8 @@ code {
 
 .plates {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-  gap: 48px 32px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 244px), 1fr));
+  gap: 44px 28px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -422,10 +422,46 @@ code {
   margin: 0;
 }
 
+@media (max-width: 600px) {
+  .plates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 14px;
+  }
+
+  .plate {
+    padding: 8px;
+  }
+
+  .plate__art::after {
+    inset: 6px;
+  }
+
+  .plate__caption {
+    padding: 14px 4px 4px;
+  }
+
+  .plate__meta {
+    display: none;
+  }
+
+  .plate__title {
+    font-size: 23px;
+  }
+
+  .plate__credit {
+    font-size: 12.5px;
+  }
+}
+
+.is-returning .intro,
+.is-returning .plates > li {
+  animation: none;
+}
+
 /* Card miniature */
 
 .constellation {
-  width: 84%;
+  width: 92%;
   height: auto;
   overflow: visible;
 }
@@ -496,15 +532,15 @@ code {
   align-items: flex-end;
   justify-content: space-between;
   gap: 28px 40px;
-  padding: clamp(36px, 6vw, 80px) 0 clamp(32px, 4vw, 52px);
+  padding: clamp(24px, 4vw, 48px) 0 clamp(28px, 3.5vw, 44px);
   animation: rise 0.9s var(--ease) both;
 }
 
 .study__title {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(56px, 8.4vw, 116px);
+  font-size: clamp(52px, 7vw, 96px);
   line-height: 0.92;
   letter-spacing: -0.025em;
 }
@@ -697,8 +733,10 @@ code {
 
 .node {
   position: absolute;
-  width: 0;
-  height: 0;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
   padding: 0;
   border: 0;
   background: none;
@@ -708,24 +746,14 @@ code {
   transition: opacity 0.6s var(--ease), filter 0.6s var(--ease);
 }
 
-.node::before {
-  content: '';
-  position: absolute;
-  left: -22px;
-  top: -22px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-}
-
 .node:focus-visible {
   outline: none;
 }
 
 .node .node__dot {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
   margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
   animation: pop 0.8s var(--ease) both;
   animation-delay: calc(var(--i, 0) * 55ms + 0.2s);
@@ -810,45 +838,59 @@ code {
 
 .label--bottom .node__label,
 .label--center .node__label {
-  top: 20px;
-  left: 0;
+  top: calc(50% + 20px);
+  left: 50%;
   align-items: center;
   text-align: center;
   translate: -50% 0;
 }
 
 .label--top .node__label {
-  bottom: 20px;
-  left: 0;
+  bottom: calc(50% + 20px);
+  left: 50%;
   align-items: center;
   text-align: center;
   translate: -50% 0;
 }
 
 .label--right .node__label {
-  top: 0;
-  left: 20px;
+  top: 50%;
+  left: calc(50% + 20px);
   align-items: flex-start;
   text-align: left;
   translate: 0 -50%;
 }
 
 .label--left .node__label {
-  top: 0;
-  right: 20px;
+  top: 50%;
+  right: calc(50% + 20px);
   align-items: flex-end;
   text-align: right;
   translate: 0 -50%;
 }
 
-.label--center .node__label {
-  top: 22px;
-  padding: 6px 12px 8px;
-  border-radius: 4px;
-  background: var(--paper-raised);
+.label--center-top .node__label {
+  bottom: calc(50% + 22px);
+  left: 50%;
+  align-items: center;
+  text-align: center;
+  translate: -50% 0;
 }
 
-.label--center .node__name {
+.label--center .node__label {
+  top: calc(50% + 22px);
+}
+
+.label--center .node__label,
+.label--center-top .node__label {
+  padding: 4px 10px 6px;
+  border-radius: 10px;
+  background: var(--paper-raised);
+  box-shadow: 0 0 10px 8px var(--paper-raised);
+}
+
+.label--center .node__name,
+.label--center-top .node__name {
   font-size: 24px;
 }
 
@@ -865,6 +907,31 @@ code {
   padding-left: calc(var(--indent, 0) * 26px);
   animation: rise 0.7s var(--ease) both;
   animation-delay: calc(var(--i, 0) * 40ms + 0.1s);
+}
+
+.chart-list > li.is-child::before,
+.chart-list > li.is-child::after {
+  content: '';
+  position: absolute;
+  left: calc((var(--indent) - 1) * 26px + 15px);
+  background: var(--hair-strong);
+  pointer-events: none;
+}
+
+.chart-list > li.is-child::before {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.chart-list > li.is-child:last-child::before {
+  bottom: 50%;
+}
+
+.chart-list > li.is-child::after {
+  top: 50%;
+  width: 16px;
+  height: 1px;
 }
 
 .list-node {

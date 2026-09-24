@@ -1,14 +1,26 @@
+import { useEffect, useState } from 'react'
 import type { ChartIndex } from '../types'
 import { armyOwner, plateLabel, toPlates, type Plate } from '../lib/catalog'
 import Constellation from '../components/Constellation'
 import SiteHeader from '../components/SiteHeader'
 
-export default function Home({ charts }: { charts: ChartIndex[] }) {
+let visited = false
+
+interface HomeProps {
+  charts: ChartIndex[]
+  onPrefetch: (id: string) => void
+}
+
+export default function Home({ charts, onPrefetch }: HomeProps) {
+  const [returning] = useState(() => visited)
+  useEffect(() => {
+    visited = true
+  }, [])
   const plates = toPlates(charts)
   const rooms = groupByDay(plates)
 
   return (
-    <div className="page">
+    <div className={`page ${returning ? 'is-returning' : ''}`}>
       <SiteHeader />
 
       <section className="intro">
@@ -36,7 +48,7 @@ export default function Home({ charts }: { charts: ChartIndex[] }) {
           <ul className="plates">
             {room.plates.map(p => (
               <li key={p.chart.id} style={{ '--i': p.number } as React.CSSProperties}>
-                <PlateCard plate={p} />
+                <PlateCard plate={p} onPrefetch={onPrefetch} />
               </li>
             ))}
           </ul>
@@ -61,12 +73,12 @@ export default function Home({ charts }: { charts: ChartIndex[] }) {
   )
 }
 
-function PlateCard({ plate }: { plate: Plate }) {
+function PlateCard({ plate, onPrefetch }: { plate: Plate; onPrefetch: (id: string) => void }) {
   const { chart, number } = plate
   const owner = armyOwner(chart.id)
 
   return (
-    <article className="plate">
+    <article className="plate" onPointerEnter={() => onPrefetch(chart.id)} onFocus={() => onPrefetch(chart.id)}>
       <div className="plate__art">
         <Constellation shape={chart.shape} />
       </div>

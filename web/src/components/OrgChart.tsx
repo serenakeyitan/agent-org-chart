@@ -11,13 +11,13 @@ interface OrgChartProps {
 
 const LABEL_W = 136
 const LABEL_GAP = 20
-const PAD_Y = 84
+const PAD_Y = 72
 const MIN_RADIAL = 112
 
-type Side = 'center' | 'top' | 'bottom' | 'left' | 'right'
+type Side = 'center' | 'center-top' | 'top' | 'bottom' | 'left' | 'right'
 
-function labelSide(node: LayoutNode): Side {
-  if (node.angle === null) return 'center'
+function labelSide(node: LayoutNode, centerLabelAbove: boolean): Side {
+  if (node.angle === null) return centerLabelAbove ? 'center-top' : 'center'
   const c = Math.cos(node.angle)
   const s = Math.sin(node.angle)
   if (Math.abs(c) < 0.34) return s < 0 ? 'top' : 'bottom'
@@ -39,7 +39,18 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
   }, [])
 
   const fit = (width - 2 * (LABEL_W + LABEL_GAP)) / 2
-  const radius = Math.min(fit, 250, 120 + 14 * roles.length)
+  const radius = Math.min(fit, 236, 120 + 14 * roles.length)
+
+  // Put the lead's label on whichever side (above or below) its reporting lines leave more room.
+  const centerLabelAbove = useMemo(() => {
+    const satellites = layout.nodes.filter(n => n.depth === 1 && n.angle !== null)
+    const clearance = (target: number) =>
+      Math.min(
+        Math.PI,
+        ...satellites.map(n => Math.abs(Math.atan2(Math.sin(n.angle! - target), Math.cos(n.angle! - target))))
+      )
+    return clearance(-Math.PI / 2) > clearance(Math.PI / 2) + 0.01
+  }, [layout])
   const radial = width === 0 || radius >= MIN_RADIAL
 
   const related = useMemo(() => {
@@ -70,7 +81,11 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
       <div className="chart-stage chart-stage--list" onClick={clearOnBackdrop}>
         <ol className="chart-list">
           {layout.nodes.map((n, i) => (
-            <li key={n.role.id} style={{ '--indent': n.depth - indentBase, '--i': i } as React.CSSProperties}>
+            <li
+              key={n.role.id}
+              className={n.depth - indentBase > 0 ? 'is-child' : undefined}
+              style={{ '--indent': n.depth - indentBase, '--i': i } as React.CSSProperties}
+            >
               <button
                 type="button"
                 className={`list-node node--${n.role.kind} ${stateOf(n.role.id)}`}
@@ -149,7 +164,7 @@ export default function OrgChart({ roles, selectedRoleId, onSelectRole }: OrgCha
                 <button
                   key={role.id}
                   type="button"
-                  className={`node node--${role.kind} label--${labelSide(n)} ${stateOf(role.id)}`}
+                  className={`node node--${role.kind} label--${labelSide(n, centerLabelAbove)} ${stateOf(role.id)}`}
                   style={{ left: p.x, top: p.y, '--i': i } as React.CSSProperties}
                   aria-pressed={selectedRoleId === role.id}
                   aria-label={`${role.name}, ${kindLabel[role.kind]}`}

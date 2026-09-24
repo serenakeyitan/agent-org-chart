@@ -19,11 +19,14 @@ function parseHash(): Route {
   return { chartId: chartId ?? null, roleId: roleId ?? null }
 }
 
+const chartRequests = new Map<string, Promise<Chart>>()
+
 function App() {
   const [chartIndex, setChartIndex] = useState<ChartIndex[] | null>(null)
   const [route, setRoute] = useState<Route>(parseHash)
-  const [chart, setChart] = useState<Chart | null>(null)
+  const [charts, setCharts] = useState<Record<string, Chart>>({})
   const [failedId, setFailedId] = useState<string | null>(null)
+  const chart = route.chartId ? (charts[route.chartId] ?? null) : null
 
   useEffect(() => {
     const onHash = () => setRoute(parseHash())
@@ -41,17 +44,35 @@ function App() {
       })
   }, [])
 
+  const loadChart = useCallback((id: string) => {
+    let request = chartRequests.get(id)
+    if (!request) {
+      request = fetch(`./charts/${id}/chart.json`).then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json() as Promise<Chart>
+      })
+      chartRequests.set(id, request)
+      request.catch(() => chartRequests.delete(id))
+    }
+    return request
+  }, [])
+
+  const prefetchChart = useCallback(
+    (id: string) => {
+      loadChart(id)
+        .then(data => setCharts(prev => (prev[id] ? prev : { ...prev, [id]: data })))
+        .catch(() => {})
+    },
+    [loadChart]
+  )
+
   useEffect(() => {
     const id = route.chartId
     if (!id) return
     let cancelled = false
-    fetch(`./charts/${id}/chart.json`)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
-      .then((data: Chart) => {
-        if (!cancelled) setChart(data)
+    loadChart(id)
+      .then(data => {
+        if (!cancelled) setCharts(prev => (prev[id] ? prev : { ...prev, [id]: data }))
       })
       .catch(err => {
         console.error('Failed to load chart:', err)
@@ -60,15 +81,15 @@ function App() {
     return () => {
       cancelled = true
     }
-  }, [route.chartId])
+  }, [route.chartId, loadChart])
 
   useEffect(() => {
     window.scrollTo({ top: 0 })
   }, [route.chartId])
 
   useEffect(() => {
-    document.title = chart && route.chartId === chart.id ? `${chart.title} — Agent Army 图鉴` : 'Agent Army 图鉴'
-  }, [chart, route.chartId])
+    document.title = chart ? `${chart.title} — Agent Army 图鉴` : 'Agent Army 图鉴'
+  }, [chart])
 
   const selectRole = useCallback(
     (role: Role | null) => {
@@ -86,7 +107,7 @@ function App() {
   }, [chartIndex, route.chartId])
 
   if (route.chartId) {
-    if (chart && chart.id === route.chartId) {
+    if (chart) {
       return <Detail chart={chart} plateNumber={plateNumber} selectedRoleId={route.roleId} onSelectRole={selectRole} />
     }
     return (
@@ -106,7 +127,7 @@ function App() {
     )
   }
 
-  return <Home charts={chartIndex} />
+  return <Home charts={chartIndex} onPrefetch={prefetchChart} />
 }
 
 export default App
