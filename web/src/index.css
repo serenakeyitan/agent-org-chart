@@ -106,23 +106,6 @@ button.node:hover { border-color: var(--ink-3); }
   padding: 10px 12px 10px 14px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;
 }
 .node-team:hover { border-color: var(--ink-3); }
-.team-x {
-  position: absolute; top: -10px; right: -10px; width: 22px; height: 22px; border-radius: 50%; padding: 0;
-  font: inherit; font-size: 15px; line-height: 1; color: var(--ink-3); background: var(--bg-card); border: 1px solid var(--line); cursor: pointer; box-shadow: var(--shadow);
-}
-.team-x:hover { color: #fff; background: var(--accent); border-color: var(--accent); }
-.team-hire {
-  position: absolute; left: 12px; top: calc(100% + 8px); font: inherit; font-size: 13px; font-weight: 650;
-  color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 8px; padding: 7px 12px; cursor: pointer; box-shadow: var(--shadow);
-}
-.team-hire:hover { filter: brightness(0.94); }
-.node-team.is-candidate { border-style: dashed; border-left-style: dashed; border-color: var(--ink-3); background: color-mix(in srgb, var(--bg-card) 70%, transparent); box-shadow: none; }
-.node-team.is-candidate .team-open { opacity: .75; }
-.node-role.is-candidate { opacity: .55; }
-.node-role.is-candidate:hover, .node-role.is-candidate.is-selected { opacity: 1; }
-.link.is-candidate { stroke-dasharray: 5 5; }
-.node-team.is-new { animation: hired 1.5s ease-out; }
-@keyframes hired { 0% { box-shadow: 0 0 0 0 var(--accent); } 40% { box-shadow: 0 0 0 10px var(--accent-soft); } 100% { box-shadow: var(--shadow); } }
 .node-team.is-selected { border-color: var(--accent); border-left-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
 .team-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .team-title { font-size: 16px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -186,7 +169,6 @@ button.node-role:hover { border: 0; }
 .picker-list ul { list-style: none; margin: 0; padding: 0; }
 .picker-list li { display: flex; align-items: center; gap: 8px; border-radius: 10px; padding: 2px 8px 2px 0; }
 .picker-list li:hover { background: var(--bg-sunk); }
-.picker-list li.is-hired .pick-title::after { content: "In your org"; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 2px 6px; }
 .picker-list li.is-open { background: var(--bg-sunk); box-shadow: inset 3px 0 0 var(--ink); }
 .pick-main { flex: 1; min-width: 0; font: inherit; color: var(--ink); text-align: left; background: none; border: 0; padding: 8px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; border-radius: 10px; }
 .pick-title { font-size: 15px; font-weight: 650; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
@@ -197,24 +179,9 @@ button.node-role:hover { border: 0; }
 .picker-foot { padding: 10px 16px 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-3); }
 .picker-foot a { color: var(--ink-2); }
 
-.hire-btn { flex: none; min-width: 72px; font: inherit; font-size: 13px; font-weight: 600; border-radius: 8px; padding: 7px 12px; cursor: pointer; border: 0; background: var(--accent-soft); color: var(--accent); }
-.hire-btn:hover { background: var(--accent); color: var(--accent-ink); }
-.hire-btn.is-hired { background: var(--accent); color: var(--accent-ink); }
-.hire-btn.is-hired:hover { filter: brightness(0.92); }
 
-.orgbar {
-  position: absolute; left: 392px; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 12px;
-  background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 6px 16px; box-shadow: var(--shadow);
-  max-width: calc(100% - 392px - 200px);
-}
-.orgbar-hire { display: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); background: var(--bg-sunk); border: 0; border-radius: 8px; padding: 9px 12px; cursor: pointer; }
-.orgbar-hire.is-primary { background: var(--accent); color: var(--accent-ink); }
 .mobile-title { display: none; }
-.orgbar-count { font-size: 14px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.orgbar-count strong { color: var(--ink); font-weight: 650; }
-.orgbar-warn { color: var(--accent); }
-.orgbar-copy { flex: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 8px; padding: 9px 14px; cursor: pointer; }
-.orgbar-copy:disabled { background: var(--bg-sunk); color: var(--ink-3); cursor: default; }
+.teams-fab { display: none; }
 
 .node-you .tag-you { background: var(--ink); color: var(--bg-card); }
 .node-you .person-body rect { stroke: var(--ink-3); stroke-width: 0.8; }
@@ -240,12 +207,6 @@ button.node-role:hover { border: 0; }
 .panel-meta { font-size: 13.5px; color: var(--ink-3); margin: 0; }
 .panel-meta a { color: var(--ink-2); }
 .panel-hint { font-size: 13px; color: var(--ink-3); margin: 0; }
-.hire-status { display: flex; flex-direction: column; gap: 6px; }
-.hire-status .muted { font-size: 12.5px; text-align: center; }
-.hire-status.is-hired { flex-direction: row; align-items: center; justify-content: space-between; background: var(--accent-soft); border-radius: 10px; padding: 8px 8px 8px 14px; }
-.hire-status.is-hired > span { font-size: 14px; font-weight: 650; color: var(--accent); }
-.hire-status.is-hired .btn-quiet { flex: none; background: var(--bg-card); }
-.btn-wide { width: 100%; flex: none; display: block; }
 .icon-btn { flex: none; width: 30px; height: 30px; font-size: 20px; line-height: 1; border: 0; border-radius: 8px; background: none; color: var(--ink-3); cursor: pointer; }
 .icon-btn:hover { background: var(--bg-sunk); color: var(--ink); }
 
@@ -290,26 +251,21 @@ button.node-role:hover { border: 0; }
 .source a { color: var(--ink-3); }
 
 .toast {
-  position: fixed; left: 50%; bottom: 84px; z-index: 60; transform: translate(-50%, 16px);
+  position: fixed; left: 50%; bottom: 24px; z-index: 60; transform: translate(-50%, 16px);
   background: var(--ink); color: var(--bg-card); font-size: 14px; padding: 11px 16px; border-radius: 10px;
   opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; max-width: calc(100vw - 32px);
   display: flex; align-items: center; gap: 14px;
 }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-.toast-undo { flex: none; font: inherit; font-size: 13.5px; font-weight: 650; color: var(--accent-soft); background: none; border: 0; padding: 2px 4px; cursor: pointer; }
-.toast-undo:hover { text-decoration: underline; }
 
 @media (max-width: 760px) {
   .picker { left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 82%; border-radius: 16px 16px 0 0; border-bottom: 0; transform: translateY(105%); transition: transform .25s ease; z-index: 20; }
   .picker.is-open { transform: none; }
   .picker-close { display: block; }
-  .orgbar { left: 12px; right: 12px; bottom: 12px; max-width: none; padding: 6px; gap: 8px; }
-  .orgbar-hire { display: block; flex: none; }
   .mobile-title { display: block; position: absolute; left: 16px; top: 12px; margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -0.01em; pointer-events: none; }
-  .orgbar-count { flex: 1; font-size: 12.5px; }
-  .orgbar-copy { padding: 9px 10px; font-size: 12.5px; }
   .panel { left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 50%; border-radius: 16px 16px 0 0; border-bottom: 0; padding: 16px; z-index: 10; }
   .zoom { display: none; }
+  .teams-fab { display: block; position: absolute; right: 12px; top: 8px; z-index: 5; font: inherit; font-size: 14px; font-weight: 650; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 999px; padding: 8px 16px; box-shadow: var(--shadow); cursor: pointer; }
   .toast { white-space: nowrap; }
   .app:has(.panel) .toast { top: 52px; bottom: auto; transform: translate(-50%, -12px); }
   .app:has(.panel) .toast.is-on { transform: translate(-50%, 0); }
