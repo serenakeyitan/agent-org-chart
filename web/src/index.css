@@ -156,7 +156,6 @@ button.node-role:hover { border: 0; }
 .picker-head { display: flex; justify-content: space-between; gap: 8px; padding: 16px 16px 10px; }
 .picker-head h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; margin: 0 0 4px; }
 .picker-head p { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
-.picker-close { display: none; }
 .picker > input {
   margin: 0 16px 8px; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg);
   border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px;
@@ -180,16 +179,7 @@ button.node-role:hover { border: 0; }
 .picker-foot a { color: var(--ink-2); }
 
 
-.mobile-title { display: none; }
-.teams-fab { display: none; }
 
-.node-you .tag-you { background: var(--ink); color: var(--bg-card); }
-.node-you .person-body rect { stroke: var(--ink-3); stroke-width: 0.8; }
-.node-you:hover .tag-you { background: var(--ink-2); }
-.empty-hint {
-  position: absolute; left: calc(100% + 16px); top: 50%; transform: translateY(-50%); white-space: nowrap;
-  font-size: 14px; color: var(--ink-2); background: var(--bg-card); border: 1px dashed var(--ink-3); border-radius: 10px; padding: 10px 14px;
-}
 .team-wing { font-size: 11.5px; color: var(--ink-3); white-space: nowrap; }
 .team-tags { display: flex; align-items: center; gap: 6px; flex: none; }
 .routine-chip { display: inline-flex; align-items: center; gap: 3px; font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--lead); background: var(--lead-soft); border-radius: 999px; padding: 2px 7px 2px 5px; }
@@ -258,21 +248,33 @@ button.node-role:hover { border: 0; }
 }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 
+/* Phones: the team list is the home screen; a picked team replaces it with a
+   top bar (← Teams), the canvas, and the panel as a bottom sheet. */
+.phone-bar { display: none; }
+.unknown-team {
+  position: absolute; left: 50%; top: 16px; transform: translateX(-50%); z-index: 7; margin: 0;
+  background: var(--bg-card); color: var(--accent); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; font-size: 14px; box-shadow: var(--shadow);
+}
+
 @media (max-width: 760px) {
-  .picker { left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 82%; border-radius: 16px 16px 0 0; border-bottom: 0; transform: translateY(105%); transition: transform .25s ease; z-index: 20; }
-  .picker.is-open { transform: none; }
-  .picker-close { display: block; }
-  .mobile-title { display: block; position: absolute; left: 16px; top: 12px; margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -0.01em; pointer-events: none; }
+  .picker { left: 0; right: 0; top: 0; bottom: 0; width: auto; border: 0; border-radius: 0; box-shadow: none; z-index: 20; }
+  .app.has-team .picker { display: none; }
+  .phone-bar {
+    display: flex; align-items: center; gap: 10px; position: absolute; left: 0; right: 0; top: 0; height: 52px; z-index: 8;
+    padding: 0 12px; background: var(--bg-card); border-bottom: 1px solid var(--line);
+  }
+  .phone-back { display: inline-flex; align-items: center; gap: 2px; font: inherit; font-size: 15px; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 8px 6px 8px 0; cursor: pointer; }
+  .phone-back svg { width: 18px; height: 18px; }
+  .phone-title { font-size: 16px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .panel { left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 50%; border-radius: 16px 16px 0 0; border-bottom: 0; padding: 16px; z-index: 10; }
   .zoom { display: none; }
-  .teams-fab { display: block; position: absolute; right: 12px; top: 8px; z-index: 5; font: inherit; font-size: 14px; font-weight: 650; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 999px; padding: 8px 16px; box-shadow: var(--shadow); cursor: pointer; }
   .toast { white-space: nowrap; }
-  .app:has(.panel) .toast { top: 52px; bottom: auto; transform: translate(-50%, -12px); }
+  .app:has(.panel) .toast { top: 60px; bottom: auto; transform: translate(-50%, -12px); }
   .app:has(.panel) .toast.is-on { transform: translate(-50%, 0); }
-  .empty-hint { left: 50%; top: calc(100% + 12px); transform: translateX(-30%); white-space: normal; width: 200px; }
+  .unknown-team { top: auto; bottom: 16px; z-index: 21; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .node, .toast, .move, .tag, .picker { transition: none; }
+  .node, .toast, .move, .tag { transition: none; }
   .person-body { animation: none; }
 }
