@@ -3,6 +3,7 @@ import type { Chart, ChartIndex } from './types'
 import Canvas, { type Focus } from './components/Canvas'
 import Picker from './components/Picker'
 import TeamPanel from './components/TeamPanel'
+import GitHubLink from './components/GitHubLink'
 import { buildTeams, importPrompt } from './lib/catalog'
 import { copyText, roleInstruction } from './lib/copy'
 import { useRoute, type Route } from './lib/route'
@@ -62,11 +63,12 @@ function App() {
 
   const focus: Focus = useMemo(() => {
     if (team && narrow) {
-      // A whole branch shrinks past legibility on a phone: centre on the selected bot
-      // (or the team's people) at a readable zoom and let the rest overflow.
+      // A whole branch shrinks past legibility on a phone. Frame the team's people at a
+      // readable zoom, pinned left so the team card sits fully off-screen (its line runs
+      // in from the edge) instead of half-cut; a selected bot is centred instead.
       const target = route.roleId ? layout.byId.get(roleNodeId(team.chart.id, route.roleId)) : undefined
       const people = layout.nodes.filter(n => n.kind === 'role')
-      return { key: `team:${team.chart.id}:${route.roleId ?? ''}`, box: boundsOf(target ? [target] : people), minK: 0.75 }
+      return { key: `team:${team.chart.id}:${route.roleId ?? ''}`, box: boundsOf(target ? [target] : people), minK: 0.75, alignLeft: !target }
     }
     if (team) {
       // Frame the team and its people at a readable zoom.
@@ -154,6 +156,7 @@ function App() {
             Teams
           </button>
           <span className="phone-title">{team.chart.title}</span>
+          <GitHubLink compact />
         </header>
       )}
       {unknown && <p className="unknown-team" role="alert">No team called “{unknown}”. Pick one from the list.</p>}
