@@ -1,5 +1,6 @@
 import Avatar from './Avatar'
-import { REPO_URL, WINGS, type Team } from '../lib/catalog'
+import { WINGS, type Team } from '../lib/catalog'
+import GitHubLink from './GitHubLink'
 import { getCreditInfo } from '../credits'
 
 interface PickerProps {
@@ -21,8 +22,11 @@ export default function Picker({ teams, openTeamId, query, onQuery, onOpenTeam }
   return (
     <aside className="picker" aria-label="Teams">
       <header className="picker-head">
-        <div>
+        <div className="picker-title">
           <h1>Agent Army</h1>
+          <GitHubLink />
+        </div>
+        <div>
           <p>Org charts of real agent teams. Pick one to see who's on it, then copy one prompt to bring the whole team into your agent.</p>
         </div>
       </header>
@@ -73,9 +77,6 @@ export default function Picker({ teams, openTeamId, query, onQuery, onOpenTeam }
           </section>
         ))}
       </div>
-      <footer className="picker-foot">
-        Charts live in <a href={REPO_URL} target="_blank" rel="noopener noreferrer">serenakeyitan/agent-org-chart</a>
-      </footer>
     </aside>
   )
 }
