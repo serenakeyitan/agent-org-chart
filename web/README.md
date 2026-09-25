@@ -1,15 +1,15 @@
 # Agent Army
 
-The web catalog for this repository: every org chart as a branch of one tree, on an infinite canvas.
+The web catalog for this repository. You're the boss: hire agent teams from the list and your org chart grows on an infinite canvas.
 
 ## How it works
 
-- **Overview** (`#/`): Agent Army → wings (Go-to-market, Build, Small teams) → teams. Teams start collapsed so the whole catalog fits on one screen.
-- **Team** (`#/<chart-id>`): clicking a team opens its branch along the reporting lines in `chart.json` (orchestrator → specialists; peers side by side) and opens a panel with the import prompt, routines, and source. Click the team again to collapse it.
-- **Bot** (`#/<chart-id>?role=<role-id>`): clicking a person shows their summary and **Copy this bot**.
-- **Search**: type a role ("Designer"); matching teams open and matching bots are highlighted.
-- **Canvas**: drag to pan, scroll to pan, ⌘/Ctrl + scroll or pinch to zoom, **Fit all** to reset.
-- **Move this team in**: copies `Import <id> from https://github.com/serenakeyitan/agent-org-chart`, the one-line prompt an agent follows via `PROTOCOL.md`.
+- **Team list** (left; a drawer on phones): every chart, grouped by what the team does (Go-to-market, Build, Small teams). Search by team or role ("Designer"). **Hire** adds a team to your org; **Hired ✓** → **Let go** removes it.
+- **Canvas**: You (the boss) → each hired team → that team's reporting lines from `chart.json`. Bots are the little people from the office sim, with name tags; orchestrators wear gold.
+- **Team panel**: click a team to copy its import prompt, copy `chart.json`, see routines and the source, or let it go. Click a bot for its summary and **Copy this bot**.
+- **Your org bar**: copies one import line per hired team, e.g. `Import sdr from https://github.com/serenakeyitan/agent-org-chart`, for any agent that follows `PROTOCOL.md`.
+- **Links**: the org lives in the hash, e.g. `#/?hired=sdr,marketing&team=sdr&role=email`. Old links like `#/sdr` still work (they hire and open that team).
+- **Canvas controls**: drag or scroll to pan, ⌘/Ctrl + scroll or pinch to zoom, **Fit all** to reset.
 - **Team order**: set in `src/lib/catalog.ts`. A chart missing from that list still appears, under "More teams".
 
 ## Development

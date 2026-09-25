@@ -5,8 +5,9 @@ const HAIR = ['#3b2a1a', '#1c1c1c', '#7a4a21', '#b5651d', '#4a3222']
 
 // The little standing person from the office sim. Colours come from the role's
 // position in its chart, so a bot looks the same everywhere; orchestrators wear gold.
-export default function Avatar({ index, lead, height = 48, selected = false }: { index: number; lead: boolean; height?: number; selected?: boolean }) {
-  const shirt = lead ? LEAD_SHIRT : SHIRTS[index % SHIRTS.length]
+// `boss` is the user: dark suit, white collar, red tie.
+export default function Avatar({ index, lead, boss = false, height = 48, selected = false }: { index: number; lead: boolean; boss?: boolean; height?: number; selected?: boolean }) {
+  const shirt = boss ? '#262a36' : lead ? LEAD_SHIRT : SHIRTS[index % SHIRTS.length]
   const skin = SKIN[(index * 3) % SKIN.length]
   const hair = HAIR[(index * 2) % HAIR.length]
   return (
@@ -15,6 +16,8 @@ export default function Avatar({ index, lead, height = 48, selected = false }: {
       {selected && <ellipse cx="15" cy="44" rx="14" ry="5.5" fill="none" stroke="var(--accent)" strokeWidth="2.2" />}
       <g className="person-body">
         <rect x="8.5" y="20" width="13" height="19" rx="4.5" fill={shirt} />
+        {boss && <path d="M12 20h6l-3 4z" fill="#fff" />}
+        {boss && <path d="M14 22.5h2l.8 9-1.8 2-1.8-2z" fill="#d93a3f" />}
         <circle cx="15" cy="14" r="7" fill={skin} />
         <path d="M8 13a7 7 0 0 1 14 0z" fill={hair} />
       </g>

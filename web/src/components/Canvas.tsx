@@ -19,10 +19,10 @@ interface CanvasProps {
   layout: TreeLayout
   focus: Focus
   inset: Inset
-  expanded: Set<string>
   selectedTeamId: string | null
   selectedRoleId: string | null
-  matches: Set<string> | null // node ids to highlight while searching
+  emptyHint: string | null // shown beside You while no team is hired yet
+  onYou: () => void
   onTeam: (teamId: string) => void
   onRole: (teamId: string, roleId: string) => void
   onBackground: () => void
@@ -52,7 +52,7 @@ function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K): Came
   return { k, x: inset.left + (aw - box.w * k) / 2 - box.x * k, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
 }
 
-export default function Canvas({ layout, focus, inset, expanded, selectedTeamId, selectedRoleId, matches, onTeam, onRole, onBackground }: CanvasProps) {
+export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, emptyHint, onYou, onTeam, onRole, onBackground }: CanvasProps) {
   const viewRef = useRef<HTMLDivElement>(null)
   const [cam, setCam] = useState<Camera>({ x: 0, y: 0, k: 1 })
   const camRef = useRef(cam)
@@ -208,9 +208,8 @@ export default function Canvas({ layout, focus, inset, expanded, selectedTeamId,
       const x2 = b.x
       const y2 = b.y + n.h / 2
       const mx = (x1 + x2) / 2
-      const dim = matches !== null && !matches.has(n.id)
-      const hot = n.kind === 'role' && n.team?.chart.id === selectedTeamId
-      return <path key={n.id} d={`M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`} className={`link${dim ? ' is-dim' : ''}${hot ? ' is-hot' : ''}`} />
+      const hot = n.team?.chart.id === selectedTeamId
+      return <path key={n.id} d={`M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`} className={`link${hot ? ' is-hot' : ''}`} />
     })
 
   return (
@@ -236,43 +235,36 @@ export default function Canvas({ layout, focus, inset, expanded, selectedTeamId,
         <svg className="links" aria-hidden="true">{links}</svg>
         {layout.nodes.map(n => {
           const p = at(n)
-          const dim = matches !== null && !matches.has(n.id)
           const style = { transform: `translate(${p.x}px, ${p.y}px)`, width: n.w, height: n.h }
           if (n.kind === 'root') {
-            const bots = layout.nodes.length ? layout.nodes.filter(m => m.kind === 'team').reduce((s, m) => s + m.team!.chart.roles.length, 0) : 0
             return (
-              <div key={n.id} className="node node-root" style={style}>
-                <strong>Agent Army</strong>
-                <span>{layout.nodes.filter(m => m.kind === 'team').length} teams · {bots} bots</span>
-              </div>
-            )
-          }
-          if (n.kind === 'wing') {
-            return (
-              <div key={n.id} className={`node node-wing${dim ? ' is-dim' : ''}`} style={style}>
-                <span className="swatch" style={{ background: n.wing!.color }} aria-hidden="true" />
-                {n.wing!.label}
-              </div>
+              <button key={n.id} type="button" className="node node-role node-you" style={style} onClick={onYou} aria-label="You, the boss. Show your whole org.">
+                <Avatar index={0} lead={false} boss height={66} />
+                <span className="role-text">
+                  <span className="tag tag-you">You</span>
+                  <span className="role-kind">Boss</span>
+                </span>
+                {emptyHint && <span className="empty-hint">{emptyHint}</span>}
+              </button>
             )
           }
           if (n.kind === 'team') {
             const t = n.team!
-            const open = expanded.has(t.chart.id)
             const credit = getCreditInfo(t.chart.id)
             const lead = t.chart.roles.find(r => r.kind === 'orchestrator')
             return (
               <button
                 key={n.id}
                 type="button"
-                className={`node node-team${selectedTeamId === t.chart.id ? ' is-selected' : ''}${dim ? ' is-dim' : ''}`}
+                className={`node node-team${selectedTeamId === t.chart.id ? ' is-selected' : ''}`}
                 style={{ ...style, borderLeftColor: t.wing.color }}
                 onClick={() => onTeam(t.chart.id)}
-                aria-expanded={open}
-                aria-label={`${t.chart.title}, ${t.chart.roles.length} bots${open ? '' : ', collapsed'}`}
+                aria-pressed={selectedTeamId === t.chart.id}
+                aria-label={`${t.chart.title} team, ${t.chart.roles.length} bots`}
               >
                 <span className="team-top">
                   <span className="team-title">{t.chart.title}</span>
-                  <span className={`chev${open ? ' is-open' : ''}`} aria-hidden="true">›</span>
+                  <span className="team-wing">{t.wing.label}</span>
                 </span>
                 <span className="team-bottom">
                   <span className="stack" aria-hidden="true">
@@ -296,7 +288,7 @@ export default function Canvas({ layout, focus, inset, expanded, selectedTeamId,
             <button
               key={n.id}
               type="button"
-              className={`node node-role${selected ? ' is-selected' : ''}${r.kind === 'orchestrator' ? ' is-lead' : ''}${dim ? ' is-dim' : ''}${matches?.has(n.id) ? ' is-match' : ''}`}
+              className={`node node-role${selected ? ' is-selected' : ''}${r.kind === 'orchestrator' ? ' is-lead' : ''}`}
               style={style}
               onClick={() => onRole(t.chart.id, r.id)}
               aria-pressed={selected}
