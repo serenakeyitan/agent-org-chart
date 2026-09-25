@@ -36,7 +36,8 @@
   "routines": [
     {
       "name": "Deck change summary",
-      "schedule": "Weekdays at 9:00 AM"
+      "schedule": "Weekdays at 9:00 AM",
+      "cron": "0 9 * * 1-5"
     }
   ],
   "spawn": {

@@ -22,11 +22,11 @@ One per account
 
 ## Routines
 
-| Name | Schedule |
-| --- | --- |
-| Daily brief | Weekdays at 8:30 AM |
-| Call prep | Every 15 minutes on weekdays |
-| Unfinished promises | Weekdays at 9:00 AM, 1:00 PM |
+| Name | Schedule | Cron |
+| --- | --- | --- |
+| Daily brief | Weekdays at 8:30 AM | `30 8 * * 1-5` |
+| Call prep | Every 15 minutes on weekdays | `*/15 * * * 1-5` |
+| Unfinished promises | Weekdays at 9:00 AM, 1:00 PM | `0 9,13 * * 1-5` |
 
 ## Import
 

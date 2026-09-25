@@ -9,6 +9,7 @@ The web catalog for this repository. You're the boss: hire agent teams from the 
 - **Canvas**: You (the boss) → each hired team → that team's reporting lines from `chart.json`. Bots are the little people from the office sim, with name tags; orchestrators wear gold. Hired team cards have a **×** to let them go.
 - **Hiring never interrupts**: hiring from the list doesn't open a panel; the team joins your org and pulses once. Hiring and letting go both show a toast with **Undo**.
 - **Team panel**: import prompt, `chart.json`, routines, source, and **Copy this bot** for a selected bot. A hired team shows "✓ In your org · Let go".
+- **Routines**: team cards show a clock with the routine count. The panel lists each routine's schedule with its cron expression (from `routines[].cron` in `chart.json`); click one to copy that line, or **Copy all as crontab**. Event-driven routines (`routines[].trigger`) are shown as events with no cron.
 - **Your org bar**: copies one import line per hired team, e.g. `Import sdr from https://github.com/serenakeyitan/agent-org-chart`, for any agent that follows `PROTOCOL.md`.
 - **Links**: the org lives in the hash, e.g. `#/?hired=sdr,marketing&team=sdr&role=email`. Old links like `#/sdr` still work (they hire and open that team).
 - **Canvas controls**: drag or scroll to pan, ⌘/Ctrl + scroll or pinch to zoom, **Fit all** to reset.

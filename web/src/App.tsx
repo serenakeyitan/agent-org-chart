@@ -235,6 +235,7 @@ function App() {
           onCopyImport={copyImport}
           onCopyJson={copyJson}
           onCopyBot={copyBot}
+          onCopyText={async (text, what) => toast((await copyText(text)) ? `${what} copied` : 'Copy failed')}
           onHire={() => hire(team.chart.id)}
           onLetGo={() => letGo(team.chart.id)}
         />

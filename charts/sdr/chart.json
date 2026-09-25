@@ -69,23 +69,28 @@
   "routines": [
     {
       "name": "50 Daily Prospects",
-      "schedule": "Every day at 8:00 AM"
+      "schedule": "Every day at 8:00 AM",
+      "cron": "0 8 * * *"
     },
     {
       "name": "Inbox Manager",
-      "schedule": "Weekdays at 8:00 AM"
+      "schedule": "Weekdays at 8:00 AM",
+      "cron": "0 8 * * 1-5"
     },
     {
       "name": "Accounts Signal Scan",
-      "schedule": "Weekdays at 8:00 AM"
+      "schedule": "Weekdays at 8:00 AM",
+      "cron": "0 8 * * 1-5"
     },
     {
       "name": "Sequencer Daily",
-      "schedule": "Weekdays at 8:00 AM"
+      "schedule": "Weekdays at 8:00 AM",
+      "cron": "0 8 * * 1-5"
     },
     {
       "name": "Sequencer SF Triggers",
-      "schedule": "When a webhook fires"
+      "schedule": "When a webhook fires",
+      "trigger": "webhook"
     }
   ],
   "spawn": {

@@ -20,13 +20,13 @@ Agent Army
 
 ## Routines
 
-| Routine | Schedule |
-| --- | --- |
-| 50 Daily Prospects | Every day at 8:00 AM |
-| Inbox Manager | Weekdays at 8:00 AM |
-| Accounts Signal Scan | Weekdays at 8:00 AM |
-| Sequencer Daily | Weekdays at 8:00 AM |
-| Sequencer SF Triggers | When a webhook fires |
+| Routine | Schedule | Cron |
+| --- | --- | --- |
+| 50 Daily Prospects | Every day at 8:00 AM | `0 8 * * *` |
+| Inbox Manager | Weekdays at 8:00 AM | `0 8 * * 1-5` |
+| Accounts Signal Scan | Weekdays at 8:00 AM | `0 8 * * 1-5` |
+| Sequencer Daily | Weekdays at 8:00 AM | `0 8 * * 1-5` |
+| Sequencer SF Triggers | When a webhook fires | on webhook |
 
 ## Import
 

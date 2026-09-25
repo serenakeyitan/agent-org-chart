@@ -80,15 +80,18 @@
   "routines": [
     {
       "name": "Daily brief",
-      "schedule": "Weekdays at 8:30 AM"
+      "schedule": "Weekdays at 8:30 AM",
+      "cron": "30 8 * * 1-5"
     },
     {
       "name": "Call prep",
-      "schedule": "Every 15 minutes on weekdays"
+      "schedule": "Every 15 minutes on weekdays",
+      "cron": "*/15 * * * 1-5"
     },
     {
       "name": "Unfinished promises",
-      "schedule": "Weekdays at 9:00 AM, 1:00 PM"
+      "schedule": "Weekdays at 9:00 AM, 1:00 PM",
+      "cron": "0 9,13 * * 1-5"
     }
   ],
   "spawn": {
