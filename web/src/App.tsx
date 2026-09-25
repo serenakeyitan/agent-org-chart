@@ -64,9 +64,10 @@ function App() {
       return { key: `team:${team.chart.id}:${route.roleId ?? ''}:${hired.length}`, box: boundsOf(target ? [target] : people), minK: 0.75 }
     }
     if (team) {
-      // Include You so the reporting line from the boss to this team stays in view.
-      const ids = new Set(['root', teamNodeId(team.chart.id), ...team.chart.roles.map(r => roleNodeId(team.chart.id, r.id))])
-      return { key: `team:${team.chart.id}:${hired.length}`, box: boundsOf(layout.nodes.filter(n => ids.has(n.id))) }
+      // Frame the team and its people at a readable zoom; the line back to You
+      // runs off to the left, and Fit all shows the whole org.
+      const ids = new Set([teamNodeId(team.chart.id), ...team.chart.roles.map(r => roleNodeId(team.chart.id, r.id))])
+      return { key: `team:${team.chart.id}:${hired.length}`, box: boundsOf(layout.nodes.filter(n => ids.has(n.id))), minK: 0.8 }
     }
     return { key: `all:${hired.map(t => t.chart.id).join(',')}`, box: boundsOf(layout.nodes), ...(hired.length ? {} : { minK: 1 }) }
   }, [layout, team, hired, narrow, route.roleId])
