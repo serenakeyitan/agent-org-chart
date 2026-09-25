@@ -12,9 +12,10 @@ interface TeamPanelProps {
   onCopyImport: () => void
   onCopyJson: () => void
   onCopyBot: () => void
+  onLetGo: () => void
 }
 
-export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot }: TeamPanelProps) {
+export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onLetGo }: TeamPanelProps) {
   const { chart } = team
   const credit = getCreditInfo(chart.id)
   const lead = chart.roles.find(r => r.kind === 'orchestrator')
@@ -72,7 +73,7 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
       </section>
 
       {!role && (
-        <p className="panel-hint">Click anyone in the tree to see what they do.</p>
+        <p className="panel-hint">Click anyone on this team to see what they do.</p>
       )}
 
       {chart.routines && chart.routines.length > 0 && (
@@ -97,6 +98,8 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
           ))}
         </p>
       )}
+
+      <button type="button" className="let-go" onClick={onLetGo}>Let {chart.title} go</button>
     </aside>
   )
 }

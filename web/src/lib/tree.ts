@@ -1,10 +1,10 @@
 import type { Role } from '../types'
-import type { Team, Wing } from './catalog'
+import type { Team } from './catalog'
 
-// Left-to-right branch tree: Agent Army → wing → team → reporting lines.
-// Teams stay collapsed until expanded, so the overview fits on one screen.
+// Left-to-right branch tree of the org the user is building: You (the boss) →
+// each hired team → that team's reporting lines from chart.json.
 
-export type NodeKind = 'root' | 'wing' | 'team' | 'role'
+export type NodeKind = 'root' | 'team' | 'role'
 
 export interface TreeNode {
   id: string
@@ -14,7 +14,6 @@ export interface TreeNode {
   w: number
   h: number
   parentId: string | null
-  wing?: Wing
   team?: Team
   role?: Role
   roleIndex?: number
@@ -26,15 +25,14 @@ export interface TreeLayout {
 }
 
 const SIZE: Record<NodeKind, [number, number]> = {
-  root: [210, 64],
-  wing: [170, 38],
+  root: [118, 70],
   team: [260, 78],
   role: [240, 66],
 }
-const COL_X = { root: 0, wing: 290, team: 530 }
-const ROLE_X = 880
+const TEAM_X = 230
+const ROLE_X = 580
 const ROLE_STEP = 300
-const GAP: Record<NodeKind, number> = { root: 0, wing: 48, team: 18, role: 8 }
+const GAP: Record<NodeKind, number> = { root: 0, team: 40, role: 8 }
 
 interface Draft {
   node: Omit<TreeNode, 'x' | 'y'>
@@ -90,27 +88,19 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   return centerY
 }
 
-export function layoutTree(teams: Team[], expanded: Set<string>, wings: Wing[]): TreeLayout {
-  const wingDrafts: Draft[] = wings
-    .map(wing => {
-      const members = teams.filter(t => t.wing.id === wing.id)
-      const wingId = `wing:${wing.id}`
+export function layoutTree(hired: Team[]): TreeLayout {
+  const root: Draft = {
+    node: { id: 'root', kind: 'root', w: SIZE.root[0], h: SIZE.root[1], parentId: null },
+    x: 0,
+    children: hired.map(team => {
+      const id = teamNodeId(team.chart.id)
       return {
-        node: { id: wingId, kind: 'wing' as const, w: SIZE.wing[0], h: SIZE.wing[1], parentId: 'root', wing },
-        x: COL_X.wing,
-        children: members.map(team => {
-          const id = teamNodeId(team.chart.id)
-          return {
-            node: { id, kind: 'team' as const, w: SIZE.team[0], h: SIZE.team[1], parentId: wingId, team },
-            x: COL_X.team,
-            children: expanded.has(team.chart.id) ? roleDrafts(team, id) : [],
-          }
-        }),
+        node: { id, kind: 'team' as const, w: SIZE.team[0], h: SIZE.team[1], parentId: 'root', team },
+        x: TEAM_X,
+        children: roleDrafts(team, id),
       }
-    })
-    .filter(w => w.children.length)
-
-  const root: Draft = { node: { id: 'root', kind: 'root', w: SIZE.root[0], h: SIZE.root[1], parentId: null }, x: COL_X.root, children: wingDrafts }
+    }),
+  }
   const nodes: TreeNode[] = []
   place(root, 0, nodes)
   return { nodes, byId: new Map(nodes.map(n => [n.id, n])) }
