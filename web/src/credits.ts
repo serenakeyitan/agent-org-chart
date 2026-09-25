@@ -9,7 +9,7 @@
  */
 
 export interface ChartCredit {
-  handle?: string        // X/Twitter handle without @ (e.g. "joshckim")
+  handle?: string        // X/Twitter handle without @ (e.g. "joshkim")
   displayName?: string   // Person's display name if known
   org?: string           // Organization or team (e.g. "Grok Bot", "SpaceX")
   note?: string          // Additional context for internal reference
@@ -37,7 +37,7 @@ export const credits: Record<string, ChartCredit> = {
     note: 'Galaxy Day 2 livestream'
   },
   'marketing': {
-    handle: 'joshckim',
+    handle: 'joshkim',
     displayName: 'Josh Kim',
     org: 'Grok Bot',
     note: 'Josh Kim session, Galaxy Day 3'
