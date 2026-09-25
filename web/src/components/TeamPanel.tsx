@@ -5,6 +5,7 @@ import { getCreditInfo } from '../credits'
 
 interface TeamPanelProps {
   team: Team
+  hired: boolean // false = previewing a candidate
   roleId: string | null
   flash: boolean
   onRole: (roleId: string | null) => void
@@ -12,10 +13,11 @@ interface TeamPanelProps {
   onCopyImport: () => void
   onCopyJson: () => void
   onCopyBot: () => void
+  onHire: () => void
   onLetGo: () => void
 }
 
-export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onLetGo }: TeamPanelProps) {
+export default function TeamPanel({ team, hired, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onHire, onLetGo }: TeamPanelProps) {
   const { chart } = team
   const credit = getCreditInfo(chart.id)
   const lead = chart.roles.find(r => r.kind === 'orchestrator')
@@ -42,6 +44,18 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
         <button type="button" className="icon-btn" onClick={onClose} aria-label="Close panel">×</button>
       </header>
 
+      {hired ? (
+        <div className="hire-status is-hired">
+          <span>✓ In your org</span>
+          <button type="button" className="btn-quiet" onClick={onLetGo}>Let go</button>
+        </div>
+      ) : (
+        <div className="hire-status">
+          <button type="button" className="btn-primary" onClick={onHire}>＋ Hire this team</button>
+          <span className="muted">Previewing — not in your org yet.</span>
+        </div>
+      )}
+
       {role && (
         <section className="bot" aria-label={role.name}>
           <div className="bot-head">
@@ -65,7 +79,7 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
         <h3 id="move-h">Move this team in</h3>
         <p>Paste this into any agent that can spawn teammates. It reads the chart and hires the whole team.</p>
         <div className="prompt"><code>{importPrompt(chart.id)}</code></div>
-        <button type="button" className="btn-primary" onClick={onCopyImport}>Copy import prompt</button>
+        <button type="button" className={hired ? 'btn-primary' : 'btn-quiet btn-wide'} onClick={onCopyImport}>Copy import prompt</button>
         <div className="move-links">
           <button type="button" className="btn-quiet" onClick={onCopyJson}>Copy chart.json</button>
           <a className="btn-quiet" href={`${REPO_URL}/tree/main/charts/${chart.id}`} target="_blank" rel="noopener noreferrer">View on GitHub</a>
@@ -98,8 +112,6 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
           ))}
         </p>
       )}
-
-      <button type="button" className="let-go" onClick={onLetGo}>Let {chart.title} go</button>
     </aside>
   )
 }

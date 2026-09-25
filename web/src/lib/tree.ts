@@ -17,6 +17,7 @@ export interface TreeNode {
   team?: Team
   role?: Role
   roleIndex?: number
+  candidate?: boolean // part of a team being previewed, not hired
 }
 
 export interface TreeLayout {
@@ -91,11 +92,14 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   return centerY
 }
 
-export function layoutTree(hired: Team[]): TreeLayout {
+// A previewed candidate hangs off You below the hired teams, marked so it can be
+// drawn as a dashed "not yet hired" branch.
+export function layoutTree(hired: Team[], candidate: Team | null = null): TreeLayout {
+  const teams = candidate && !hired.includes(candidate) ? [...hired, candidate] : hired
   const root: Draft = {
     node: { id: 'root', kind: 'root', w: SIZE.root[0], h: SIZE.root[1], parentId: null },
     x: 0,
-    children: hired.map(team => {
+    children: teams.map(team => {
       const id = teamNodeId(team.chart.id)
       return {
         node: { id, kind: 'team' as const, w: SIZE.team[0], h: SIZE.team[1], parentId: 'root', team },
@@ -104,8 +108,9 @@ export function layoutTree(hired: Team[]): TreeLayout {
       }
     }),
   }
-  const nodes: TreeNode[] = []
-  place(root, 0, nodes)
+  const placed: TreeNode[] = []
+  place(root, 0, placed)
+  const nodes = candidate && !hired.includes(candidate) ? placed.map(n => (n.team === candidate ? { ...n, candidate: true } : n)) : placed
   return { nodes, byId: new Map(nodes.map(n => [n.id, n])) }
 }
 

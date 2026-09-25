@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
 // Everything lives in the hash so an org can be shared as a link:
-//   #/?hired=sdr,marketing              the org you've built
-//   #/?hired=sdr,marketing&team=sdr     …with one team open in the panel
-//   #/?hired=sdr&team=sdr&role=email    …and one bot selected
+//   #/?hired=sdr,marketing                  the org you've built
+//   #/?hired=sdr,marketing&team=sdr         …with a hired team open in the panel
+//   #/?hired=sdr&team=product               …previewing a team you haven't hired
+//   #/?hired=sdr&team=sdr&role=email        …with one bot selected
 // Old links (#/sdr, #/sdr?role=email) still work: they hire and open that team.
 export interface Route {
   hired: string[]
-  teamId: string | null
+  teamId: string | null // the team open in the panel; not in `hired` = a preview
   roleId: string | null
 }
 
@@ -17,8 +18,8 @@ export function parseHash(hash: string): Route {
   const p = new URLSearchParams(search)
   const hired = (p.get('hired') ?? '').split(',').map(s => s.trim()).filter(Boolean)
   const legacy = path.split('/').filter(Boolean).map(decodeURIComponent)[0] ?? null
+  if (legacy && !hired.includes(legacy)) hired.push(legacy)
   const teamId = p.get('team') ?? legacy
-  if (teamId && !hired.includes(teamId)) hired.push(teamId)
   return { hired: [...new Set(hired)], teamId, roleId: teamId ? p.get('role') : null }
 }
 

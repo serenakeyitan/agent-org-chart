@@ -22,8 +22,11 @@ interface CanvasProps {
   selectedTeamId: string | null
   selectedRoleId: string | null
   emptyHint: string | null // shown beside You while no team is hired yet
+  newTeamId: string | null // just hired: pulses once
   onYou: () => void
   onTeam: (teamId: string) => void
+  onHire: (teamId: string) => void
+  onLetGo: (teamId: string) => void
   onRole: (teamId: string, roleId: string) => void
   onBackground: () => void
 }
@@ -52,7 +55,7 @@ function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K): Came
   return { k, x: inset.left + (aw - box.w * k) / 2 - box.x * k, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
 }
 
-export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, emptyHint, onYou, onTeam, onRole, onBackground }: CanvasProps) {
+export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, emptyHint, newTeamId, onYou, onTeam, onHire, onLetGo, onRole, onBackground }: CanvasProps) {
   const viewRef = useRef<HTMLDivElement>(null)
   const [cam, setCam] = useState<Camera>({ x: 0, y: 0, k: 1 })
   const camRef = useRef(cam)
@@ -209,7 +212,7 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
       const y2 = b.y + n.h / 2
       const mx = (x1 + x2) / 2
       const hot = n.team?.chart.id === selectedTeamId
-      return <path key={n.id} d={`M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`} className={`link${hot ? ' is-hot' : ''}`} />
+      return <path key={n.id} d={`M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`} className={`link${hot ? ' is-hot' : ''}${n.candidate ? ' is-candidate' : ''}`} />
     })
 
   return (
@@ -252,32 +255,42 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
             const t = n.team!
             const credit = getCreditInfo(t.chart.id)
             const lead = t.chart.roles.find(r => r.kind === 'orchestrator')
+            const id = t.chart.id
             return (
-              <button
+              <div
                 key={n.id}
-                type="button"
-                className={`node node-team${selectedTeamId === t.chart.id ? ' is-selected' : ''}`}
+                className={`node node-team${selectedTeamId === id ? ' is-selected' : ''}${n.candidate ? ' is-candidate' : ''}${newTeamId === id ? ' is-new' : ''}`}
                 style={{ ...style, borderLeftColor: t.wing.color }}
-                onClick={() => onTeam(t.chart.id)}
-                aria-pressed={selectedTeamId === t.chart.id}
-                aria-label={`${t.chart.title} team, ${t.chart.roles.length} bots`}
               >
-                <span className="team-top">
-                  <span className="team-title">{t.chart.title}</span>
-                  <span className="team-wing">{t.wing.label}</span>
-                </span>
-                <span className="team-bottom">
-                  <span className="stack" aria-hidden="true">
-                    {t.chart.roles.slice(0, 6).map((r, i) => (
-                      <Avatar key={r.id} index={i} lead={r.kind === 'orchestrator'} height={24} />
-                    ))}
+                <button
+                  type="button"
+                  className="team-open"
+                  onClick={() => onTeam(id)}
+                  aria-pressed={selectedTeamId === id}
+                  aria-label={`${t.chart.title} team, ${t.chart.roles.length} bots${n.candidate ? ', not hired yet' : ''}`}
+                >
+                  <span className="team-top">
+                    <span className="team-title">{t.chart.title}</span>
+                    <span className="team-wing">{n.candidate ? 'Candidate' : t.wing.label}</span>
                   </span>
-                  <span className="team-meta">
-                    {t.chart.roles.length} bots{lead ? '' : ' · peers'}
-                    {credit.url ? ` · ${credit.text}` : ''}
+                  <span className="team-bottom">
+                    <span className="stack" aria-hidden="true">
+                      {t.chart.roles.slice(0, 6).map((r, i) => (
+                        <Avatar key={r.id} index={i} lead={r.kind === 'orchestrator'} height={24} />
+                      ))}
+                    </span>
+                    <span className="team-meta">
+                      {t.chart.roles.length} bots{lead ? '' : ' · peers'}
+                      {credit.url ? ` · ${credit.text}` : ''}
+                    </span>
                   </span>
-                </span>
-              </button>
+                </button>
+                {n.candidate ? (
+                  <button type="button" className="team-hire" onClick={() => onHire(id)}>＋ Hire</button>
+                ) : (
+                  <button type="button" className="team-x" onClick={() => onLetGo(id)} aria-label={`Let ${t.chart.title} go`} title="Let go">×</button>
+                )}
+              </div>
             )
           }
           const r = n.role!
@@ -288,7 +301,7 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
             <button
               key={n.id}
               type="button"
-              className={`node node-role${selected ? ' is-selected' : ''}${r.kind === 'orchestrator' ? ' is-lead' : ''}`}
+              className={`node node-role${selected ? ' is-selected' : ''}${r.kind === 'orchestrator' ? ' is-lead' : ''}${n.candidate ? ' is-candidate' : ''}`}
               style={style}
               onClick={() => onRole(t.chart.id, r.id)}
               aria-pressed={selected}

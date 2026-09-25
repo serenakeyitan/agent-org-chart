@@ -100,7 +100,29 @@ button.node:hover { border-color: var(--ink-3); }
 .node-root span { font-family: var(--mono); font-size: 11.5px; opacity: .75; }
 
 
-.node-team { border-left-width: 4px; padding: 10px 12px 10px 14px; display: flex; flex-direction: column; justify-content: space-between; }
+.node-team { border-left-width: 4px; padding: 0; }
+.team-open {
+  width: 100%; height: 100%; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: inherit;
+  padding: 10px 12px 10px 14px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;
+}
+.node-team:hover { border-color: var(--ink-3); }
+.team-x {
+  position: absolute; top: -10px; right: -10px; width: 22px; height: 22px; border-radius: 50%; padding: 0;
+  font: inherit; font-size: 15px; line-height: 1; color: var(--ink-3); background: var(--bg-card); border: 1px solid var(--line); cursor: pointer; box-shadow: var(--shadow);
+}
+.team-x:hover { color: #fff; background: var(--accent); border-color: var(--accent); }
+.team-hire {
+  position: absolute; left: 12px; top: calc(100% + 8px); font: inherit; font-size: 13px; font-weight: 650;
+  color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 8px; padding: 7px 12px; cursor: pointer; box-shadow: var(--shadow);
+}
+.team-hire:hover { filter: brightness(0.94); }
+.node-team.is-candidate { border-style: dashed; border-left-style: dashed; border-color: var(--ink-3); background: color-mix(in srgb, var(--bg-card) 70%, transparent); box-shadow: none; }
+.node-team.is-candidate .team-open { opacity: .75; }
+.node-role.is-candidate { opacity: .55; }
+.node-role.is-candidate:hover, .node-role.is-candidate.is-selected { opacity: 1; }
+.link.is-candidate { stroke-dasharray: 5 5; }
+.node-team.is-new { animation: hired 1.5s ease-out; }
+@keyframes hired { 0% { box-shadow: 0 0 0 0 var(--accent); } 40% { box-shadow: 0 0 0 10px var(--accent-soft); } 100% { box-shadow: var(--shadow); } }
 .node-team.is-selected { border-color: var(--accent); border-left-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
 .team-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .team-title { font-size: 16px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -164,7 +186,8 @@ button.node-role:hover { border: 0; }
 .picker-list ul { list-style: none; margin: 0; padding: 0; }
 .picker-list li { display: flex; align-items: center; gap: 8px; border-radius: 10px; padding: 2px 8px 2px 0; }
 .picker-list li:hover { background: var(--bg-sunk); }
-.picker-list li.is-hired { background: var(--accent-soft); }
+.picker-list li.is-hired .pick-title::after { content: "In your org"; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 2px 6px; }
+.picker-list li.is-open { background: var(--bg-sunk); box-shadow: inset 3px 0 0 var(--ink); }
 .pick-main { flex: 1; min-width: 0; font: inherit; color: var(--ink); text-align: left; background: none; border: 0; padding: 8px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; border-radius: 10px; }
 .pick-title { font-size: 15px; font-weight: 650; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
 .pick-credit { font-size: 12.5px; font-weight: 400; color: var(--ink-3); }
@@ -177,10 +200,7 @@ button.node-role:hover { border: 0; }
 .hire-btn { flex: none; min-width: 72px; font: inherit; font-size: 13px; font-weight: 600; border-radius: 8px; padding: 7px 12px; cursor: pointer; border: 0; background: var(--accent-soft); color: var(--accent); }
 .hire-btn:hover { background: var(--accent); color: var(--accent-ink); }
 .hire-btn.is-hired { background: var(--accent); color: var(--accent-ink); }
-.hire-btn.is-hired:hover { background: var(--bg-card); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.hire-btn .when-hover { display: none; }
-.hire-btn.is-hired:hover .when-idle { display: none; }
-.hire-btn.is-hired:hover .when-hover { display: inline; }
+.hire-btn.is-hired:hover { filter: brightness(0.92); }
 
 .orgbar {
   position: absolute; left: 392px; bottom: 16px; z-index: 5; display: flex; align-items: center; gap: 12px;
@@ -204,8 +224,6 @@ button.node-role:hover { border: 0; }
   font-size: 14px; color: var(--ink-2); background: var(--bg-card); border: 1px dashed var(--ink-3); border-radius: 10px; padding: 10px 14px;
 }
 .team-wing { font-size: 11.5px; color: var(--ink-3); white-space: nowrap; }
-.let-go { align-self: flex-start; font: inherit; font-size: 13px; color: var(--ink-3); background: none; border: 0; padding: 4px 0; cursor: pointer; text-decoration: underline; }
-.let-go:hover { color: var(--accent); }
 
 .panel {
   position: absolute; right: 16px; top: 16px; bottom: 16px; width: 368px; overflow-y: auto;
@@ -219,6 +237,12 @@ button.node-role:hover { border: 0; }
 .panel-meta { font-size: 13.5px; color: var(--ink-3); margin: 0; }
 .panel-meta a { color: var(--ink-2); }
 .panel-hint { font-size: 13px; color: var(--ink-3); margin: 0; }
+.hire-status { display: flex; flex-direction: column; gap: 6px; }
+.hire-status .muted { font-size: 12.5px; text-align: center; }
+.hire-status.is-hired { flex-direction: row; align-items: center; justify-content: space-between; background: var(--accent-soft); border-radius: 10px; padding: 8px 8px 8px 14px; }
+.hire-status.is-hired > span { font-size: 14px; font-weight: 650; color: var(--accent); }
+.hire-status.is-hired .btn-quiet { flex: none; background: var(--bg-card); }
+.btn-wide { width: 100%; flex: none; display: block; }
 .icon-btn { flex: none; width: 30px; height: 30px; font-size: 20px; line-height: 1; border: 0; border-radius: 8px; background: none; color: var(--ink-3); cursor: pointer; }
 .icon-btn:hover { background: var(--bg-sunk); color: var(--ink); }
 
@@ -253,8 +277,11 @@ button.node-role:hover { border: 0; }
   position: fixed; left: 50%; bottom: 84px; z-index: 60; transform: translate(-50%, 16px);
   background: var(--ink); color: var(--bg-card); font-size: 14px; padding: 11px 16px; border-radius: 10px;
   opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; max-width: calc(100vw - 32px);
+  display: flex; align-items: center; gap: 14px;
 }
-.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.toast-undo { flex: none; font: inherit; font-size: 13.5px; font-weight: 650; color: var(--accent-soft); background: none; border: 0; padding: 2px 4px; cursor: pointer; }
+.toast-undo:hover { text-decoration: underline; }
 
 @media (max-width: 760px) {
   .picker { left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 82%; border-radius: 16px 16px 0 0; border-bottom: 0; transform: translateY(105%); transition: transform .25s ease; z-index: 20; }
@@ -267,6 +294,7 @@ button.node-role:hover { border: 0; }
   .orgbar-copy { padding: 9px 10px; font-size: 12.5px; }
   .panel { left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 50%; border-radius: 16px 16px 0 0; border-bottom: 0; padding: 16px; z-index: 10; }
   .zoom { display: none; }
+  .toast { white-space: nowrap; }
   .app:has(.panel) .toast { top: 52px; bottom: auto; transform: translate(-50%, -12px); }
   .app:has(.panel) .toast.is-on { transform: translate(-50%, 0); }
   .empty-hint { left: 50%; top: calc(100% + 12px); transform: translateX(-30%); white-space: normal; width: 200px; }

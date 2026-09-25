@@ -19,21 +19,34 @@ function useNarrow(query = '(max-width: 760px)') {
   return narrow
 }
 
+interface Toast {
+  msg: string
+  undo?: () => void
+}
+
 function App() {
   const [charts, setCharts] = useState<Chart[] | null>(null)
   const [loadError, setLoadError] = useState(false)
   const [route, navigate] = useRoute()
   const [query, setQuery] = useState('')
   const [pickerOpen, setPickerOpen] = useState(false)
-  const [toastMsg, setToastMsg] = useState<string | null>(null)
+  const [toastState, setToastState] = useState<Toast | null>(null)
   const [flash, setFlash] = useState(false)
+  const [newTeamId, setNewTeamId] = useState<string | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
+  const newTimer = useRef<number | undefined>(undefined)
   const narrow = useNarrow()
 
-  const toast = useCallback((msg: string) => {
-    setToastMsg(msg)
+  // Undo runs after later navigation, so it must read the latest route, not a stale closure.
+  const routeRef = useRef(route)
+  useEffect(() => {
+    routeRef.current = route
+  }, [route])
+
+  const toast = useCallback((msg: string, undo?: () => void) => {
+    setToastState({ msg, undo })
     window.clearTimeout(toastTimer.current)
-    toastTimer.current = window.setTimeout(() => setToastMsg(null), 2400)
+    toastTimer.current = window.setTimeout(() => setToastState(null), undo ? 5000 : 2400)
   }, [])
 
   useEffect(() => {
@@ -53,7 +66,9 @@ function App() {
   // Hire order is org order: the newest team joins at the bottom of your org.
   const hired = useMemo(() => route.hired.map(id => byId.get(id)).filter((t): t is NonNullable<typeof t> => !!t), [route.hired, byId])
   const team = route.teamId ? byId.get(route.teamId) ?? null : null
-  const layout = useMemo(() => layoutTree(hired), [hired])
+  const isHired = team ? route.hired.includes(team.chart.id) : false
+  const candidate = team && !isHired ? team : null
+  const layout = useMemo(() => layoutTree(hired, candidate), [hired, candidate])
 
   const focus: Focus = useMemo(() => {
     if (team && narrow) {
@@ -86,37 +101,51 @@ function App() {
     document.title = team ? `${team.chart.title} · Agent Army` : 'Agent Army — hire an agent team'
   }, [team])
 
-  const go = useCallback((r: Partial<Route>) => navigate({ ...route, ...r }), [navigate, route])
+  const go = useCallback((r: Partial<Route>) => navigate({ ...routeRef.current, ...r }), [navigate])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
-      if (route.teamId) go({ teamId: null, roleId: null })
+      if (routeRef.current.teamId) go({ teamId: null, roleId: null })
       else setPickerOpen(false)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [route.teamId, go])
+  }, [go])
 
-  const toggleHire = (id: string) => {
+  // Hiring never opens or moves anything: the team joins the org and pulses once.
+  // If it was the team being previewed, the panel simply turns into its hired view.
+  const hire = (id: string) => {
     const t = byId.get(id)
-    if (!t) return
-    if (route.hired.includes(id)) {
-      go({ hired: route.hired.filter(h => h !== id), ...(route.teamId === id ? { teamId: null, roleId: null } : {}) })
-      toast(`${t.chart.title} let go`)
-    } else {
-      go({ hired: [...route.hired, id], teamId: id, roleId: null })
-      setPickerOpen(false)
-      toast(`${t.chart.title} hired — ${t.chart.roles.length} bots joined your org`)
-    }
+    if (!t || routeRef.current.hired.includes(id)) return
+    const before = routeRef.current.hired
+    go({ hired: [...before, id] })
+    setNewTeamId(id)
+    window.clearTimeout(newTimer.current)
+    newTimer.current = window.setTimeout(() => setNewTeamId(null), 1600)
+    toast(narrow ? `${t.chart.title} hired` : `${t.chart.title} hired — ${t.chart.roles.length} bots joined your org`, () => go({ hired: before }))
   }
 
+  // Letting go is always undoable. If that team's panel is open it stays open as a preview.
+  const letGo = (id: string) => {
+    const t = byId.get(id)
+    if (!t) return
+    const before = routeRef.current.hired
+    go({ hired: before.filter(h => h !== id) })
+    toast(`${t.chart.title} let go`, () => go({ hired: before }))
+  }
+
+  const toggleHire = (id: string) => (routeRef.current.hired.includes(id) ? letGo(id) : hire(id))
+
   const openTeam = (id: string) => {
-    go({ teamId: route.teamId === id ? null : id, roleId: null })
+    go({ teamId: routeRef.current.teamId === id ? null : id, roleId: null })
     setPickerOpen(false)
   }
 
-  const onRole = (teamId: string, roleId: string) => go({ teamId, roleId: route.teamId === teamId && route.roleId === roleId ? null : roleId })
+  const onRole = (teamId: string, roleId: string) => {
+    const r = routeRef.current
+    go({ teamId, roleId: r.teamId === teamId && r.roleId === roleId ? null : roleId })
+  }
 
   const copyImport = async () => {
     if (!team) return
@@ -145,7 +174,7 @@ function App() {
   if (!charts) return <div className="center-msg">Loading org charts…</div>
 
   const bots = hired.reduce((n, t) => n + t.chart.roles.length, 0)
-  const unknown = route.hired.filter(id => !byId.has(id))
+  const unknown = [...route.hired, ...(route.teamId ? [route.teamId] : [])].filter(id => !byId.has(id))
 
   return (
     <div className="app">
@@ -155,16 +184,20 @@ function App() {
         inset={inset}
         selectedTeamId={team?.chart.id ?? null}
         selectedRoleId={route.roleId}
-        emptyHint={hired.length ? null : narrow ? "Tap “Hire teams” to build your org" : "← Hire a team to start your org"}
+        emptyHint={hired.length || candidate ? null : narrow ? 'Tap “Hire teams” to build your org' : '← Pick a team to look it over'}
+        newTeamId={newTeamId}
         onYou={() => go({ teamId: null, roleId: null })}
         onTeam={openTeam}
+        onHire={hire}
+        onLetGo={letGo}
         onRole={onRole}
-        onBackground={() => route.teamId && go({ teamId: null, roleId: null })}
+        onBackground={() => routeRef.current.teamId && go({ teamId: null, roleId: null })}
       />
 
       <Picker
         teams={teams}
         hired={route.hired}
+        openTeamId={team?.chart.id ?? null}
         query={query}
         open={pickerOpen}
         onQuery={setQuery}
@@ -194,6 +227,7 @@ function App() {
         <TeamPanel
           key={team.chart.id}
           team={team}
+          hired={isHired}
           roleId={route.roleId}
           flash={flash}
           onRole={roleId => go({ roleId })}
@@ -201,12 +235,25 @@ function App() {
           onCopyImport={copyImport}
           onCopyJson={copyJson}
           onCopyBot={copyBot}
-          onLetGo={() => toggleHire(team.chart.id)}
+          onHire={() => hire(team.chart.id)}
+          onLetGo={() => letGo(team.chart.id)}
         />
       )}
 
-      <div className={`toast${toastMsg ? ' is-on' : ''}`} role="status" aria-live="polite">
-        {toastMsg}
+      <div className={`toast${toastState ? ' is-on' : ''}`} role="status" aria-live="polite">
+        <span>{toastState?.msg}</span>
+        {toastState?.undo && (
+          <button
+            type="button"
+            className="toast-undo"
+            onClick={() => {
+              toastState.undo?.()
+              setToastState(null)
+            }}
+          >
+            Undo
+          </button>
+        )}
       </div>
     </div>
   )

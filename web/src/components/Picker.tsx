@@ -5,6 +5,7 @@ import { getCreditInfo } from '../credits'
 interface PickerProps {
   teams: Team[]
   hired: string[]
+  openTeamId: string | null
   query: string
   open: boolean // narrow screens: the picker is a drawer
   onQuery: (q: string) => void
@@ -13,7 +14,9 @@ interface PickerProps {
   onClose: () => void
 }
 
-export default function Picker({ teams, hired, query, open, onQuery, onToggleHire, onOpenTeam, onClose }: PickerProps) {
+// Two actions per row, always the same whatever the state:
+// the row opens the team (a preview if not hired), the switch hires / lets go.
+export default function Picker({ teams, hired, openTeamId, query, open, onQuery, onToggleHire, onOpenTeam, onClose }: PickerProps) {
   const q = query.trim().toLowerCase()
   const hits = (t: Team) => (q ? t.chart.roles.filter(r => r.name.toLowerCase().includes(q)).map(r => r.id) : [])
   const visible = teams.filter(t => !q || t.chart.title.toLowerCase().includes(q) || hits(t).length)
@@ -24,7 +27,7 @@ export default function Picker({ teams, hired, query, open, onQuery, onToggleHir
       <header className="picker-head">
         <div>
           <h1>Agent Army</h1>
-          <p>You're the boss. Hire the agent teams you want and watch your org take shape.</p>
+          <p>You're the boss. Click a team to look it over, then hire the ones you want.</p>
         </div>
         <button type="button" className="icon-btn picker-close" onClick={onClose} aria-label="Close team list">×</button>
       </header>
@@ -47,12 +50,13 @@ export default function Picker({ teams, hired, query, open, onQuery, onToggleHir
             </h2>
             <ul>
               {list.map(t => {
-                const isHired = hired.includes(t.chart.id)
-                const credit = getCreditInfo(t.chart.id)
+                const id = t.chart.id
+                const isHired = hired.includes(id)
+                const credit = getCreditInfo(id)
                 const matched = hits(t)
                 return (
-                  <li key={t.chart.id} className={isHired ? 'is-hired' : ''}>
-                    <button type="button" className="pick-main" onClick={() => (isHired ? onOpenTeam(t.chart.id) : onToggleHire(t.chart.id))}>
+                  <li key={id} className={`${isHired ? 'is-hired' : ''}${openTeamId === id ? ' is-open' : ''}`}>
+                    <button type="button" className="pick-main" onClick={() => onOpenTeam(id)} aria-pressed={openTeamId === id}>
                       <span className="pick-title">
                         {t.chart.title}
                         {credit.url && <span className="pick-credit">{credit.text}</span>}
@@ -71,12 +75,12 @@ export default function Picker({ teams, hired, query, open, onQuery, onToggleHir
                     <button
                       type="button"
                       className={`hire-btn${isHired ? ' is-hired' : ''}`}
-                      onClick={() => onToggleHire(t.chart.id)}
+                      onClick={() => onToggleHire(id)}
                       aria-pressed={isHired}
-                      aria-label={isHired ? `Let ${t.chart.title} go` : `Hire ${t.chart.title}`}
+                      aria-label={isHired ? `${t.chart.title} is hired. Let go` : `Hire ${t.chart.title}`}
+                      title={isHired ? 'Click to let this team go' : 'Add this team to your org'}
                     >
-                      <span className="when-idle">{isHired ? 'Hired ✓' : 'Hire'}</span>
-                      {isHired && <span className="when-hover">Let go</span>}
+                      {isHired ? '✓ Hired' : '＋ Hire'}
                     </button>
                   </li>
                 )
