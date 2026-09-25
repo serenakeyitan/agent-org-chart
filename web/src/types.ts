@@ -26,6 +26,8 @@ export interface Handoff {
 export interface Routine {
   name: string
   schedule: string
+  cron?: string // 5-field cron, user's local time zone
+  trigger?: string // event-driven routines (no cron), e.g. "webhook"
   notes?: string
 }
 

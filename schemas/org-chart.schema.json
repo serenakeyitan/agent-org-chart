@@ -277,6 +277,16 @@
         "notes": {
           "type": "string",
           "description": "Optional additional notes about the routine."
+        },
+        "cron": {
+          "type": "string",
+          "pattern": "^\\S+( \\S+){4}$",
+          "description": "Standard 5-field cron expression (minute hour day-of-month month day-of-week) for the schedule, in the user's local time zone. Omit for event-driven routines."
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 1,
+          "description": "For event-driven routines with no cron: what starts the routine (e.g. \"webhook\")."
         }
       }
     }

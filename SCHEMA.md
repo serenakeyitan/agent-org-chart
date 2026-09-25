@@ -31,6 +31,8 @@ Each chart lives at `charts/<id>/` with:
 | --- | --- |
 | `name` | Name of the routine (e.g. `Daily brief`). |
 | `schedule` | Human-readable schedule (e.g. `Weekdays at 8:30 AM`). |
+| `cron` | Optional standard 5-field cron expression for the same schedule (e.g. `30 8 * * 1-5`), in the user's local time zone. Omit for event-driven routines. |
+| `trigger` | Optional; for event-driven routines with no `cron`, what starts it (e.g. `webhook`). |
 | `notes` | Optional additional notes about the routine. |
 
 ## Role object

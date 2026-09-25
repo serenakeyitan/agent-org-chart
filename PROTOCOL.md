@@ -44,14 +44,22 @@ For each entry in `channels`:
 3. Seat those members. If membership is capped below the set, prioritize the orchestrator + as many required specialists as fit, and tell the user who was left out.
 4. If `spawn.do_not_fanout_until_first_goal` is true, do **not** blast a kickoff that wakes every member until the user gives a first goal.
 
-## 7. Persist, report, ask for a goal
+## 7. Schedule routines
+
+For each entry in `routines` (if any):
+
+1. If it has a `cron`, create a recurring job/trigger on **this** platform with that cron expression, in the user's local time zone, owned by the orchestrator (or the most relevant specialist if the platform assigns jobs to agents). Name it `routines[].name`.
+2. If it has a `trigger` instead (e.g. `webhook`), set up that event hook if the platform supports it; otherwise tell the user it needs manual wiring.
+3. Reuse an existing job with the same name instead of creating a duplicate.
+
+## 8. Persist, report, ask for a goal
 
 1. Persist a local mapping: chart role id → platform agent id/name, channel id/name, and a pointer to this chart package.
 2. Report to the user: **created** vs **reused** (by role name).
 3. Ask for the **first company goal** to run through the team.
 4. Success looks like: all required roles exist (or clearly reused), channels seated, no duplicate jobs, user asked for a first goal.
 
-## 8. Secrets
+## 9. Secrets
 
 `spawn.secrets` is always `vault_only`.
 

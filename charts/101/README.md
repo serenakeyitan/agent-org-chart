@@ -16,9 +16,9 @@ All roles are peers — no orchestrator demonstrated on-stream.
 
 ## Routines
 
-| Name | Schedule |
-| --- | --- |
-| Deck change summary | Weekdays at 9:00 AM |
+| Name | Schedule | Cron |
+| --- | --- | --- |
+| Deck change summary | Weekdays at 9:00 AM | `0 9 * * 1-5` |
 
 ## Import
 

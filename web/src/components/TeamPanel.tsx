@@ -1,6 +1,7 @@
 import Avatar from './Avatar'
 import type { Team } from '../lib/catalog'
 import { REPO_URL, importPrompt } from '../lib/catalog'
+import { crontab, routineLine } from '../lib/copy'
 import { getCreditInfo } from '../credits'
 
 interface TeamPanelProps {
@@ -13,12 +14,14 @@ interface TeamPanelProps {
   onCopyImport: () => void
   onCopyJson: () => void
   onCopyBot: () => void
+  onCopyText: (text: string, what: string) => void
   onHire: () => void
   onLetGo: () => void
 }
 
-export default function TeamPanel({ team, hired, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onHire, onLetGo }: TeamPanelProps) {
+export default function TeamPanel({ team, hired, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onCopyText, onHire, onLetGo }: TeamPanelProps) {
   const { chart } = team
+  const routines = chart.routines ?? []
   const credit = getCreditInfo(chart.id)
   const lead = chart.roles.find(r => r.kind === 'orchestrator')
   const roleIndex = chart.roles.findIndex(r => r.id === roleId)
@@ -90,19 +93,34 @@ export default function TeamPanel({ team, hired, roleId, flash, onRole, onClose,
         <p className="panel-hint">Click anyone on this team to see what they do.</p>
       )}
 
-      {chart.routines && chart.routines.length > 0 && (
-        <section className="routines" aria-labelledby="routines-h">
-          <h3 id="routines-h">Routines</h3>
+      <section className="routines" aria-labelledby="routines-h">
+        <div className="routines-head">
+          <h3 id="routines-h">Routines{routines.length ? ` · ${routines.length}` : ''}</h3>
+          {routines.length > 0 && (
+            <button type="button" className="btn-quiet btn-small" onClick={() => onCopyText(crontab(chart), 'Crontab')}>Copy all as crontab</button>
+          )}
+        </div>
+        {routines.length === 0 ? (
+          <p className="muted routines-none">No routines published for this team.</p>
+        ) : (
           <ul>
-            {chart.routines.map(r => (
+            {routines.map(r => (
               <li key={r.name}>
-                <span>{r.name}</span>
+                <span className="routine-name">{r.name}</span>
                 <span className="muted">{r.schedule}</span>
+                {r.cron ? (
+                  <button type="button" className="cron" onClick={() => onCopyText(routineLine(chart, r), `${r.name} cron`)} title="Copy this cron line" aria-label={`Copy cron for ${r.name}: ${r.cron}`}>
+                    <code>{r.cron}</code>
+                    <span className="cron-copy" aria-hidden="true">Copy</span>
+                  </button>
+                ) : (
+                  <span className="cron cron-event">Event · {r.trigger ?? 'trigger'}</span>
+                )}
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        )}
+      </section>
 
       {chart.sources && chart.sources.length > 0 && (
         <p className="source">

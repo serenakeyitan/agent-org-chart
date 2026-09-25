@@ -267,11 +267,19 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
                   className="team-open"
                   onClick={() => onTeam(id)}
                   aria-pressed={selectedTeamId === id}
-                  aria-label={`${t.chart.title} team, ${t.chart.roles.length} bots${n.candidate ? ', not hired yet' : ''}`}
+                  aria-label={`${t.chart.title} team, ${t.chart.roles.length} bots${t.chart.routines?.length ? `, ${t.chart.routines.length} routines` : ''}${n.candidate ? ', not hired yet' : ''}`}
                 >
                   <span className="team-top">
                     <span className="team-title">{t.chart.title}</span>
-                    <span className="team-wing">{n.candidate ? 'Candidate' : t.wing.label}</span>
+                    <span className="team-tags">
+                      {(t.chart.routines?.length ?? 0) > 0 && (
+                        <span className="routine-chip" title={`${t.chart.routines!.length} scheduled routine${t.chart.routines!.length > 1 ? 's' : ''}`}>
+                          <svg className="clock-ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M8 4.6V8l2.4 1.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
+                          {t.chart.routines!.length}
+                        </span>
+                      )}
+                      <span className="team-wing">{n.candidate ? 'Candidate' : t.wing.label}</span>
+                    </span>
                   </span>
                   <span className="team-bottom">
                     <span className="stack" aria-hidden="true">

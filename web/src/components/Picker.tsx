@@ -69,7 +69,7 @@ export default function Picker({ teams, hired, openTeamId, query, open, onQuery,
                       <span className="pick-meta">
                         {matched.length
                           ? `Has ${t.chart.roles.filter(r => matched.includes(r.id)).map(r => r.name).join(', ')}`
-                          : `${t.chart.roles.length} bots${t.chart.roles.some(r => r.kind === 'orchestrator') ? '' : ' · peers'}`}
+                          : `${t.chart.roles.length} bots${t.chart.roles.some(r => r.kind === 'orchestrator') ? '' : ' · peers'}${t.chart.routines?.length ? ` · ${t.chart.routines.length} routine${t.chart.routines.length > 1 ? 's' : ''}` : ''}`}
                       </span>
                     </button>
                     <button
