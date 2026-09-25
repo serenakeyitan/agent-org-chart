@@ -247,3 +247,7 @@ Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./
 Job titles as shown on Galaxy livestream Days 1–3; personas/channels stripped for fidelity.
 
 Published as a catalog under [serenakeyitan/agent-org-chart](https://github.com/serenakeyitan/agent-org-chart).
+
+## License
+
+[MIT](./LICENSE)
