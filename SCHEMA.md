@@ -17,7 +17,7 @@ Each chart lives at `charts/<id>/` with:
 | `summary` | Short description of what the org does. |
 | `version` | Chart package version (e.g. `1.2.0`). |
 | `tags` | String labels for discovery. |
-| `principles` | Operating principles every spawned agent should follow. |
+| `principles` | Operating principles every spawned agent should follow. The key is required, but the array may be empty (`[]`) when no principles were shown on the livestream — never invent them. |
 | `roles` | Array of role objects (orchestrator, specialists; optional peers allowed by schema for future charts). |
 | `channels` | Team channels and which role ids sit in them. |
 | `handoffs` | Typical from → to handoffs with a `when` clause. |
@@ -45,7 +45,7 @@ Each chart lives at `charts/<id>/` with:
 | `title` | Optional job title (e.g. `Orchestrator`). |
 | `reports_to` | Role id of the manager, or `null` for the orchestrator. |
 | `summary` | One-line job description. |
-| `persona` | Full system/profile text (rich, multi-paragraph). Platform-agnostic; say "the user," not a specific person. |
+| `persona` | Full system/profile text (rich, multi-paragraph). Platform-agnostic; say "the user," not a specific person. The key is required, but it may be an empty string (`""`) when the persona was not shown on the livestream — never invent one. |
 | `in_scope` | String list of work this role owns. |
 | `out_of_scope` | String list of work to hand off. |
 | `required` | `true` for roles that must exist after import; `false` for optional peers. |
