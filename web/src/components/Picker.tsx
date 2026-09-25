@@ -6,27 +6,25 @@ interface PickerProps {
   teams: Team[]
   openTeamId: string | null
   query: string
-  open: boolean // narrow screens: the picker is a drawer
   onQuery: (q: string) => void
   onOpenTeam: (teamId: string) => void
-  onClose: () => void
 }
 
-// One action per row: pick the team to see it on the canvas.
-export default function Picker({ teams, openTeamId, query, open, onQuery, onOpenTeam, onClose }: PickerProps) {
+// One action per row: pick the team to see it on the canvas. On phones this list
+// is the home screen and a picked team replaces it until "← Teams".
+export default function Picker({ teams, openTeamId, query, onQuery, onOpenTeam }: PickerProps) {
   const q = query.trim().toLowerCase()
   const hits = (t: Team) => (q ? t.chart.roles.filter(r => r.name.toLowerCase().includes(q)).map(r => r.id) : [])
   const visible = teams.filter(t => !q || t.chart.title.toLowerCase().includes(q) || hits(t).length)
   const groups = WINGS.map(w => ({ wing: w, teams: visible.filter(t => t.wing.id === w.id) })).filter(g => g.teams.length)
 
   return (
-    <aside className={`picker${open ? ' is-open' : ''}`} aria-label="Teams">
+    <aside className="picker" aria-label="Teams">
       <header className="picker-head">
         <div>
           <h1>Agent Army</h1>
           <p>Org charts of real agent teams. Pick one to see who's on it, then copy one prompt to bring the whole team into your agent.</p>
         </div>
-        <button type="button" className="icon-btn picker-close" onClick={onClose} aria-label="Close team list">×</button>
       </header>
       <label htmlFor="role-search" className="sr-only">Find a team or role</label>
       <input

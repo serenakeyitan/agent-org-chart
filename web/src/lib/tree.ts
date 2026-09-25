@@ -1,10 +1,9 @@
 import type { Role } from '../types'
 import type { Team } from './catalog'
 
-// Left-to-right branch tree: You → the team you picked → that team's reporting
-// lines from chart.json.
+// Left-to-right branch tree of one team's reporting lines from chart.json.
 
-export type NodeKind = 'root' | 'team' | 'role'
+export type NodeKind = 'team' | 'role'
 
 export interface TreeNode {
   id: string
@@ -25,14 +24,12 @@ export interface TreeLayout {
 }
 
 const SIZE: Record<NodeKind, [number, number]> = {
-  root: [118, 70],
   team: [260, 78],
   role: [240, 66],
 }
-const TEAM_X = 230
-const ROLE_X = 540
+const ROLE_X = 330
 const ROLE_STEP = 250
-const GAP: Record<NodeKind, number> = { root: 0, team: 40, role: 8 }
+const GAP: Record<NodeKind, number> = { team: 40, role: 8 }
 
 interface Draft {
   node: Omit<TreeNode, 'x' | 'y'>
@@ -69,7 +66,7 @@ function slot(d: Draft): number {
   return Math.max(d.node.h, kids)
 }
 
-// Emits nodes parent-first so DOM (and Tab) order reads You → team → its people.
+// Emits nodes parent-first so DOM (and Tab) order reads team → lead → their reports.
 function place(d: Draft, top: number, out: TreeNode[]): number {
   const slotIdx = out.length
   out.push(undefined as unknown as TreeNode) // filled once the children fix this node's y
@@ -91,21 +88,13 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   return centerY
 }
 
-export function layoutTree(teams: Team[]): TreeLayout {
-  const root: Draft = {
-    node: { id: 'root', kind: 'root', w: SIZE.root[0], h: SIZE.root[1], parentId: null },
-    x: 0,
-    children: teams.map(team => {
-      const id = teamNodeId(team.chart.id)
-      return {
-        node: { id, kind: 'team' as const, w: SIZE.team[0], h: SIZE.team[1], parentId: 'root', team },
-        x: TEAM_X,
-        children: roleDrafts(team, id),
-      }
-    }),
-  }
+// The team is the root: team → its lead(s) → their reports, as in chart.json.
+export function layoutTree(team: Team | null): TreeLayout {
   const nodes: TreeNode[] = []
-  place(root, 0, nodes)
+  if (team) {
+    const id = teamNodeId(team.chart.id)
+    place({ node: { id, kind: 'team', w: SIZE.team[0], h: SIZE.team[1], parentId: null, team }, x: 0, children: roleDrafts(team, id) }, 0, nodes)
+  }
   return { nodes, byId: new Map(nodes.map(n => [n.id, n])) }
 }
 

@@ -21,8 +21,6 @@ interface CanvasProps {
   inset: Inset
   selectedTeamId: string | null
   selectedRoleId: string | null
-  emptyHint: string | null // shown beside You while no team is picked
-  onYou: () => void
   onTeam: (teamId: string) => void
   onRole: (teamId: string, roleId: string) => void
   onBackground: () => void
@@ -52,7 +50,7 @@ function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K): Came
   return { k, x: inset.left + (aw - box.w * k) / 2 - box.x * k, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
 }
 
-export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, emptyHint, onYou, onTeam, onRole, onBackground }: CanvasProps) {
+export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, onTeam, onRole, onBackground }: CanvasProps) {
   const viewRef = useRef<HTMLDivElement>(null)
   const [cam, setCam] = useState<Camera>({ x: 0, y: 0, k: 1 })
   const camRef = useRef(cam)
@@ -236,18 +234,6 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
         {layout.nodes.map(n => {
           const p = at(n)
           const style = { transform: `translate(${p.x}px, ${p.y}px)`, width: n.w, height: n.h }
-          if (n.kind === 'root') {
-            return (
-              <button key={n.id} type="button" className="node node-role node-you" style={style} onClick={onYou} aria-label="You">
-                <Avatar index={0} lead={false} boss height={66} />
-                <span className="role-text">
-                  <span className="tag tag-you">You</span>
-                  <span className="role-kind">Boss</span>
-                </span>
-                {emptyHint && <span className="empty-hint">{emptyHint}</span>}
-              </button>
-            )
-          }
           if (n.kind === 'team') {
             const t = n.team!
             const credit = getCreditInfo(t.chart.id)

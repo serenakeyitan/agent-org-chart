@@ -24,7 +24,6 @@ function App() {
   const [loadError, setLoadError] = useState(false)
   const [route, navigate] = useRoute()
   const [query, setQuery] = useState('')
-  const [pickerOpen, setPickerOpen] = useState(false)
   const [toastMsg, setToastMsg] = useState<string | null>(null)
   const [flash, setFlash] = useState(false)
   const toastTimer = useRef<number | undefined>(undefined)
@@ -55,8 +54,11 @@ function App() {
 
   const teams = useMemo(() => (charts ? buildTeams(charts) : []), [charts])
   const byId = useMemo(() => new Map(teams.map(t => [t.chart.id, t])), [teams])
-  const team = route.teamId ? byId.get(route.teamId) ?? null : null
-  const layout = useMemo(() => layoutTree(team ? [team] : []), [team])
+  const picked = route.teamId ? byId.get(route.teamId) ?? null : null
+  // Desktop never shows an empty canvas: with nothing picked, show the first team.
+  // Phones use the list as their home screen instead.
+  const team = picked ?? (narrow || route.teamId ? null : teams[0] ?? null)
+  const layout = useMemo(() => layoutTree(team), [team])
 
   const focus: Focus = useMemo(() => {
     if (team && narrow) {
@@ -67,12 +69,11 @@ function App() {
       return { key: `team:${team.chart.id}:${route.roleId ?? ''}`, box: boundsOf(target ? [target] : people), minK: 0.75 }
     }
     if (team) {
-      // Frame the team and its people at a readable zoom; the line back to You
-      // runs off to the left, and Fit all shows everything.
+      // Frame the team and its people at a readable zoom.
       const ids = new Set([teamNodeId(team.chart.id), ...team.chart.roles.map(r => roleNodeId(team.chart.id, r.id))])
       return { key: `team:${team.chart.id}`, box: boundsOf(layout.nodes.filter(n => ids.has(n.id))), minK: 0.8 }
     }
-    return { key: 'empty', box: boundsOf(layout.nodes), minK: 1 }
+    return { key: 'empty', box: { x: 0, y: 0, w: 1, h: 1 }, minK: 1 }
   }, [layout, team, narrow, route.roleId])
 
   // Keep fitted content clear of the picker and the team panel.
@@ -80,7 +81,7 @@ function App() {
   const inset = useMemo(
     () =>
       narrow
-        ? { top: 44, left: 0, right: 0, bottom: hasPanel ? Math.round(window.innerHeight * 0.5) : 0 }
+        ? { top: 56, left: 0, right: 0, bottom: hasPanel ? Math.round(window.innerHeight * 0.5) : 0 }
         : { top: 0, left: 392, right: hasPanel ? 400 : 0, bottom: 0 },
     [narrow, hasPanel],
   )
@@ -94,18 +95,13 @@ function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
-      if (routeRef.current.teamId) go({ teamId: null, roleId: null })
-      else setPickerOpen(false)
+      if (routeRef.current.roleId) go({ roleId: null })
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [go])
 
-  // Picking the team that's already shown puts it away again.
-  const pickTeam = (id: string) => {
-    go({ teamId: routeRef.current.teamId === id ? null : id, roleId: null })
-    setPickerOpen(false)
-  }
+  const pickTeam = (id: string) => go({ teamId: id, roleId: null })
 
   const onRole = (teamId: string, roleId: string) => {
     const r = routeRef.current
@@ -134,35 +130,33 @@ function App() {
   if (loadError) return <div className="center-msg">Couldn't load the org charts. Refresh to try again.</div>
   if (!charts) return <div className="center-msg">Loading org charts…</div>
 
-  const unknown = route.teamId && !team ? route.teamId : null
+  const unknown = route.teamId && !picked ? route.teamId : null
 
   return (
-    <div className="app">
+    <div className={`app${team ? ' has-team' : ''}`}>
       <Canvas
         layout={layout}
         focus={focus}
         inset={inset}
         selectedTeamId={team?.chart.id ?? null}
         selectedRoleId={route.roleId}
-        emptyHint={team ? null : unknown ? `No team called “${unknown}” — pick one` : narrow ? 'Tap “Teams” to pick one' : '← Pick a team to see who’s on it'}
-        onYou={() => go({ roleId: null })}
         onTeam={() => go({ roleId: null })}
         onRole={onRole}
         onBackground={() => routeRef.current.roleId && go({ roleId: null })}
       />
 
-      <Picker
-        teams={teams}
-        openTeamId={team?.chart.id ?? null}
-        query={query}
-        open={pickerOpen}
-        onQuery={setQuery}
-        onOpenTeam={pickTeam}
-        onClose={() => setPickerOpen(false)}
-      />
+      <Picker teams={teams} openTeamId={team?.chart.id ?? null} query={query} onQuery={setQuery} onOpenTeam={pickTeam} />
 
-      <p className="mobile-title" aria-hidden="true">Agent Army</p>
-      <button type="button" className="teams-fab" onClick={() => setPickerOpen(true)}>Teams</button>
+      {team && (
+        <header className="phone-bar">
+          <button type="button" className="phone-back" onClick={() => go({ teamId: null, roleId: null })}>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            Teams
+          </button>
+          <span className="phone-title">{team.chart.title}</span>
+        </header>
+      )}
+      {unknown && <p className="unknown-team" role="alert">No team called “{unknown}”. Pick one from the list.</p>}
 
       {team && (
         <TeamPanel
@@ -171,7 +165,6 @@ function App() {
           roleId={route.roleId}
           flash={flash}
           onRole={roleId => go({ roleId })}
-          onClose={() => go({ teamId: null, roleId: null })}
           onCopyImport={copyImport}
           onCopyJson={copyJson}
           onCopyBot={copyBot}
