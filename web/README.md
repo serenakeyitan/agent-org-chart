@@ -1,15 +1,16 @@
-# Agent Army Tower
+# Agent Army
 
-The web catalog for this repository: every org chart is one floor of an isometric office tower.
+The web catalog for this repository: every org chart as a branch of one tree, on an infinite canvas.
 
 ## How it works
 
-- **Lobby** (`#/`): the tower and a floor directory. Search by role (`#/?q=designer`) to light up the floors that have one.
-- **Floor** (`#/<chart-id>`): the team's office, laid out from `chart.json`. An orchestrator gets the corner office and specialists sit in the open plan. A team of peers shares one table.
-- **Clock**: one simulated weekday. Routines from `chart.json` fire at their scheduled times, and the orchestrator walks to the meeting room. Coffee runs and walking are ambient simulation, not chart data.
-- **Move this team in**: copies `Import <id> from https://github.com/serenakeyitan/agent-org-chart`, the one-line prompt an agent follows via `PROTOCOL.md`. Selecting a bot (`?role=<id>`) lets you copy just that bot.
-- **Blueprint** (`#/<chart-id>/blueprint`): the same team as a plain org chart.
-- **Floor order**: set in `src/lib/catalog.ts`. A chart missing from that list still appears, on a top floor under "More teams".
+- **Overview** (`#/`): Agent Army → wings (Go-to-market, Build, Small teams) → teams. Teams start collapsed so the whole catalog fits on one screen.
+- **Team** (`#/<chart-id>`): clicking a team opens its branch along the reporting lines in `chart.json` (orchestrator → specialists; peers side by side) and opens a panel with the import prompt, routines, and source. Click the team again to collapse it.
+- **Bot** (`#/<chart-id>?role=<role-id>`): clicking a person shows their summary and **Copy this bot**.
+- **Search**: type a role ("Designer"); matching teams open and matching bots are highlighted.
+- **Canvas**: drag to pan, scroll to pan, ⌘/Ctrl + scroll or pinch to zoom, **Fit all** to reset.
+- **Move this team in**: copies `Import <id> from https://github.com/serenakeyitan/agent-org-chart`, the one-line prompt an agent follows via `PROTOCOL.md`.
+- **Team order**: set in `src/lib/catalog.ts`. A chart missing from that list still appears, under "More teams".
 
 ## Development
 
