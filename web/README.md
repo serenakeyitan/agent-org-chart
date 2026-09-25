@@ -1,15 +1,15 @@
-# Agent Org Charts — 图鉴
+# Agent Army Tower
 
-An interactive catalog for browsing the org charts in this repository.
+The web catalog for this repository: every org chart is one floor of an isometric office tower.
 
-## Features
+## How it works
 
-- **Home**: Card grid showing all available charts with title, role count, and source attribution
-- **Detail**: Interactive org chart visualization with click-to-select role nodes
-- **Side Panel**: View role details including name, kind, summary, persona, in_scope, and out_of_scope
-- **Copy Actions**:
-  - "Copy this bot" — copies selected role instruction with grounded metadata
-  - "Copy whole team" — copies full team instruction including all roles, routines, and handoffs
+- **Lobby** (`#/`): the tower and a floor directory. Search by role (`#/?q=designer`) to light up the floors that have one.
+- **Floor** (`#/<chart-id>`): the team's office, laid out from `chart.json`. An orchestrator gets the corner office and specialists sit in the open plan. A team of peers shares one table.
+- **Clock**: one simulated weekday. Routines from `chart.json` fire at their scheduled times, and the orchestrator walks to the meeting room. Coffee runs and walking are ambient simulation, not chart data.
+- **Move this team in**: copies `Import <id> from https://github.com/serenakeyitan/agent-org-chart`, the one-line prompt an agent follows via `PROTOCOL.md`. Selecting a bot (`?role=<id>`) lets you copy just that bot.
+- **Blueprint** (`#/<chart-id>/blueprint`): the same team as a plain org chart.
+- **Floor order**: set in `src/lib/catalog.ts`. A chart missing from that list still appears, on a top floor under "More teams".
 
 ## Development
 

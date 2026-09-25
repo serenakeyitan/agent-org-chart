@@ -12,66 +12,54 @@ export interface ChartCredit {
   handle?: string        // X/Twitter handle without @ (e.g. "joshckim")
   displayName?: string   // Person's display name if known
   org?: string           // Organization or team (e.g. "Grok Bot", "SpaceX")
-  day?: number           // Event day if applicable (e.g. Galaxy Day 1, 2, 3)
   note?: string          // Additional context for internal reference
 }
 
 export const credits: Record<string, ChartCredit> = {
   '101': {
     org: 'Grok Bot',
-    day: 1,
     note: 'Galaxy Day 1 livestream'
   },
   'customer-support': {
     org: 'Grok Bot',
-    day: 2,
     note: 'Galaxy Day 2 livestream'
   },
   'engineering': {
     org: 'Grok Bot',
-    day: 1,
     note: 'Galaxy Day 1 Meet the team slide'
   },
   'founders': {
     org: 'Grok Bot',
-    day: 1,
     note: 'Galaxy Day 1 livestream grid'
   },
   'game-studio': {
     org: 'Grok Bot',
-    day: 2,
     note: 'Galaxy Day 2 livestream'
   },
   'marketing': {
     handle: 'joshckim',
     displayName: 'Josh Kim',
     org: 'Grok Bot',
-    day: 3,
     note: 'Josh Kim session, Galaxy Day 3'
   },
   'marops': {
     org: 'Grok Bot',
-    day: 3,
     note: 'Galaxy Day 3 sidebar'
   },
   'post-sales': {
     org: 'Grok Bot',
-    day: 3,
     note: 'Galaxy Day 3 Meet the team slide'
   },
   'product': {
     org: 'Grok Bot',
-    day: 1,
     note: 'Galaxy Day 1 livestream'
   },
   'sales-engineering': {
     org: 'Grok Bot',
-    day: 2,
     note: 'Galaxy Day 2 livestream'
   },
   'sdr': {
     org: 'Grok Bot',
-    day: 2,
     note: 'Galaxy Day 2 livestream'
   }
 }
@@ -114,13 +102,11 @@ export function getCreditInfo(chartId: string): {
   text: string
   url: string | null
   org: string | null
-  day: number | null
 } {
   const credit = credits[chartId]
   return {
     text: getCreditText(chartId),
     url: getCreditUrl(chartId),
-    org: credit?.org ?? null,
-    day: credit?.day ?? null
+    org: credit?.org ?? null
   }
 }

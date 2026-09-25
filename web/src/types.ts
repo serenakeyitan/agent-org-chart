@@ -57,5 +57,6 @@ export interface ChartIndex {
   title: string
   summary: string
   roleCount: number
-  attribution?: string
+  roles: Array<Pick<Role, 'id' | 'name' | 'kind'>>
+  routineCount: number
 }
