@@ -22,7 +22,14 @@ function copyChartsPlugin() {
         .filter(d => d.isDirectory())
         .map(d => d.name)
       
-      const index: Array<{id: string; title: string; summary: string; roleCount: number; attribution?: string}> = []
+      const index: Array<{
+        id: string
+        title: string
+        summary: string
+        roleCount: number
+        roles: Array<{ id: string; name: string; kind: string }>
+        routineCount: number
+      }> = []
       
       for (const folder of chartFolders) {
         const chartPath = resolve(chartsDir, folder, 'chart.json')
@@ -34,13 +41,14 @@ function copyChartsPlugin() {
           copyFileSync(chartPath, resolve(chartDestDir, 'chart.json'))
           
           const chart = JSON.parse(readFileSync(chartPath, 'utf-8'))
-          const attribution = extractAttribution(chart.summary)
+          const roles = (chart.roles || []) as Array<{ id: string; name: string; kind: string }>
           index.push({
             id: chart.id,
             title: chart.title,
             summary: chart.summary,
-            roleCount: chart.roles?.length || 0,
-            ...(attribution && { attribution })
+            roleCount: roles.length,
+            roles: roles.map(r => ({ id: r.id, name: r.name, kind: r.kind })),
+            routineCount: chart.routines?.length || 0
           })
         }
       }
@@ -48,12 +56,6 @@ function copyChartsPlugin() {
       writeFileSync(resolve(destDir, 'index.json'), JSON.stringify(index, null, 2))
     }
   }
-}
-
-function extractAttribution(summary: string): string | undefined {
-  const joshKimMatch = summary.match(/Josh Kim/i)
-  if (joshKimMatch) return 'Josh Kim'
-  return undefined
 }
 
 export default defineConfig({
