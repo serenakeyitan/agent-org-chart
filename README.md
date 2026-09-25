@@ -240,6 +240,7 @@ Schema notes: [`SCHEMA.md`](./SCHEMA.md) · [`schemas/org-chart.schema.json`](./
 2. Write a minimal human `README.md` + a `chart.json`.
 3. Add a row to [`charts/INDEX.md`](./charts/INDEX.md) and the TOC above.
 4. **Only livestream-demonstrated content belongs.** Third-party note threads, personal insights, and social media citations are banned. Omit `sources` rather than cite unofficial content.
+5. Validate against the schema: `cd web && npm run validate`.
 
 ---
 

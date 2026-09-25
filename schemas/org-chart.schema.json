@@ -56,8 +56,7 @@
       "items": {
         "type": "string"
       },
-      "minItems": 1,
-      "description": "Operating principles every spawned agent should follow."
+      "description": "Operating principles every spawned agent should follow. May be empty when none were shown on the livestream."
     },
     "roles": {
       "type": "array",
@@ -154,8 +153,7 @@
         },
         "persona": {
           "type": "string",
-          "minLength": 1,
-          "description": "Full system/profile text. Platform-agnostic; refer to 'the user', not a specific person."
+          "description": "Full system/profile text. Platform-agnostic; refer to 'the user', not a specific person. May be empty when not shown on the livestream."
         },
         "in_scope": {
           "type": "array",
