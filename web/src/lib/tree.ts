@@ -1,8 +1,8 @@
 import type { Role } from '../types'
 import type { Team } from './catalog'
 
-// Left-to-right branch tree of the org the user is building: You (the boss) →
-// each hired team → that team's reporting lines from chart.json.
+// Left-to-right branch tree: You → the team you picked → that team's reporting
+// lines from chart.json.
 
 export type NodeKind = 'root' | 'team' | 'role'
 
@@ -17,7 +17,6 @@ export interface TreeNode {
   team?: Team
   role?: Role
   roleIndex?: number
-  candidate?: boolean // part of a team being previewed, not hired
 }
 
 export interface TreeLayout {
@@ -92,10 +91,7 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   return centerY
 }
 
-// A previewed candidate hangs off You below the hired teams, marked so it can be
-// drawn as a dashed "not yet hired" branch.
-export function layoutTree(hired: Team[], candidate: Team | null = null): TreeLayout {
-  const teams = candidate && !hired.includes(candidate) ? [...hired, candidate] : hired
+export function layoutTree(teams: Team[]): TreeLayout {
   const root: Draft = {
     node: { id: 'root', kind: 'root', w: SIZE.root[0], h: SIZE.root[1], parentId: null },
     x: 0,
@@ -108,9 +104,8 @@ export function layoutTree(hired: Team[], candidate: Team | null = null): TreeLa
       }
     }),
   }
-  const placed: TreeNode[] = []
-  place(root, 0, placed)
-  const nodes = candidate && !hired.includes(candidate) ? placed.map(n => (n.team === candidate ? { ...n, candidate: true } : n)) : placed
+  const nodes: TreeNode[] = []
+  place(root, 0, nodes)
   return { nodes, byId: new Map(nodes.map(n => [n.id, n])) }
 }
 

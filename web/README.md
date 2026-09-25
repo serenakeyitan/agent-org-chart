@@ -1,17 +1,14 @@
 # Agent Army
 
-The web catalog for this repository. You're the boss: hire agent teams from the list and your org chart grows on an infinite canvas.
+The web catalog for this repository: pick an agent team and see its org chart on an infinite canvas, with the little people from the office sim.
 
 ## How it works
 
-- **Team list** (left; a drawer on phones): every chart, grouped by what the team does (Go-to-market, Build, Small teams). Search by team or role ("Designer"). Each row has two fixed actions: click the row to **look the team over**, and use the switch on the right to **＋ Hire** / **✓ Hired** (click again to let go).
-- **Preview**: a team you're looking at but haven't hired hangs off You as a dashed "candidate" branch with its people, and the panel offers **＋ Hire this team**. Close the panel and the candidate goes away.
-- **Canvas**: You (the boss) → each hired team → that team's reporting lines from `chart.json`. Bots are the little people from the office sim, with name tags; orchestrators wear gold. Hired team cards have a **×** to let them go.
-- **Hiring never interrupts**: hiring from the list doesn't open a panel; the team joins your org and pulses once. Hiring and letting go both show a toast with **Undo**.
-- **Team panel**: import prompt, `chart.json`, routines, source, and **Copy this bot** for a selected bot. A hired team shows "✓ In your org · Let go".
-- **Routines**: team cards show a clock with the routine count. The panel lists each routine's schedule with its cron expression (from `routines[].cron` in `chart.json`); click one to copy that line, or **Copy all as crontab**. Event-driven routines (`routines[].trigger`) are shown as events with no cron.
-- **Your org bar**: copies one import line per hired team, e.g. `Import sdr from https://github.com/serenakeyitan/agent-org-chart`, for any agent that follows `PROTOCOL.md`.
-- **Links**: the org lives in the hash, e.g. `#/?hired=sdr,marketing&team=sdr&role=email`. Old links like `#/sdr` still work (they hire and open that team).
+- **Team list** (left; a drawer behind the **Teams** button on phones): every chart, grouped by what the team does (Go-to-market, Build, Small teams). Search by team or role ("Designer"). Click a team to show it; click it again to put it away.
+- **Canvas**: You → the team you picked → its reporting lines from `chart.json`. Orchestrators wear gold. Teams with routines show a clock and a count.
+- **Team panel**: copy the one-line import prompt (`Import <id> from https://github.com/serenakeyitan/agent-org-chart`, which any agent can follow via `PROTOCOL.md`), copy `chart.json`, view it on GitHub, and see the team's routines. Click a bot for its summary and **Copy this bot**.
+- **Routines**: each routine shows its schedule and its cron expression (`routines[].cron`); click one to copy that line, or **Copy all as crontab**. Event-driven routines (`routines[].trigger`) show as events with no cron.
+- **Links**: `#/?team=sdr` and `#/?team=sdr&role=email`. Older links (`#/sdr`, `#/?hired=…`) still open the right team.
 - **Canvas controls**: drag or scroll to pan, ⌘/Ctrl + scroll or pinch to zoom, **Fit all** to reset.
 - **Team order**: set in `src/lib/catalog.ts`. A chart missing from that list still appears, under "More teams".
 

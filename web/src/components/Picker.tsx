@@ -4,30 +4,27 @@ import { getCreditInfo } from '../credits'
 
 interface PickerProps {
   teams: Team[]
-  hired: string[]
   openTeamId: string | null
   query: string
   open: boolean // narrow screens: the picker is a drawer
   onQuery: (q: string) => void
-  onToggleHire: (teamId: string) => void
   onOpenTeam: (teamId: string) => void
   onClose: () => void
 }
 
-// Two actions per row, always the same whatever the state:
-// the row opens the team (a preview if not hired), the switch hires / lets go.
-export default function Picker({ teams, hired, openTeamId, query, open, onQuery, onToggleHire, onOpenTeam, onClose }: PickerProps) {
+// One action per row: pick the team to see it on the canvas.
+export default function Picker({ teams, openTeamId, query, open, onQuery, onOpenTeam, onClose }: PickerProps) {
   const q = query.trim().toLowerCase()
   const hits = (t: Team) => (q ? t.chart.roles.filter(r => r.name.toLowerCase().includes(q)).map(r => r.id) : [])
   const visible = teams.filter(t => !q || t.chart.title.toLowerCase().includes(q) || hits(t).length)
   const groups = WINGS.map(w => ({ wing: w, teams: visible.filter(t => t.wing.id === w.id) })).filter(g => g.teams.length)
 
   return (
-    <aside className={`picker${open ? ' is-open' : ''}`} aria-label="Teams you can hire">
+    <aside className={`picker${open ? ' is-open' : ''}`} aria-label="Teams">
       <header className="picker-head">
         <div>
           <h1>Agent Army</h1>
-          <p>You're the boss. Click a team to look it over, then hire the ones you want.</p>
+          <p>Org charts of real agent teams. Pick one to see who's on it, then copy one prompt to bring the whole team into your agent.</p>
         </div>
         <button type="button" className="icon-btn picker-close" onClick={onClose} aria-label="Close team list">×</button>
       </header>
@@ -51,11 +48,10 @@ export default function Picker({ teams, hired, openTeamId, query, open, onQuery,
             <ul>
               {list.map(t => {
                 const id = t.chart.id
-                const isHired = hired.includes(id)
                 const credit = getCreditInfo(id)
                 const matched = hits(t)
                 return (
-                  <li key={id} className={`${isHired ? 'is-hired' : ''}${openTeamId === id ? ' is-open' : ''}`}>
+                  <li key={id} className={openTeamId === id ? 'is-open' : ''}>
                     <button type="button" className="pick-main" onClick={() => onOpenTeam(id)} aria-pressed={openTeamId === id}>
                       <span className="pick-title">
                         {t.chart.title}
@@ -71,16 +67,6 @@ export default function Picker({ teams, hired, openTeamId, query, open, onQuery,
                           ? `Has ${t.chart.roles.filter(r => matched.includes(r.id)).map(r => r.name).join(', ')}`
                           : `${t.chart.roles.length} bots${t.chart.roles.some(r => r.kind === 'orchestrator') ? '' : ' · peers'}${t.chart.routines?.length ? ` · ${t.chart.routines.length} routine${t.chart.routines.length > 1 ? 's' : ''}` : ''}`}
                       </span>
-                    </button>
-                    <button
-                      type="button"
-                      className={`hire-btn${isHired ? ' is-hired' : ''}`}
-                      onClick={() => onToggleHire(id)}
-                      aria-pressed={isHired}
-                      aria-label={isHired ? `${t.chart.title} is hired. Let go` : `Hire ${t.chart.title}`}
-                      title={isHired ? 'Click to let this team go' : 'Add this team to your org'}
-                    >
-                      {isHired ? '✓ Hired' : '＋ Hire'}
                     </button>
                   </li>
                 )
