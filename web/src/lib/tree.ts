@@ -30,8 +30,8 @@ const SIZE: Record<NodeKind, [number, number]> = {
   role: [240, 66],
 }
 const TEAM_X = 230
-const ROLE_X = 580
-const ROLE_STEP = 300
+const ROLE_X = 540
+const ROLE_STEP = 250
 const GAP: Record<NodeKind, number> = { root: 0, team: 40, role: 8 }
 
 interface Draft {
@@ -69,7 +69,10 @@ function slot(d: Draft): number {
   return Math.max(d.node.h, kids)
 }
 
+// Emits nodes parent-first so DOM (and Tab) order reads You → team → its people.
 function place(d: Draft, top: number, out: TreeNode[]): number {
+  const slotIdx = out.length
+  out.push(undefined as unknown as TreeNode) // filled once the children fix this node's y
   const total = slot(d)
   let centerY: number
   if (d.children.length) {
@@ -84,7 +87,7 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   } else {
     centerY = top + total / 2
   }
-  out.push({ ...d.node, x: d.x, y: centerY - d.node.h / 2 })
+  out[slotIdx] = { ...d.node, x: d.x, y: centerY - d.node.h / 2 }
   return centerY
 }
 
