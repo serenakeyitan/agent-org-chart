@@ -59,7 +59,7 @@ function App() {
   // Desktop never shows an empty canvas: with nothing picked, show the first team.
   // Phones use the list as their home screen instead.
   const team = picked ?? (narrow || route.teamId ? null : teams[0] ?? null)
-  const layout = useMemo(() => layoutTree(team), [team])
+  const layout = useMemo(() => layoutTree(team, narrow), [team, narrow])
 
   const focus: Focus = useMemo(() => {
     if (team && narrow) {

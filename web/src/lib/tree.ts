@@ -25,7 +25,7 @@ export interface TreeLayout {
 
 const SIZE: Record<NodeKind, [number, number]> = {
   team: [260, 78],
-  role: [240, 66],
+  role: [280, 66], // max width: a figure plus the longest name tag (e.g. "Voice of the Customer Bot")
 }
 const ROLE_X = 330
 const ROLE_STEP = 250
@@ -46,14 +46,14 @@ function roleWidth(role: Role): number {
 export const teamNodeId = (id: string) => `team:${id}`
 export const roleNodeId = (teamId: string, roleId: string) => `role:${teamId}:${roleId}`
 
-function roleDrafts(team: Team, parentId: string): Draft[] {
+function roleDrafts(team: Team, parentId: string, step: number): Draft[] {
   const roles = team.chart.roles
   const ids = new Set(roles.map(r => r.id))
   const make = (role: Role, depth: number, parent: string): Draft => {
     const id = roleNodeId(team.chart.id, role.id)
     return {
       node: { id, kind: 'role', w: roleWidth(role), h: SIZE.role[1], parentId: parent, team, role, roleIndex: roles.indexOf(role) },
-      x: ROLE_X + depth * ROLE_STEP,
+      x: ROLE_X + depth * step,
       children: roles.filter(r => r.reports_to === role.id).map(r => make(r, depth + 1, id)),
     }
   }
@@ -88,12 +88,19 @@ function place(d: Draft, top: number, out: TreeNode[]): number {
   return centerY
 }
 
+// Phones: leads and their reports must fit ~375px at 75%, so the gap between the
+// columns is just the widest lead's tag plus breathing room, not a fixed step.
+function compactStep(team: Team): number {
+  const leads = team.chart.roles.filter(r => team.chart.roles.some(o => o.reports_to === r.id))
+  return Math.max(180, ...leads.map(r => roleWidth(r) + 24))
+}
+
 // The team is the root: team → its lead(s) → their reports, as in chart.json.
-export function layoutTree(team: Team | null): TreeLayout {
+export function layoutTree(team: Team | null, compact = false): TreeLayout {
   const nodes: TreeNode[] = []
   if (team) {
     const id = teamNodeId(team.chart.id)
-    place({ node: { id, kind: 'team', w: SIZE.team[0], h: SIZE.team[1], parentId: null, team }, x: 0, children: roleDrafts(team, id) }, 0, nodes)
+    place({ node: { id, kind: 'team', w: SIZE.team[0], h: SIZE.team[1], parentId: null, team }, x: 0, children: roleDrafts(team, id, compact ? compactStep(team) : ROLE_STEP) }, 0, nodes)
   }
   return { nodes, byId: new Map(nodes.map(n => [n.id, n])) }
 }

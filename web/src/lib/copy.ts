@@ -41,6 +41,7 @@ export function roleInstruction(chart: Chart, role: Role): string {
     `**Role:** ${role.name}`,
     `**Kind:** ${role.kind.replace('_', ' ')}`,
   ]
+  if (role.title) lines.push(`**Title:** ${role.title}`)
   if (manager) lines.push(`**Reports to:** ${manager.name}`)
   lines.push(`**Summary:** ${role.summary}`)
   if (role.persona) lines.push('', '**Persona:**', role.persona)

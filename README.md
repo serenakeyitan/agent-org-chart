@@ -208,13 +208,12 @@ Competitive Intel
 
 ```
 Chief of Staff
-Email
-Web Research
-Gong Connector
-Agent Army
+├── Outbound: Shakespeare (Email)
+├── Research: PLG Bot · Amplemarket Bot · Company Research Bot · Web Search Bot · Voice of the Customer Bot · Usage Bot
+└── Simon's Army: Soldier (+ Army Huddle channel)
 ```
 
-**SDR** from Day 2: orchestrator + four specialists.
+**SDR** from Day 2: orchestrator + eight bots, named as on the livestream sidebar.
 
 **Import:** `Import sdr from https://github.com/serenakeyitan/agent-org-chart`
 

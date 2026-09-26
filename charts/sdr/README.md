@@ -1,22 +1,31 @@
 # SDR
 
-Job titles from Galaxy Day 2 livestream Meet the team slide.
+Bots from the Galaxy Day 2 livestream sidebar around Simon Bot (Chief of Staff). Names are the sidebar display names; the grey tag next to each is the role `title`.
 
 ```
 Chief of Staff
-Email
-Web Research
-Gong Connector
-Agent Army
+├── Outbound: Shakespeare (Email)
+├── Research: PLG Bot · Amplemarket Bot · Company Research Bot · Web Search Bot · Voice of the Customer Bot · Usage Bot
+└── Simon's Army: Soldier (+ Army Huddle channel)
 ```
 
-| Role | Kind |
+| Role | Tag | Sidebar group | Kind |
+| --- | --- | --- | --- |
+| Chief of Staff | | Lead (Simon Bot) | Orchestrator |
+| Shakespeare | Email | Outbound | Specialist |
+| PLG Bot | Salesforce | Research | Specialist |
+| Amplemarket Bot | Enrichment | Research | Specialist |
+| Company Research Bot | Sumble | Research | Specialist |
+| Web Search Bot | Exa | Research | Specialist |
+| Voice of the Customer Bot | Gong | Research | Specialist |
+| Usage Bot | Databricks | Research | Specialist |
+| Soldier | Simon's Army | Simon's Army | Specialist |
+
+## Channels
+
+| Channel | Members |
 | --- | --- |
-| Chief of Staff | Orchestrator |
-| Email | Specialist |
-| Web Research | Specialist |
-| Gong Connector | Specialist |
-| Agent Army | Specialist |
+| Army Huddle | Chief of Staff, Soldier |
 
 ## Routines
 
@@ -40,4 +49,4 @@ Import sdr from https://github.com/serenakeyitan/agent-org-chart
 
 ---
 
-Job titles as shown on Galaxy livestream; personas/channels stripped for fidelity.
+Bot names as shown on the Galaxy Day 2 livestream sidebar; personas stripped for fidelity.
