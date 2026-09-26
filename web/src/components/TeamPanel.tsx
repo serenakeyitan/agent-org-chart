@@ -52,6 +52,7 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
             <div>
               <h3>{role.name}</h3>
               <p className="muted">
+                {role.title && `${role.title} · `}
                 {role.kind === 'orchestrator' ? 'Orchestrator' : manager ? (
                   <>Reports to <button type="button" className="inline-link" onClick={() => onRole(manager.id)}>{manager.name}</button></>
                 ) : 'Peer'}

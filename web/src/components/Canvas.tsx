@@ -310,7 +310,7 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
               <Avatar index={n.roleIndex ?? 0} lead={r.kind === 'orchestrator'} height={60} selected={selected} />
               <span className="role-text">
                 <span className="tag">{r.name}</span>
-                <span className="role-kind">{r.kind === 'orchestrator' ? 'Orchestrator' : peers ? 'Peer' : r.kind === 'optional_peer' ? 'Optional peer' : 'Specialist'}</span>
+                <span className="role-kind">{r.title && `${r.title} · `}{r.kind === 'orchestrator' ? 'Orchestrator' : peers ? 'Peer' : r.kind === 'optional_peer' ? 'Optional peer' : 'Specialist'}</span>
               </span>
             </button>
           )

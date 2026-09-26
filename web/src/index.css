@@ -120,7 +120,7 @@ button.node:hover { border-color: var(--ink-3); }
 button.node-role:hover { border: 0; }
 .role-text { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
 .tag {
-  font-family: var(--mono); font-size: 13px; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;
+  font-family: var(--mono); font-size: 13px; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px;
   background: #1d2433; color: #eef2fb; padding: 5px 8px; border-radius: 5px; transition: background .15s;
 }
 .node-role.is-lead .tag { background: #7a4b00; color: #ffe8b8; }
@@ -128,7 +128,7 @@ button.node-role:hover { border: 0; }
 .node-role.is-lead:hover .tag { background: #93600c; }
 .node-role.is-selected .tag, .node-role:focus-visible .tag { background: var(--accent); color: #fff; }
 .node-role:focus-visible { outline: none; }
-.role-kind { font-family: var(--mono); font-size: 11px; color: var(--ink-3); padding-left: 2px; }
+.role-kind { font-family: var(--mono); font-size: 11px; color: var(--ink-3); padding-left: 2px; white-space: nowrap; }
 .node-role.is-lead .role-kind { color: var(--lead); }
 
 .person { overflow: visible; flex: none; }
