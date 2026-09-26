@@ -2,8 +2,8 @@
   "schema_version": 1,
   "id": "sdr",
   "title": "SDR",
-  "summary": "SDR team from the Galaxy Day 2 livestream sidebar: Chief of Staff, an Outbound email lane, a Research fleet, and Simon's Army.",
-  "version": "5.0.0",
+  "summary": "SDR team from the Galaxy Day 2 livestream sidebar: Chief of Staff (Simon Bot), Shakespeare on Outbound, six Research bots, and Simon's Army.",
+  "version": "6.0.0",
   "tags": ["sdr"],
   "sources": ["https://x.com/i/broadcasts/1PKqrNyvmYwGb"],
   "principles": [],
@@ -13,16 +13,17 @@
       "name": "Chief of Staff",
       "kind": "orchestrator",
       "reports_to": null,
-      "summary": "Coordinates the SDR team and runs the daily prospecting routines.",
+      "summary": "Simon Bot. Coordinates the SDR team and runs the daily prospecting routines.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
       "required": true
     },
     {
-      "id": "email",
-      "name": "Email",
+      "id": "shakespeare",
+      "name": "Shakespeare",
       "kind": "specialist",
+      "title": "Email",
       "reports_to": "chief-of-staff",
       "summary": "Outbound: drafts prospect emails in Gmail.",
       "persona": "",
@@ -31,20 +32,22 @@
       "required": true
     },
     {
-      "id": "salesforce",
-      "name": "Salesforce",
+      "id": "plg-bot",
+      "name": "PLG Bot",
       "kind": "specialist",
+      "title": "Salesforce",
       "reports_to": "chief-of-staff",
-      "summary": "Research: pulls account and pipeline data from Salesforce.",
+      "summary": "Research: account and pipeline data from Salesforce.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
       "required": true
     },
     {
-      "id": "enrichment",
-      "name": "Enrichment",
+      "id": "amplemarket-bot",
+      "name": "Amplemarket Bot",
       "kind": "specialist",
+      "title": "Enrichment",
       "reports_to": "chief-of-staff",
       "summary": "Research: enriches prospects with contact data.",
       "persona": "",
@@ -53,9 +56,10 @@
       "required": true
     },
     {
-      "id": "company-research",
-      "name": "Company Research",
+      "id": "company-research-bot",
+      "name": "Company Research Bot",
       "kind": "specialist",
+      "title": "Sumble",
       "reports_to": "chief-of-staff",
       "summary": "Research: company research via Sumble.",
       "persona": "",
@@ -64,9 +68,10 @@
       "required": true
     },
     {
-      "id": "web-search",
-      "name": "Web Search",
+      "id": "web-search-bot",
+      "name": "Web Search Bot",
       "kind": "specialist",
+      "title": "Exa",
       "reports_to": "chief-of-staff",
       "summary": "Research: web search via Exa.",
       "persona": "",
@@ -75,9 +80,10 @@
       "required": true
     },
     {
-      "id": "voice-of-the-customer",
-      "name": "Voice of the Customer",
+      "id": "voice-of-the-customer-bot",
+      "name": "Voice of the Customer Bot",
       "kind": "specialist",
+      "title": "Gong",
       "reports_to": "chief-of-staff",
       "summary": "Research: customer call insights from Gong.",
       "persona": "",
@@ -86,9 +92,10 @@
       "required": true
     },
     {
-      "id": "usage",
-      "name": "Usage",
+      "id": "usage-bot",
+      "name": "Usage Bot",
       "kind": "specialist",
+      "title": "Databricks",
       "reports_to": "chief-of-staff",
       "summary": "Research: product usage data from Databricks.",
       "persona": "",
@@ -100,15 +107,25 @@
       "id": "soldier",
       "name": "Soldier",
       "kind": "specialist",
+      "title": "Simon's Army",
       "reports_to": "chief-of-staff",
-      "summary": "Simon's Army: parallel soldier clones that fan out research and report back in Army Huddle.",
+      "summary": "Scalable clones (Simon Soldier 1..5) that fan out research and report back in Army Huddle.",
       "persona": "",
       "in_scope": [],
       "out_of_scope": [],
       "required": true
     }
   ],
-  "channels": [],
+  "channels": [
+    {
+      "id": "army-huddle",
+      "name": "Army Huddle",
+      "member_role_ids": [
+        "chief-of-staff",
+        "soldier"
+      ]
+    }
+  ],
   "handoffs": [],
   "routines": [
     {
