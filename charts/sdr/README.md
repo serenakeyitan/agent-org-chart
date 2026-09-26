@@ -1,22 +1,30 @@
 # SDR
 
-Job titles from Galaxy Day 2 livestream Meet the team slide.
+Job titles from the Galaxy Day 2 livestream sidebar around Simon Bot (Chief of Staff).
 
 ```
 Chief of Staff
-Email
-Web Research
-Gong Connector
-Agent Army
+├── Email
+├── Salesforce
+├── Enrichment
+├── Company Research
+├── Web Search
+├── Voice of the Customer
+├── Usage
+└── Soldier
 ```
 
-| Role | Kind |
-| --- | --- |
-| Chief of Staff | Orchestrator |
-| Email | Specialist |
-| Web Research | Specialist |
-| Gong Connector | Specialist |
-| Agent Army | Specialist |
+| Role | Kind | Sidebar group |
+| --- | --- | --- |
+| Chief of Staff | Orchestrator | Lead |
+| Email | Specialist | Outbound |
+| Salesforce | Specialist | Research |
+| Enrichment | Specialist | Research |
+| Company Research | Specialist | Research |
+| Web Search | Specialist | Research |
+| Voice of the Customer | Specialist | Research |
+| Usage | Specialist | Research |
+| Soldier | Specialist | Simon's Army |
 
 ## Routines
 

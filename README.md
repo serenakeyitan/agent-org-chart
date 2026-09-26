@@ -208,13 +208,17 @@ Competitive Intel
 
 ```
 Chief of Staff
-Email
-Web Research
-Gong Connector
-Agent Army
+├── Email
+├── Salesforce
+├── Enrichment
+├── Company Research
+├── Web Search
+├── Voice of the Customer
+├── Usage
+└── Soldier
 ```
 
-**SDR** from Day 2: orchestrator + four specialists.
+**SDR** from Day 2: orchestrator + eight specialists.
 
 **Import:** `Import sdr from https://github.com/serenakeyitan/agent-org-chart`
 
