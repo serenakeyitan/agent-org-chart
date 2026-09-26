@@ -4,8 +4,8 @@ The web catalog for this repository: pick an agent team and see its org chart on
 
 ## How it works
 
-- **Team list** (left; a drawer behind the **Teams** button on phones): every chart, grouped by what the team does (Go-to-market, Build, Small teams). Search by team or role ("Designer"). Click a team to show it; click it again to put it away.
-- **Canvas**: You → the team you picked → its reporting lines from `chart.json`. Orchestrators wear gold. Teams with routines show a clock and a count.
+- **Team list** (left on desktop; the home screen on phones): every chart, grouped by what the team does (Go-to-market, Build, Small teams). Search by team or role ("Designer"). Click a team to show it. Desktop opens on the first team; on phones a picked team replaces the list until **← Teams**.
+- **Canvas**: the team → its lead(s) → their reports, from `chart.json`. Orchestrators wear gold. Teams with routines show a clock and a count.
 - **Team panel**: copy the one-line import prompt (`Import <id> from https://github.com/serenakeyitan/agent-org-chart`, which any agent can follow via `PROTOCOL.md`), copy `chart.json`, view it on GitHub, and see the team's routines. Click a bot for its summary and **Copy this bot**.
 - **Routines**: each routine shows its schedule and its cron expression (`routines[].cron`); click one to copy that line, or **Copy all as crontab**. Event-driven routines (`routines[].trigger`) show as events with no cron.
 - **Links**: `#/?team=sdr` and `#/?team=sdr&role=email`. Older links (`#/sdr`, `#/?hired=…`) still open the right team.

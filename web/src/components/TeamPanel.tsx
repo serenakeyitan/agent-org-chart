@@ -9,14 +9,13 @@ interface TeamPanelProps {
   roleId: string | null
   flash: boolean
   onRole: (roleId: string | null) => void
-  onClose: () => void
   onCopyImport: () => void
   onCopyJson: () => void
   onCopyBot: () => void
   onCopyText: (text: string, what: string) => void
 }
 
-export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopyImport, onCopyJson, onCopyBot, onCopyText }: TeamPanelProps) {
+export default function TeamPanel({ team, roleId, flash, onRole, onCopyImport, onCopyJson, onCopyBot, onCopyText }: TeamPanelProps) {
   const { chart } = team
   const routines = chart.routines ?? []
   const credit = getCreditInfo(chart.id)
@@ -41,7 +40,6 @@ export default function TeamPanel({ team, roleId, flash, onRole, onClose, onCopy
             )}
           </p>
         </div>
-        <button type="button" className="icon-btn" onClick={onClose} aria-label="Close panel">×</button>
       </header>
 
 

@@ -13,6 +13,7 @@ export interface Focus {
   key: string
   box: Box
   minK?: number // never zoom out past this; the box is centred and may overflow
+  alignLeft?: boolean // pin the box to the left edge instead of centring it
 }
 
 interface CanvasProps {
@@ -21,8 +22,6 @@ interface CanvasProps {
   inset: Inset
   selectedTeamId: string | null
   selectedRoleId: string | null
-  emptyHint: string | null // shown beside You while no team is picked
-  onYou: () => void
   onTeam: (teamId: string) => void
   onRole: (teamId: string, roleId: string) => void
   onBackground: () => void
@@ -44,15 +43,16 @@ export interface Inset {
 }
 
 // Fit a world-space box into the part of the viewport no overlay covers.
-function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K): Camera {
+function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K, alignLeft = false): Camera {
   const pad = 40
   const aw = Math.max(vw - inset.left - inset.right, 200)
   const ah = Math.max(vh - inset.top - inset.bottom, 200)
   const k = clampK(Math.max(minK, Math.min(aw / (box.w + pad * 2), ah / (box.h + pad * 2), 1)))
-  return { k, x: inset.left + (aw - box.w * k) / 2 - box.x * k, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
+  const x = alignLeft ? inset.left + 16 - box.x * k : inset.left + (aw - box.w * k) / 2 - box.x * k
+  return { k, x, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
 }
 
-export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, emptyHint, onYou, onTeam, onRole, onBackground }: CanvasProps) {
+export default function Canvas({ layout, focus, inset, selectedTeamId, selectedRoleId, onTeam, onRole, onBackground }: CanvasProps) {
   const viewRef = useRef<HTMLDivElement>(null)
   const [cam, setCam] = useState<Camera>({ x: 0, y: 0, k: 1 })
   const camRef = useRef(cam)
@@ -81,7 +81,7 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
     )
     const camFrom = camRef.current
     const first = from.size === 0 || !el.dataset.ready || ![camFrom.x, camFrom.y, camFrom.k].every(Number.isFinite)
-    const camTo = fit(focus.box, el.clientWidth, el.clientHeight, inset, focus.minK)
+    const camTo = fit(focus.box, el.clientWidth, el.clientHeight, inset, focus.minK, focus.alignLeft)
     el.dataset.ready = '1'
     if (anim.current) cancelAnimationFrame(anim.current)
     if (first || reducedMotion()) {
@@ -236,18 +236,6 @@ export default function Canvas({ layout, focus, inset, selectedTeamId, selectedR
         {layout.nodes.map(n => {
           const p = at(n)
           const style = { transform: `translate(${p.x}px, ${p.y}px)`, width: n.w, height: n.h }
-          if (n.kind === 'root') {
-            return (
-              <button key={n.id} type="button" className="node node-role node-you" style={style} onClick={onYou} aria-label="You">
-                <Avatar index={0} lead={false} boss height={66} />
-                <span className="role-text">
-                  <span className="tag tag-you">You</span>
-                  <span className="role-kind">Boss</span>
-                </span>
-                {emptyHint && <span className="empty-hint">{emptyHint}</span>}
-              </button>
-            )
-          }
           if (n.kind === 'team') {
             const t = n.team!
             const credit = getCreditInfo(t.chart.id)
