@@ -48,7 +48,7 @@ function fit(box: Box, vw: number, vh: number, inset: Inset, minK = MIN_K, align
   const aw = Math.max(vw - inset.left - inset.right, 200)
   const ah = Math.max(vh - inset.top - inset.bottom, 200)
   const k = clampK(Math.max(minK, Math.min(aw / (box.w + pad * 2), ah / (box.h + pad * 2), 1)))
-  const x = alignLeft ? inset.left + 16 - box.x * k : inset.left + (aw - box.w * k) / 2 - box.x * k
+  const x = alignLeft ? inset.left + 10 - box.x * k : inset.left + (aw - box.w * k) / 2 - box.x * k
   return { k, x, y: inset.top + (ah - box.h * k) / 2 - box.y * k }
 }
 
