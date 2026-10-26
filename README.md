@@ -8,6 +8,7 @@ Works with Grok Bot, OpenAI dots, and any agent that can create teammates or bac
 
 ![Awesome](https://awesome.re/badge.svg)
 ![Public](https://img.shields.io/badge/catalog-public-lightgrey.svg)
+<img width="841" height="377" alt="Screenshot 2026-10-26 at 02 07 53" src="https://github.com/user-attachments/assets/469d2c19-83e6-40d1-bda3-9e2fa9276c3c" />
 
 ## Table of Contents
 
