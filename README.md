@@ -1,6 +1,6 @@
 # Awesome Agent Org Charts
 
-> check out my recent work at [https://opentag.build](https://github.com/first-tree-ai/opentag)
+> check out my recent work at https://github.com/first-tree-ai/opentag
 
 Portable org charts you can import on any agent platform with a spawn CLI. **Pick one focused org** that matches your use case — each chart is a small, importable team pattern.
 
